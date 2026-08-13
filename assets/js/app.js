@@ -477,8 +477,38 @@ const NLI = (() => {
       if (next) next.disabled = track.scrollLeft >= max;
     };
 
-    prev && prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-    next && next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    // The glide is animated by hand rather than with scrollBy({behavior:'smooth'}).
+    // The track uses scroll-snap-type: x mandatory, and mandatory snap re-snaps
+    // the scroller on every frame of a native smooth scroll — which drags the
+    // animation straight back to the snap point it started from. The net effect
+    // was arrows that fired their handler and then moved nothing at all.
+    // Suspending snap for the duration and restoring it at the end lets the
+    // scroll run and still land cleanly on a card boundary.
+    let anim = null;
+    const glide = (delta) => {
+      if (anim) cancelAnimationFrame(anim);
+      const from = track.scrollLeft;
+      const limit = track.scrollWidth - track.clientWidth;
+      const to = Math.max(0, Math.min(limit, from + delta));
+      if (to === from) return;
+      const started = performance.now();
+      const DUR = 380;
+      track.style.scrollSnapType = 'none';
+      track.style.scrollBehavior = 'auto';
+      const tick = (now) => {
+        const p = Math.min(1, (now - started) / DUR);
+        track.scrollLeft = from + (to - from) * (1 - Math.pow(1 - p, 3));
+        if (p < 1) { anim = requestAnimationFrame(tick); return; }
+        anim = null;
+        track.style.scrollSnapType = '';
+        track.style.scrollBehavior = '';
+        sync();
+      };
+      anim = requestAnimationFrame(tick);
+    };
+
+    prev && prev.addEventListener('click', () => glide(-step()));
+    next && next.addEventListener('click', () => glide(step()));
     track.addEventListener('scroll', sync, { passive: true });
     if (typeof window !== 'undefined') window.addEventListener('resize', sync);
     sync();

@@ -190,24 +190,40 @@ const NLI = (() => {
         video.addEventListener('loadeddata', reveal, { once: true });
         video.addEventListener('playing', reveal, { once: true });
       }
-      video.addEventListener('error', () => video.remove(), { once: true });
+      // If the clip dies, put the still back. Without restoring the stage class
+      // we'd hide the image and remove the video, leaving an empty hero.
+      video.addEventListener('error', () => {
+        stage.classList.remove('is-playing');
+        video.remove();
+      }, { once: true });
 
       const play = () => {
+        if (!video.isConnected) return;
+        // WebKit gates inline autoplay on the muted *property*, not just the
+        // attribute, and re-checks it on every play() call.
+        video.muted = true;
         const p = video.play();
-        if (p && p.catch) p.catch(() => { /* autoplay blocked — the still stays */ });
+        if (p && p.catch) p.catch(() => { /* blocked — gesture fallback below */ });
       };
       // Don't wait for a load event to try playing; autoplay + preload="auto"
       // usually means it can start well before this script runs.
       play();
       if (video.readyState < 2) video.addEventListener('loadeddata', play, { once: true });
 
-      // Stop decoding when the hero is scrolled away or the tab is hidden.
-      const vis = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) play(); else video.pause();
-      }, { threshold: 0.01 });
-      vis.observe(hero);
+      // iOS blocks autoplay outright in Low Power Mode, and some in-app
+      // browsers do too. The first touch anywhere is a user gesture, which
+      // lifts the block — so take it and start the clip then.
+      const kick = () => { if (video.paused) play(); };
+      ['touchstart', 'pointerdown', 'click'].forEach(evt =>
+        document.addEventListener(evt, kick, { once: true, passive: true }));
+
+      // Deliberately NOT paused when the hero scrolls out of view. iOS Safari
+      // frequently refuses to resume a programmatically paused inline video
+      // without a fresh gesture, which stranded the hero on a blank frame
+      // after scrolling down and back up. A short muted loop is cheap; the tab
+      // being hidden is the only case worth pausing for.
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) video.pause(); else if (!reduced) play();
+        if (document.hidden) video.pause(); else play();
       });
     } else if (video) {
       video.remove();
@@ -392,7 +408,9 @@ const NLI = (() => {
     if (track) {
       track.innerHTML = featured.map(propertyCard).join('');
       bindCardActions(track);
-      initCarousel(track.closest('.carousel'));
+      // The section, not .carousel — the arrows sit up in the section header,
+      // outside the scroller, so scoping to .carousel finds no buttons.
+      initCarousel(track.closest('section'));
     }
 
     // Newest grid
@@ -437,11 +455,33 @@ const NLI = (() => {
   function initCarousel(root) {
     if (!root) return;
     const track = $('.carousel__track', root);
+    if (!track) return;
     const prev = $('[data-car-prev]', root);
     const next = $('[data-car-next]', root);
-    const step = () => Math.max(320, track.clientWidth * 0.42);
+
+    // One card plus one gutter. Measured rather than assumed: the track's
+    // column width is a min()/1fr expression that resolves to a different
+    // number at every viewport, so a hardcoded step lands mid-card.
+    const step = () => {
+      const card = track.firstElementChild;
+      if (!card) return track.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    // Dim the arrows at each end. Without this they look broken at the last
+    // card — you click and nothing moves, with no reason given.
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth - 1;
+      if (prev) prev.disabled = track.scrollLeft <= 0;
+      if (next) next.disabled = track.scrollLeft >= max;
+    };
+
     prev && prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
     next && next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', sync, { passive: true });
+    if (typeof window !== 'undefined') window.addEventListener('resize', sync);
+    sync();
   }
 
   /* --- team --------------------------------------------------------------- */

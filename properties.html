@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Land for Sale in Georgia | Nichols Land &amp; Investment Co.</title>
+<meta name="description" content="Browse farms, timberland, recreational tracts and rural homesites for sale across Oglethorpe, Elbert, Walton, Putnam, Taliaferro and Wheeler counties, Georgia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<meta name="theme-color" content="#22362A">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=yes">
+<link rel="icon" href="https://nicholsland.net/wp-content/uploads/2020/09/NLI-favicon.ico">
+</head>
+<body data-page="properties">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-bar">
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="https://nicholsland.net/wp-content/uploads/2025/10/Nichols-Text-Logo-Color-e1760458492153-300x78.jpg" alt="Nichols Land &amp; Investment Co.">
+    </a>
+    <nav class="nav" id="nav">
+      <a href="properties.html" aria-current="page">Properties</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#team">Our Team</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav__cta">
+        <a class="btn btn--primary" href="index.html#contact">List Your Land</a>
+        <a class="btn btn--ghost" href="tel:7063533900">Call 706‑353‑3900</a>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <a class="header-phone" href="tel:7063533900">706‑353‑3900</a>
+      <a class="btn btn--primary btn--sm" href="index.html#contact">List Your Land</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="index.html">Home</a> / Properties</p>
+      <h1 class="h1">Land for sale</h1>
+      <p class="lede" style="margin-top:14px">Farms, timber, recreational tracts and homesites across northeast and middle Georgia. Every listing includes aerials, topos and plats where available.</p>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap">
+
+      <div class="filters">
+        <div class="field">
+          <label for="p-type">Land Type</label>
+          <select id="p-type" name="type"><option value="">All Land Types</option></select>
+        </div>
+        <div class="field">
+          <label for="p-county">County</label>
+          <select id="p-county" name="county"><option value="">All Counties</option></select>
+        </div>
+        <div class="field">
+          <label for="p-acres">Acreage</label>
+          <select id="p-acres" name="acres">
+            <option value="">Any Size</option>
+            <option value="0-25">Under 25 acres</option>
+            <option value="25-75">25 – 75 acres</option>
+            <option value="75-150">75 – 150 acres</option>
+            <option value="150-300">150 – 300 acres</option>
+            <option value="300-">300+ acres</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="p-min">Min Price</label>
+          <select id="p-min" name="min">
+            <option value="">No Minimum</option>
+            <option value="100000">$100,000</option>
+            <option value="200000">$200,000</option>
+            <option value="350000">$350,000</option>
+            <option value="500000">$500,000</option>
+            <option value="750000">$750,000</option>
+            <option value="1000000">$1,000,000</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="p-max">Max Price</label>
+          <select id="p-max" name="max">
+            <option value="">No Maximum</option>
+            <option value="150000">$150,000</option>
+            <option value="250000">$250,000</option>
+            <option value="500000">$500,000</option>
+            <option value="750000">$750,000</option>
+            <option value="1000000">$1,000,000</option>
+            <option value="2500000">$2,500,000</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn btn--ghost" type="button" data-reset>Reset Filters</button>
+        </div>
+      </div>
+
+      <div class="results-bar">
+        <p class="results-count" data-count></p>
+
+        <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+          <div class="field" style="flex-direction:row;align-items:center;gap:10px">
+            <label for="p-sort" style="margin:0">Sort</label>
+            <select id="p-sort" name="sort" style="padding:8px 12px">
+              <option value="newest">Newest First</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="acres-desc">Acreage: Large to Small</option>
+              <option value="acres-asc">Acreage: Small to Large</option>
+            </select>
+          </div>
+
+          <!-- Grid / Map share one filter set — switching views never resets them. -->
+          <div class="viewtoggle" role="group" aria-label="View mode">
+            <button type="button" data-view="grid" aria-pressed="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg>
+              Grid
+            </button>
+            <button type="button" data-view="map" aria-pressed="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+              Map
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID VIEW -->
+      <div class="grid-cards" data-results></div>
+
+      <!-- MAP VIEW -->
+      <div class="map-view" data-map-view hidden>
+        <div class="map-view__side">
+          <div class="map-side__list" data-map-list></div>
+        </div>
+        <div id="map"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-band" style="margin-top:60px">
+    <img src="https://nicholsland.net/wp-content/uploads/2026/04/23-web-or-mls-23-845x684.jpg" alt="" aria-hidden="true" loading="lazy">
+    <div class="wrap-narrow">
+      <p class="eyebrow eyebrow--center eyebrow--light">Don't see it?</p>
+      <h2 class="h1" style="margin-bottom:16px">A lot of our land never hits the market.</h2>
+      <p class="lede" style="margin:0 auto 30px;text-align:center;color:rgba(227,231,224,.80)">Tell us the county, the acreage and the use — we'll let you know when something fits.</p>
+      <a class="btn btn--gold" href="index.html#contact">Set Up a Land Search</a>
+    </div>
+  </section>
+</main>
+
+<!-- ================= PROPERTY DETAIL OVERLAY =================
+     Opened by the #<property-id> hash, so every listing stays a real,
+     shareable URL and the browser Back button closes the panel. -->
+<div class="detail" data-detail hidden role="dialog" aria-modal="true" aria-labelledby="detail-title">
+  <div class="detail__scrim" data-detail-close></div>
+  <article class="detail__panel">
+    <button class="detail__close" type="button" data-detail-close aria-label="Close property details">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="detail__hero">
+      <img data-hero-img src="" alt="">
+      <div class="detail__cap">
+        <div class="pcard__tags" style="position:static;margin-bottom:12px" data-tags></div>
+        <h2 id="detail-title" data-title>—</h2>
+        <p class="loc" data-loc>—</p>
+      </div>
+    </div>
+
+    <div class="detail__body">
+      <div class="factstrip" data-facts></div>
+
+      <div class="detail-layout">
+        <div>
+          <p class="lede" data-summary style="margin-bottom:30px"></p>
+
+          <h3 class="h2" style="margin-bottom:18px">Property Overview</h3>
+          <ul class="bullet-list" data-bullets style="margin-bottom:40px"></ul>
+
+          <div data-directions-wrap style="margin-bottom:40px">
+            <h3 class="h2" style="margin-bottom:14px">Directions</h3>
+            <p data-directions class="muted"></p>
+          </div>
+
+          <div data-docs-wrap style="margin-bottom:44px">
+            <h3 class="h2" style="margin-bottom:18px">Maps, Plats &amp; Resources</h3>
+            <div class="doclist" data-docs></div>
+          </div>
+
+          <h3 class="h2" style="margin-bottom:18px">Photo Gallery</h3>
+          <div class="gallery" data-gallery style="margin-bottom:44px"></div>
+
+          <h3 class="h2" style="margin-bottom:18px">Location</h3>
+          <div id="detail-map" style="height:340px;border:1px solid var(--line)"></div>
+          <p class="form-note" style="margin-top:10px">Map pin is approximate. Contact the listing agent for exact boundaries and a plat.</p>
+        </div>
+
+        <aside>
+          <div class="agent-card" data-agent></div>
+        </aside>
+      </div>
+
+      <div style="margin-top:52px;padding-top:36px;border-top:1px solid var(--line)">
+        <p class="eyebrow">You may also like</p>
+        <h3 class="h2" style="margin-bottom:26px">Similar tracts</h3>
+        <div class="grid-cards" data-similar></div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- Gallery lightbox -->
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Property photo">
+  <button class="lightbox__close" type="button" aria-label="Close">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lightbox__prev" type="button" aria-label="Previous photo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lightbox__next" type="button" aria-label="Next photo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <img src="" alt="Property photo">
+  <div class="lightbox__count"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-fallback" style="color:var(--bone);margin-bottom:16px">
+          Nichols Land &amp; Investment Co.
+          <small>Est. 1976 · Georgia</small>
+        </div>
+        <p style="max-width:34ch">A full-service land and commercial real estate company specializing in timberland, rural land, recreational tracts and all classes of commercial property.</p>
+      </div>
+      <div>
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="properties.html">All Listings</a></li>
+          <li><a href="properties.html?type=Timber">Timberland</a></li>
+          <li><a href="properties.html?type=Recreational">Recreational</a></li>
+          <li><a href="properties.html?type=Homesite">Homesites</a></li>
+          <li><a href="properties.html?view=map">Map View</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#about">About &amp; History</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#timberland">Timberland Services</a></li>
+          <li><a href="index.html#team">Our Team</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Athens Office</h4>
+        <ul>
+          <li>2500 Daniells Bridge Rd.<br>Building 200, Suite 1F<br>Athens, GA 30606</li>
+          <li><a href="tel:7063533900">706‑353‑3900</a></li>
+          <li><a href="mailto:info@nicholsland.net">info@nicholsland.net</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> Nichols Land &amp; Investment Company. All rights reserved.</span>
+      <span>Southeastern Agri-Business Management, Inc. · 706‑549‑7382</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1076,6 +1076,14 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 
 body.has-overlay { overflow: hidden; }
 
+/* --- contact layout ------------------------------------------------------- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, .75fr);
+  gap: 56px;
+  align-items: start;
+}
+
 /* --- office cards + map frame --------------------------------------------- */
 .office-card .eyebrow { margin-bottom: 14px; }
 
@@ -1161,6 +1169,11 @@ body.has-overlay { overflow: hidden; }
   .searchbar__field { border-bottom: 1px solid var(--line); }
   .searchbar__submit { grid-column: 1 / -1; padding: 18px; }
   .hero { min-height: 78vh; min-height: 78dvh; }
+
+  /* Form first, then the two office cards beneath it. Below this width the
+     sidebar's 280px minimum and the form's fields fight for the same room and
+     end up sitting on top of each other. */
+  .contact-layout { grid-template-columns: 1fr; gap: 44px; }
 }
 
 /* --- phone hero ------------------------------------------------------------
@@ -1250,6 +1263,15 @@ body.has-overlay { overflow: hidden; }
   #map { height: 56vh; height: 56dvh; }
   .map-view__side { border-right: 0; border-top: 1px solid var(--line); max-height: 46vh; max-height: 46dvh; order: 2; }
   .fact { border-right: 0; border-bottom: 1px solid var(--line); }
+
+  /* A 16:8 frame on a phone leaves about 180px of actual map, and Google's own
+     place card and zoom controls sit on top of most of it — which is what made
+     it read as cropped. A portrait frame gives the pin room to breathe. */
+  .mapframe { aspect-ratio: 4 / 5; min-height: 400px; }
+
+  /* Stacked office cards want a little more air between them than the 16px the
+     markup carries for the sidebar layout. */
+  .contact-layout > aside > .office-card + .office-card { margin-top: 20px; }
 
   /* Overlay becomes a full-screen sheet on small viewports. */
   .detail__panel { width: 100%; }

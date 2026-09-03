@@ -7,7 +7,7 @@
 <meta name="description" content="Since 1976, Nichols Land &amp; Investment Co. has helped buyers and sellers across Georgia with farms, timberland, recreational land and commercial real estate. Based in Athens, serving Oglethorpe, Elbert, Walton, Putnam and surrounding counties.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Archivo:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
@@ -28,7 +28,7 @@
   <div class="scroll-progress" data-progress aria-hidden="true"><i></i></div>
   <div class="wrap header-bar">
     <a class="brand" href="#top">
-      <img class="brand-mark" src="https://nicholsland.net/wp-content/uploads/2025/10/Nichols-Text-Logo-Color-e1760458492153-300x78.jpg" alt="Nichols Land &amp; Investment Co.">
+      <img class="brand-mark" src="assets/img/logo.png" alt="Nichols Land &amp; Investment Co.">
     </a>
     <nav class="nav" id="nav" data-scrollspy>
       <a href="properties.html">Properties</a>
@@ -84,58 +84,9 @@
         <p class="eyebrow eyebrow--light">Serving Georgia landowners since 1976</p>
         <h1 class="hero__title">Land is the <em>long game.</em><br>We've played it for 50 years.</h1>
         <p class="hero__sub">Farms, timberland, recreational tracts and commercial property across northeast and middle Georgia — represented by foresters, brokers and appraisers who walk every acre.</p>
-        <!-- Title block: the ruled cells a drafted plat carries in its corner,
-             holding the facts that are actually recorded. Live from the data. -->
-        <dl class="tblock tblock--ondark hero__block">
-          <div><dt>Acreage listed</dt><dd><span data-stat="acres">—</span>±</dd></div>
-          <div><dt>Tracts</dt><dd data-stat="listings">—</dd></div>
-          <div><dt>Counties</dt><dd data-stat="counties">—</dd></div>
-          <div><dt>Established</dt><dd>1976</dd></div>
-        </dl>
       </div>
     </div>
   </section>
-
-  <!-- ================= SEARCH ================= -->
-  <div class="wrap">
-    <form class="searchbar" data-search-form>
-      <div class="searchbar__inner">
-        <div class="searchbar__field">
-          <label for="s-type">Looking for</label>
-          <select id="s-type" name="type" data-opt="type"><option value="">All Land Types</option></select>
-        </div>
-        <div class="searchbar__field">
-          <label for="s-county">County</label>
-          <select id="s-county" name="county" data-opt="county"><option value="">All Counties</option></select>
-        </div>
-        <div class="searchbar__field">
-          <label for="s-min">Min Price</label>
-          <select id="s-min" name="min">
-            <option value="">No Minimum</option>
-            <option value="100000">$100,000</option>
-            <option value="200000">$200,000</option>
-            <option value="350000">$350,000</option>
-            <option value="500000">$500,000</option>
-            <option value="750000">$750,000</option>
-            <option value="1000000">$1,000,000</option>
-          </select>
-        </div>
-        <div class="searchbar__field">
-          <label for="s-max">Max Price</label>
-          <select id="s-max" name="max">
-            <option value="">No Maximum</option>
-            <option value="150000">$150,000</option>
-            <option value="250000">$250,000</option>
-            <option value="500000">$500,000</option>
-            <option value="750000">$750,000</option>
-            <option value="1000000">$1,000,000</option>
-            <option value="2500000">$2,500,000</option>
-          </select>
-        </div>
-        <button class="searchbar__submit" type="submit">Search</button>
-      </div>
-    </form>
-  </div>
 
   <!-- ================= FEATURED ================= -->
   <section class="section" id="featured">
@@ -166,19 +117,19 @@
   <!-- ================= LAND TYPES ================= -->
   <section class="section--tight">
     <div class="tiles">
-      <a class="tile" href="properties.html?type=Timber">
+      <a class="tile" href="properties.html">
         <img src="https://nicholsland.net/wp-content/uploads/2026/06/13-print-14-845x684.jpg" alt="Georgia timberland" loading="lazy">
         <div><span data-type-count="Timber">—</span><b>Timberland</b></div>
       </a>
-      <a class="tile" href="properties.html?type=Recreational">
+      <a class="tile" href="properties.html">
         <img src="https://nicholsland.net/wp-content/uploads/2026/04/30-web-or-mls-30-845x684.jpg" alt="Recreational hunting land" loading="lazy">
         <div><span data-type-count="Recreational">—</span><b>Recreational</b></div>
       </a>
-      <a class="tile" href="properties.html?type=Homesite">
+      <a class="tile" href="properties.html">
         <img src="https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-4-845x684.jpg" alt="Rural homesite acreage" loading="lazy">
         <div><span data-type-count="Homesite">—</span><b>Homesites</b></div>
       </a>
-      <a class="tile" href="properties.html?type=Investment">
+      <a class="tile" href="properties.html">
         <img src="https://nicholsland.net/wp-content/uploads/2026/01/44-web-or-mls-43-845x684.jpg" alt="Investment timber tract" loading="lazy">
         <div><span data-type-count="Investment">—</span><b>Investment</b></div>
       </a>
@@ -563,11 +514,8 @@
         <h4>Properties</h4>
         <ul>
           <li><a href="properties.html">All Listings</a></li>
-          <li><a href="properties.html?type=Timber">Timberland</a></li>
-          <li><a href="properties.html?type=Recreational">Recreational</a></li>
-          <li><a href="properties.html?type=Homesite">Homesites</a></li>
-          <li><a href="properties.html?type=Investment">Investment</a></li>
           <li><a href="properties.html?view=map">Map View</a></li>
+          <li><a href="#contact">Set Up a Land Search</a></li>
         </ul>
       </div>
       <div>

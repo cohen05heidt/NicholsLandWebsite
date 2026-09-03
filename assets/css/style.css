@@ -26,13 +26,14 @@
   --rule:     #C2C9BC;   /* hairline */
   --graphite: #5A6257;   /* secondary text */
 
-  /* Display: American deed and legal-notice heritage, used sparingly.
-     Body: squarish grotesque — map labels and county forms, not Inter.
-     Detail: a letterspaced Garamond in the spirit of the engraved wordmark —
-     labels, nav, buttons, phone numbers and recorded figures. */
-  --display: "Libre Caslon Display", "Iowan Old Style", Georgia, serif;
-  --sans:    "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono:    "Cormorant Garamond", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  /* One face throughout: Libre Baskerville, the closest match to the bold
+     serif of the wordmark. Bold carries every heading, label, button and
+     figure; body copy runs regular so paragraphs stay readable.
+     The three variables are kept so per-role weights and sizes stay
+     adjustable, but they all resolve to the same family now. */
+  --display: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --sans:    "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --mono:    "Libre Baskerville", Georgia, "Times New Roman", serif;
 
   /* Legacy aliases so existing rules keep resolving. */
   --forest: var(--pine);
@@ -61,8 +62,8 @@ body {
   background: var(--bone);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 15.5px;
+  line-height: 1.72;
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; display: block; }
@@ -71,9 +72,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -.005em;
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -.012em;
 }
 p { margin: 0 0 1em; }
 ul { margin: 0; padding: 0; list-style: none; }
@@ -89,9 +90,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
    -------------------------------------------------------------------------- */
 .eyebrow {
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.83rem;
-  font-weight: 600;
-  letter-spacing: .16em;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--graphite);
   margin: 0 0 16px;
@@ -111,16 +112,16 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .eyebrow--light { color: rgba(227, 231, 224, .62); }
 .eyebrow--light::before { border-color: var(--clay-lift); }
 
-.h-display { font-size: clamp(2.6rem, 6vw, 4.6rem); }
-.h1 { font-size: clamp(2.15rem, 4.6vw, 3.5rem); }
-.h2 { font-size: clamp(1.7rem, 3vw, 2.45rem); }
-.h3 { font-size: clamp(1.15rem, 1.8vw, 1.45rem); }
-.lede { font-size: 1.06rem; color: var(--graphite); max-width: 60ch; line-height: 1.7; }
+.h-display { font-size: clamp(2.25rem, 5.2vw, 3.95rem); }
+.h1 { font-size: clamp(1.85rem, 3.9vw, 2.95rem); }
+.h2 { font-size: clamp(1.45rem, 2.55vw, 2.05rem); }
+.h3 { font-size: clamp(1rem, 1.55vw, 1.25rem); }
+.lede { font-size: 1.02rem; color: var(--graphite); max-width: 60ch; line-height: 1.72; }
 .muted { color: var(--graphite); }
 
 /* Recorded facts — acreage, price, county, IDs. Always typed. */
 .rec {
-  font-family: var(--mono); font-weight: 500;
+  font-family: var(--mono); font-weight: 700;
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: -.01em;
 }
@@ -141,9 +142,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .tblock > div { padding: 12px 16px; border-right: 1px solid var(--rule); min-width: 0; }
 .tblock > div:last-child { border-right: 0; }
 .tblock dt {
-  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
-  font-size: 0.73rem;
-  letter-spacing: .15em;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--graphite);
   margin: 0 0 4px;
@@ -151,8 +152,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .tblock dd {
   margin: 0;
   font-family: var(--mono);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--ink);
   font-variant-numeric: lining-nums tabular-nums;
   white-space: nowrap;
@@ -174,9 +175,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
   border: 1px solid transparent;
   border-radius: var(--radius);
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: .14em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
   transition: all .2s var(--ease);
@@ -204,9 +205,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   align-items: center;
   gap: 8px;
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: .12em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--ink);
   border-bottom: 1px solid var(--clay);
@@ -256,9 +257,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .brand-fallback small {
   display: block;
-  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
-  font-size: 0.68rem;
-  letter-spacing: .2em;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700;
+  font-size: 0.52rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--graphite);
   margin-top: 5px;
@@ -267,8 +268,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav a {
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: 0.68rem;
+  font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--ink);
@@ -317,9 +318,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .header-actions { display: flex; align-items: center; gap: 18px; flex: none; }
 .header-phone {
   font-family: var(--mono);
-  font-size: 1.06rem;
-  font-weight: 600;
-  letter-spacing: .07em;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: .04em;
   color: var(--ink);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -437,9 +438,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
-  font-size: 0.71rem;
-  letter-spacing: .2em;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700;
+  font-size: 0.55rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: rgba(227, 231, 224, .55);
 }
@@ -457,9 +458,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
 }
 .hero__inner { position: relative; z-index: 2; width: 100%; padding: 0 0 56px; }
-.hero__title { font-size: clamp(2.7rem, 6.4vw, 5.4rem); max-width: 15ch; letter-spacing: -.015em; }
+.hero__title { font-size: clamp(2.15rem, 4.8vw, 3.95rem); max-width: 23ch; letter-spacing: -.018em; }
 .hero__title em { font-style: italic; color: var(--clay-lift); }
-.hero__sub { max-width: 46ch; color: rgba(227, 231, 224, .84); font-size: 1.04rem; margin-top: 22px; }
+.hero__sub { max-width: 46ch; color: rgba(227, 231, 224, .84); font-size: 1rem; margin-top: 22px; }
 
 /* --- sections ------------------------------------------------------------- */
 .section { padding: 92px 0; }
@@ -505,9 +506,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .pcard__tags { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 2; }
 .tag {
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.71rem;
-  font-weight: 600;
-  letter-spacing: .14em;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: .08em;
   text-transform: uppercase;
   padding: 5px 10px;
   background: rgba(242, 244, 239, .94);
@@ -526,8 +527,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   background: var(--pine);
   color: var(--paper);
   font-family: var(--mono);
-  font-size: 1.04rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   letter-spacing: -.01em;
   font-variant-numeric: lining-nums tabular-nums;
   padding: 8px 16px;
@@ -536,9 +537,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .pcard__body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
 .pcard__title { font-size: 1.35rem; margin-bottom: 5px; line-height: 1.12; }
 .pcard__loc {
-  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500;
-  font-size: 0.88rem;
-  letter-spacing: .04em;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: .02em;
   color: var(--graphite);
   margin-bottom: 18px;
 }
@@ -551,9 +552,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   border-top: 1px solid var(--rule);
 }
 .pcard__meta span {
-  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: .08em;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--graphite);
   padding: 12px 16px 0 0;
@@ -644,8 +645,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .tile:hover img { transform: scale(1.07); }
 .tile:hover::after { background: linear-gradient(180deg, rgba(31,53,39,.35) 0%, rgba(22,37,27,.9) 100%); }
-.tile b { display: block; font-family: var(--display); font-size: 1.55rem; font-weight: 400; }
-.tile span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.81rem; letter-spacing: .14em; text-transform: uppercase; color: var(--clay-lift); }
+.tile b { display: block; font-family: var(--display); font-size: 1.3rem; font-weight: 700; }
+.tile span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--clay-lift); }
 
 /* --- team ----------------------------------------------------------------- */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 30px; }
@@ -661,7 +662,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .tcard:hover .tcard__photo { filter: grayscale(0%); }
 .tcard__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .tcard h3 { font-size: 1.15rem; }
-.tcard__role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.85rem; letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); margin: 6px 0 0; }
+.tcard__role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); margin: 6px 0 0; }
 /* Bio and contact lines stay in the body face — a long paragraph set in the
    letterspaced detail serif reads as a caption, not as text. */
 .tcard__bio { margin-top: 12px; color: #4A5044; font-size: .92rem; line-height: 1.65; }
@@ -690,10 +691,10 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .field--full { grid-column: 1 / -1; }
 .field label {
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.78rem;
-  letter-spacing: .14em;
+  font-size: 0.6rem;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--graphite);
 }
 .field input, .field select, .field textarea {
@@ -741,7 +742,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 /* --- listings page -------------------------------------------------------- */
 .page-head { background: var(--forest-deep); color: var(--bone); padding: 74px 0 58px; }
 .page-head .lede { color: rgba(247,244,236,.74); }
-.breadcrumb { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.83rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(227,231,224,.55); margin-bottom: 16px; }
+.breadcrumb { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.64rem; letter-spacing: .07em; text-transform: uppercase; color: rgba(227,231,224,.55); margin-bottom: 16px; }
 .breadcrumb a:hover { color: var(--gold-soft); }
 
 .results-bar {
@@ -754,7 +755,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
 }
-.results-count { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.98rem; color: var(--graphite); }
+.results-count { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.76rem; color: var(--graphite); }
 .results-count b { color: var(--ink); font-weight: 500; }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .chip {
@@ -791,8 +792,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .fact { padding: 20px 22px; border-right: 1px solid var(--line); }
 .fact:last-child { border-right: 0; }
-.fact span { display: block; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.73rem; letter-spacing: .15em; text-transform: uppercase; color: var(--graphite); margin-bottom: 5px; }
-.fact b { font-family: var(--mono); font-size: 1.21rem; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.fact span { display: block; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.56rem; letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); margin-bottom: 5px; }
+.fact b { font-family: var(--mono); font-size: 0.93rem; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
 
 .bullet-list li {
   position: relative;
@@ -823,7 +824,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   transition: background .2s var(--ease), padding-left .2s var(--ease);
 }
 .doclist a:hover { background: var(--sand); padding-left: 24px; }
-.doclist a span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
+.doclist a span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.6rem; letter-spacing: .07em; text-transform: uppercase; color: var(--graphite); }
 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
 .gallery button { border: 0; padding: 0; background: var(--sand); cursor: pointer; aspect-ratio: 4/3; overflow: hidden; }
@@ -833,12 +834,12 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .agent-card { background: var(--white); border: 1px solid var(--line); padding: 26px; position: sticky; top: 106px; }
 .agent-card__top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
 .agent-card__photo { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; object-position: center top; flex: none; background: var(--sand); }
-.agent-card h4 { font-family: var(--display); font-size: 1.2rem; font-weight: 400; margin: 0; }
-.agent-card .role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.81rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
+.agent-card h4 { font-family: var(--display); font-size: 1.2rem; font-weight: 700; margin: 0; }
+.agent-card .role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--graphite); }
 .agent-card dl { margin: 0 0 20px; display: grid; gap: 9px; font-size: .88rem; }
 .agent-card dl div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dotted var(--line); padding-bottom: 8px; }
-.agent-card dt { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; color: var(--graphite); font-size: 0.88rem; letter-spacing: .06em; text-transform: uppercase; }
-.agent-card dd { margin: 0; text-align: right; word-break: break-word; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 1.0rem; }
+.agent-card dt { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; color: var(--graphite); font-size: 0.68rem; letter-spacing: .03em; text-transform: uppercase; }
+.agent-card dd { margin: 0; text-align: right; word-break: break-word; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.77rem; }
 
 /* --- lightbox ------------------------------------------------------------- */
 .lightbox {
@@ -881,8 +882,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   background: transparent;
   padding: 9px 16px;
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.83rem;
-  font-weight: 600;
+  font-size: 0.64rem;
+  font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -921,9 +922,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .mcard:hover, .mcard.is-active { border-color: var(--gold); box-shadow: var(--shadow-sm); }
 .mcard img { width: 96px; height: 72px; object-fit: cover; background: var(--sand); }
-.mcard h4 { font-size: 1.05rem; font-family: var(--display); font-weight: 400; margin: 0 0 3px; }
-.mcard p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.85rem; color: var(--graphite); margin: 0; }
-.mcard .price { font-family: var(--mono); font-variant-numeric: lining-nums; font-size: 0.98rem; font-weight: 600; color: var(--clay); margin-top: 4px; }
+.mcard h4 { font-size: 1.05rem; font-family: var(--display); font-weight: 700; margin: 0 0 3px; }
+.mcard p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.65rem; color: var(--graphite); margin: 0; }
+.mcard .price { font-family: var(--mono); font-variant-numeric: lining-nums; font-size: 0.76rem; font-weight: 700; color: var(--clay); margin-top: 4px; }
 
 /* --- Leaflet guards -------------------------------------------------------
    The global `img { max-width:100% }` rule and stacking contexts elsewhere in
@@ -945,8 +946,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 
 .map-pop img { width: 100%; height: 120px; object-fit: cover; }
 .map-pop__body { padding: 12px 14px 14px; }
-.map-pop h4 { font-family: var(--display); font-size: 1.05rem; font-weight: 400; margin: 0 0 4px; }
-.map-pop p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.88rem; color: var(--graphite); margin: 0 0 8px; }
+.map-pop h4 { font-family: var(--display); font-size: 1.05rem; font-weight: 700; margin: 0 0 4px; }
+.map-pop p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.68rem; color: var(--graphite); margin: 0 0 8px; }
 .map-note { font-size: .72rem; color: #6C7266; padding: 10px 24px; background: var(--sand); }
 
 /* --- property detail overlay ---------------------------------------------
@@ -1060,12 +1061,12 @@ body.has-overlay { overflow: hidden; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 44px; }
 .site-footer h4 {
   font-family: var(--mono); font-variant-numeric: lining-nums;
-  font-size: 0.78rem;
-  letter-spacing: .16em;
+  font-size: 0.6rem;
+  letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--clay-lift);
   margin-bottom: 18px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .site-footer a:hover { color: var(--gold-soft); }
 .site-footer li { margin-bottom: 9px; }
@@ -1145,7 +1146,7 @@ body.has-overlay { overflow: hidden; }
   }
 
   .hero__inner { padding-bottom: calc(30px + env(safe-area-inset-bottom)); }
-  .hero__title { font-size: clamp(1.85rem, 8vw, 2.5rem); max-width: 100%; }
+  .hero__title { font-size: clamp(1.6rem, 6.9vw, 2.15rem); max-width: 100%; }
   .hero__sub { font-size: .95rem; line-height: 1.55; margin-top: 14px; max-width: 40ch; }
   .hero__block { margin-top: 24px; }
 
@@ -1275,7 +1276,7 @@ html, body { overflow-x: clip; max-width: 100%; }
    in a 1240px column on a 27-inch display. */
 @media (min-width: 1600px) {
   :root { --wrap: 1400px; }
-  .hero__title { font-size: clamp(3rem, 5vw, 5.8rem); }
+  .hero__title { font-size: clamp(2.5rem, 4.2vw, 4.7rem); }
 }
 
 /* Landscape phones — short and wide. The hero must not eat the whole screen. */

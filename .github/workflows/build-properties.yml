@@ -1,0 +1,52 @@
+# Rebuilds data/properties.json whenever a listing changes.
+#
+# The CMS at /admin writes one file per tract into data/properties/. The site
+# reads a single array, so something has to join them back up — this does, on
+# every save, about half a minute before Pages redeploys.
+#
+# It only watches data/properties/**, so the commit it pushes to
+# data/properties.json cannot trigger another run.
+
+name: Build properties.json
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/properties/**'
+      - 'tools/build-properties.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-properties
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Fails loudly on a malformed listing rather than publishing a site with
+      # a tract silently missing from it.
+      - name: Rebuild data/properties.json
+        run: node tools/build-properties.mjs
+
+      - name: Commit if the built file changed
+        run: |
+          if git diff --quiet -- data/properties.json; then
+            echo "No change to data/properties.json."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/properties.json
+          git commit -m "Rebuild properties.json from listings"
+          git push

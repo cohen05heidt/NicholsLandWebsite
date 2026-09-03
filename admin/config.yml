@@ -1,0 +1,162 @@
+# Sveltia CMS — the listings admin for nicholsland.
+#
+# Every tract is one file in data/properties/. Adding a listing creates a file,
+# deleting one removes it, and a GitHub Action rebuilds data/properties.json
+# (the single array the site actually reads) a few seconds later.
+#
+# Two fields are deliberately absent from this form: acresLabel and priceLabel.
+# They are derived from the acreage and price numbers at build time, so a
+# listing can never show "60 acres" next to a label reading "12.9± Acres".
+
+backend:
+  name: github
+  repo: cohen05heidt/NicholsLandWebsite
+  branch: main
+  # Until the OAuth client is deployed, sign in with "Sign In with Token" using
+  # a fine-grained personal access token that has Contents: read & write on this
+  # repository. Once the authenticator is up, uncomment the line below and
+  # everyone gets an ordinary "Sign in with GitHub" button instead.
+  # base_url: https://YOUR-AUTHENTICATOR.workers.dev
+
+# Photos and PDFs uploaded through the CMS land here. The public path has no
+# leading slash on purpose — the site is served from /NicholsLandWebsite/, and
+# an absolute path would break every image on it.
+media_folder: assets/img/properties
+public_folder: assets/img/properties
+
+# Saving writes straight to main, which is what makes a listing go live without
+# anyone having to approve anything.
+publish_mode: simple
+
+collections:
+  - name: properties
+    label: Properties
+    label_singular: Property
+    description: >-
+      Every tract on the site. Add one and it appears on the home map and the
+      properties page within about a minute; delete one and it disappears.
+    folder: data/properties
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: '{{title}}'
+    summary: '{{title}} — {{city}}, {{county}} · {{acres}} ac'
+    sortable_fields: [listed, title, acres, price]
+    view_groups:
+      - label: Status
+        field: status
+    fields:
+      - name: title
+        label: Tract name
+        widget: string
+        hint: 'How it appears as the headline, e.g. "Jabez Poyner Road Tract".'
+
+      - name: status
+        label: Status
+        widget: select
+        default: For Sale
+        options: [For Sale, Under Contract, Sold]
+        hint: Sold tracts stay in the system but drop off the map and the listings grid.
+
+      - name: featured
+        label: Feature on the home page
+        widget: boolean
+        default: false
+        hint: Featured tracts appear in the carousel at the top of the home page.
+
+      - name: acres
+        label: Acreage
+        widget: number
+        value_type: float
+        min: 0
+        hint: 'Just the number — the "± Acres" is added automatically.'
+
+      - name: price
+        label: Price
+        widget: number
+        value_type: int
+        required: false
+        min: 0
+        hint: 'Numbers only, no $ or commas. Leave blank to show "Call for Price".'
+
+      - name: city
+        label: City / town
+        widget: string
+
+      - name: county
+        label: County
+        widget: string
+        hint: 'Include the word County, e.g. "Oglethorpe County".'
+
+      - name: state
+        label: State
+        widget: string
+        default: GA
+
+      - name: types
+        label: Land type
+        widget: select
+        multiple: true
+        min: 1
+        options: [Timber, Recreational, Homesite, Investment]
+        hint: Pick every type that fits. The first one sets the pin colour on the home map.
+
+      - name: listed
+        label: Date listed
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        picker_utc: true
+        hint: Drives the "Recently Listed" row — newest first.
+
+      - name: lat
+        label: Latitude
+        widget: number
+        value_type: float
+        hint: 'Right-click the tract in Google Maps and copy the first number, e.g. 33.9505.'
+
+      - name: lng
+        label: Longitude
+        widget: number
+        value_type: float
+        hint: 'The second number from Google Maps, e.g. -83.0512. Keep the minus sign.'
+
+      - name: coordsApprox
+        label: Pin is approximate
+        widget: boolean
+        default: true
+
+      - name: summary
+        label: Summary
+        widget: text
+        hint: One or two sentences. Shown at the top of the listing and in search results.
+
+      - name: bullets
+        label: Property overview
+        widget: list
+        field: { name: point, label: Point, widget: string }
+        hint: The bulleted list on the listing page. One point per line.
+
+      - name: directions
+        label: Directions
+        widget: text
+        required: false
+        hint: Optional. Leave blank and the Directions heading is hidden.
+
+      - name: docs
+        label: Maps, plats & documents
+        widget: list
+        required: false
+        label_singular: Document
+        summary: '{{fields.label}}'
+        fields:
+          - { name: label, label: Name, widget: string, hint: 'e.g. Aerial Map, Topo Map, Tract Plat' }
+          - { name: url, label: File, widget: file, hint: Upload a PDF, or paste a link to one. }
+
+      - name: images
+        label: Photos
+        widget: list
+        label_singular: Photo
+        field: { name: image, label: Photo, widget: image }
+        hint: The first photo is the one used on cards, the map popup and the listing header.

@@ -1,0 +1,41 @@
+{
+  "title": "Bridges Rd Tract 1",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 60,
+  "price": 353000,
+  "city": "Lexington",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Recreational",
+    "Timber"
+  ],
+  "listed": "2025-10-20",
+  "lat": 33.77,
+  "lng": -82.98,
+  "coordsApprox": true,
+  "summary": "60 acres with 1,000 feet of road frontage, 2,500 feet of winding creek, and established shooting lanes — built for hunting.",
+  "bullets": [
+    "Approximately 1,000 feet of frontage on Bridges Road",
+    "A mix of mature planted pines and hardwoods",
+    "2,500 feet of winding creek frontage",
+    "Well-developed internal road system and established shooting lanes",
+    "Ideal for hunting and outdoor recreation",
+    "45 minutes from Athens and 40 minutes from Watkinsville",
+    "Priced at $353,000"
+  ],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/10/49-web-or-mls-47-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/58-web-or-mls-56-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/2-web-or-mls-Outline-T1-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/17-web-or-mls-15-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/16-web-or-mls-14-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/20-web-or-mls-18-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/14-web-or-mls-12-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/19-web-or-mls-17-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/8-web-or-mls-6-845x684.jpg"
+  ]
+}

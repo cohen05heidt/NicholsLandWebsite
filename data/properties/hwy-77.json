@@ -1,0 +1,47 @@
+{
+  "title": "Hwy 77 Tract",
+  "status": "Under Contract",
+  "featured": false,
+  "acres": 10,
+  "price": 125000,
+  "city": "Lexington",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Homesite",
+    "Recreational"
+  ],
+  "listed": "2026-01-15",
+  "lat": 33.86,
+  "lng": -83.07,
+  "coordsApprox": true,
+  "summary": "A secluded 10-acre homesite outside Lexington with 640± feet of Hwy 77 frontage, within 30 minutes of Athens and Watkinsville.",
+  "bullets": [
+    "Priced at $125,000",
+    "Homesite located outside of Lexington, GA",
+    "Within 30 minutes of Athens and Watkinsville, GA",
+    "Approximately 640± feet of road frontage on Hwy 77",
+    "Property consists primarily of planted pine",
+    "Secluded lot, ideal for building a home",
+    "Offers rural privacy with convenient access to town in Oglethorpe County",
+    "Suitable for a homesite, recreation, or a weekend getaway"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Plat.pdf"
+    },
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Aerial-Map.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/01/18-web-or-mls-18.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/43-web-or-mls-43-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/7-web-or-mls-7-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/32-web-or-mls-32-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/38-web-or-mls-38-845x684.jpg"
+  ]
+}

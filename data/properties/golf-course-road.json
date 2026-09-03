@@ -1,0 +1,42 @@
+{
+  "title": "Golf Course Road Tract",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 12.9,
+  "price": 100000,
+  "city": "Elberton",
+  "county": "Elbert County",
+  "state": "GA",
+  "types": [
+    "Homesite",
+    "Recreational"
+  ],
+  "listed": "2025-05-20",
+  "lat": 34.1,
+  "lng": -82.86,
+  "coordsApprox": true,
+  "summary": "12.9 acres of rolling hardwoods with a creek bottom, across from the Elberton Country Club and minutes from downtown.",
+  "bullets": [
+    "12.9 acres",
+    "930' of frontage on Golf Course Road",
+    "Rolling topography",
+    "Mixture of hardwoods with a pretty creek bottom",
+    "Located across from the Elberton Country Club",
+    "Only minutes from downtown Elberton",
+    "Priced at $100,000"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Tract Flyer",
+      "url": "https://nicholsland.net/wp-content/uploads/2022/04/Golf-Course-Road-Tract-Flyer.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2022/04/GC-7-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2022/04/GC-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2022/04/GC-5-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2022/04/GC-10-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2022/04/GC-4-845x684.jpg"
+  ]
+}

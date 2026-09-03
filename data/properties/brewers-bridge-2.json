@@ -1,0 +1,58 @@
+{
+  "title": "Brewer's Bridge Tract 2",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 37.75,
+  "price": 208000,
+  "city": "Elberton",
+  "county": "Elbert County",
+  "state": "GA",
+  "types": [
+    "Recreational",
+    "Timber"
+  ],
+  "listed": "2026-07-20",
+  "lat": 34.1285,
+  "lng": -82.8945,
+  "coordsApprox": true,
+  "summary": "37.75± acres of recreational land with planted pine, mature hardwoods and creek frontage just minutes from Elberton and Lake Russell.",
+  "bullets": [
+    "37.75± acres of recreational land in Elberton, GA",
+    "Priced at $208,000",
+    "Paved road frontage on Brewer's Bridge Road",
+    "Features approximately 9-year-old planted pines",
+    "Includes mature hardwoods and creek frontage",
+    "Ideal for hunting, recreation, or a private retreat",
+    "Located just minutes from Elberton",
+    "Approximately 40 minutes from Athens and minutes from Lake Russell"
+  ],
+  "directions": "From downtown Elberton, GA, turn left onto GA-72 (College Ave). Continue for 1 mile, then turn right onto Brewer's Bridge Road. Continue on Brewer's Bridge Road for 1 mile, and the property will be on the left.",
+  "docs": [
+    {
+      "label": "Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Plat.pdf"
+    },
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Road-Tract-2-Topo-Map.pdf"
+    },
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Aerial.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Location-Map.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/2-web-or-mls-2-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-4-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/8-web-or-mls-8-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/13-web-or-mls-13-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/15-web-or-mls-15-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/20-web-or-mls-20-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/29-web-or-mls-29-845x684.jpg"
+  ]
+}

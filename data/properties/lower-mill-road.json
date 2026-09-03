@@ -1,0 +1,62 @@
+{
+  "title": "Lower Mill Road Tract",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 28,
+  "price": 180000,
+  "city": "Sharon",
+  "county": "Taliaferro County",
+  "state": "GA",
+  "types": [
+    "Recreational",
+    "Timber",
+    "Homesite",
+    "Investment"
+  ],
+  "listed": "2026-07-15",
+  "lat": 33.562,
+  "lng": -82.796,
+  "coordsApprox": true,
+  "summary": "28± acres of young planted pine with an internal creek, food-plot clearing and established roads — about an hour from both Athens and Augusta.",
+  "bullets": [
+    "28± acres with recreation, investment, and homestead potential",
+    "Priced at $180,000",
+    "Conveniently located about one hour from Athens and Augusta",
+    "Paved frontage on Lower Mill Road",
+    "Additional frontage on Reynoldsville Road",
+    "5-year-old planted pine",
+    "Internal creek",
+    "Power and high-speed internet available",
+    "Established internal road providing easy access throughout the property",
+    "One-acre clearing ready for a food plot, cabin, or future homesite",
+    "Ideal for a hunting retreat, timber investment, or rural homesite"
+  ],
+  "directions": "From Sharon, GA head East on Raytown Road. At the stop sign continue straight onto Lower Mill Road. The property will be on your right in 0.25 miles.",
+  "docs": [
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Aerial-Map.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Location-Map.pdf"
+    },
+    {
+      "label": "Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Plat.pdf"
+    },
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Topo-Map.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-5-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/12-web-or-mls-12-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/17-web-or-mls-17-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/26-web-or-mls-26-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-30-845x684.jpg"
+  ]
+}

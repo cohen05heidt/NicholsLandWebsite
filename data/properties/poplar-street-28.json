@@ -1,0 +1,44 @@
+{
+  "title": "Poplar Street Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 28,
+  "price": 825000,
+  "city": "Monroe",
+  "county": "Walton County",
+  "state": "GA",
+  "types": [
+    "Homesite",
+    "Recreational"
+  ],
+  "listed": "2026-07-08",
+  "lat": 33.7955,
+  "lng": -83.7098,
+  "coordsApprox": true,
+  "summary": "28± acres on Poplar Street in Monroe — room for a custom home, private retreat or mini-farm estate with power and water available.",
+  "bullets": [
+    "28± acres located on Poplar Street in Monroe, GA",
+    "Priced at $825,000",
+    "Less than 10 minutes from downtown Monroe",
+    "Approximately 35 minutes from Athens",
+    "Ideal for a custom-built home, private retreat, or mini-farm estate",
+    "Power and water available",
+    "Ample space for a custom home, outdoor living, and recreation"
+  ],
+  "directions": "From downtown Monroe, head out on E Church Street and continue for approximately 1.5 miles. Then turn onto Poplar Street. When you reach the stop sign, continue left and drive for about 1 mile. The property will be located on your right-hand side.",
+  "docs": [
+    {
+      "label": "Poplar Street Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-22-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/17-web-or-mls-16-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/28-web-or-mls-27-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-Outline-2-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-4-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/24-web-or-mls-23-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/11-web-or-mls-10-1-845x684.jpg"
+  ]
+}

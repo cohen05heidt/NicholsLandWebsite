@@ -1,0 +1,56 @@
+{
+  "title": "Jabez Poyner Road Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 73.59,
+  "price": null,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Recreational",
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2026-08-10",
+  "lat": 33.9505,
+  "lng": -83.0512,
+  "coordsApprox": true,
+  "summary": "A 73.59± acre Oglethorpe County tract with mixed timber, road frontage and multiple homesite options, less than 30 minutes from Athens.",
+  "bullets": [
+    "73.59± acres in Oglethorpe County, Georgia",
+    "Mixed pine and hardwood timber",
+    "Frontage on Jabez Poyner Road",
+    "Well suited to a homesite, recreation or timber investment",
+    "Convenient to Athens, Watkinsville and Lexington"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Aerial-Map.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Location-Map.pdf"
+    },
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Topo-Map.pdf"
+    },
+    {
+      "label": "Tract Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Tract-Plat.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/08/25-web-or-mls-25-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/24-web-or-mls-24-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/5-web-or-mls-5-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/9-web-or-mls-9-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/13-web-or-mls-13-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/1-web-or-mls-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/18-web-or-mls-18-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/08/34-web-or-mls-34-845x684.jpg"
+  ]
+}

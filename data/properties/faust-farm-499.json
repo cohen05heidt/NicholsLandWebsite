@@ -1,0 +1,43 @@
+{
+  "title": "499 Faust Farm Road",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 25,
+  "price": 237500,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2026-07-08",
+  "lat": 33.9011,
+  "lng": -83.164,
+  "coordsApprox": true,
+  "summary": "25± acres of mature pine and hardwood on Faust Farm Road, with established access and multiple potential homesites.",
+  "bullets": [
+    "25± acres located on Faust Farm Road in Crawford, Georgia",
+    "Priced at $237,500",
+    "Mix of mature pine and hardwood timber",
+    "Ideal opportunity for a custom home, private retreat, or recreation",
+    "Established driveway and internal road system",
+    "Multiple potential homesites",
+    "Conveniently located less than 30 minutes from Athens and Watkinsville"
+  ],
+  "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
+  "docs": [
+    {
+      "label": "Faust Farm Road Survey",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-Tract-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-3-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/6-web-or-mls-5-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/11-web-or-mls-10-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/19-web-or-mls-18-845x684.jpg"
+  ]
+}

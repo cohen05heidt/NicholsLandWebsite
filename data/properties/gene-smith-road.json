@@ -1,0 +1,59 @@
+{
+  "title": "Gene Smith Road Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 198.66,
+  "price": 755000,
+  "city": "Lexington",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Investment"
+  ],
+  "listed": "2026-06-03",
+  "lat": 34.01,
+  "lng": -83.03,
+  "coordsApprox": true,
+  "summary": "198.66 acres in northern Oglethorpe County with replanted pine, hardwood bottoms, 2,700 feet of creek frontage and long-range views.",
+  "bullets": [
+    "198.66-acre tract located in Northern Oglethorpe County, Georgia",
+    "Approximately 40 minutes from Athens and 20 minutes from Elberton",
+    "Ideal for recreation, timber investment, or a future homesite",
+    "Recently replanted pine stands",
+    "2,700± feet of creek frontage",
+    "1,600± feet of frontage along Gene Smith Road",
+    "Beautiful hardwood bottoms throughout the property",
+    "Long-range views",
+    "Well-established internal road system for easy access",
+    "Priced at $755,000"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Aerial-Map.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Location-Map.pdf"
+    },
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Topo-Map.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/06/1-print-15-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/2-print-5-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/3-print-2-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/6-print-7-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/13-print-14-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/18-print-21-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/22-print-25-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/24-print-27-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/25-print-28-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/06/26-print-31-845x684.jpg"
+  ]
+}

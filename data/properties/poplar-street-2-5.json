@@ -1,0 +1,40 @@
+{
+  "title": "Poplar Street Tract",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 2.5,
+  "price": 149500,
+  "city": "Monroe",
+  "county": "Walton County",
+  "state": "GA",
+  "types": [
+    "Homesite"
+  ],
+  "listed": "2026-07-08",
+  "lat": 33.792,
+  "lng": -83.706,
+  "coordsApprox": true,
+  "summary": "An ideal 2.5± acre custom homesite on Poplar Street, minutes from downtown Monroe and about 35 minutes from Athens.",
+  "bullets": [
+    "2.5± acres located on Poplar Street in Monroe, GA",
+    "Priced $149,500",
+    "Less than 10 minutes from downtown Monroe",
+    "Approximately 35 minutes from Athens",
+    "Ideal lot for a custom-built home",
+    "Power and water available"
+  ],
+  "directions": "From downtown Monroe, head out on E Church Street and continue for approximately 1.5 miles. Then turn onto Poplar Street. When you reach the stop sign, continue left and drive for about 1 mile. The property will be located on your right-hand side.",
+  "docs": [
+    {
+      "label": "Poplar Street Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-2-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/6-web-or-mls-6-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/9-web-or-mls-9-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-23-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/27-web-or-mls-27-845x684.jpg"
+  ]
+}

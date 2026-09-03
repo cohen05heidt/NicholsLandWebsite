@@ -1,0 +1,39 @@
+{
+  "title": "Lumber City Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 377,
+  "price": null,
+  "city": "Lumber City",
+  "county": "Wheeler County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Investment"
+  ],
+  "listed": "2025-07-14",
+  "lat": 31.93,
+  "lng": -82.68,
+  "coordsApprox": true,
+  "summary": "377 acres of recreational timberland with paved Highway 19 frontage and diverse cover types, divisible into two tracts.",
+  "bullets": [
+    "377 acres",
+    "Recreational timberland with paved Highway 19 frontage",
+    "Diverse cover types offering great wildlife habitat",
+    "Close proximity to Lumber City and Dublin, Georgia",
+    "The property can be divided into two smaller tracts"
+  ],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026026-845x684.jpeg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026061-845x684.jpeg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026064-845x684.jpeg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026162-845x684.jpeg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026181-845x684.jpeg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8652-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8651-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8653-845x684.jpg"
+  ]
+}

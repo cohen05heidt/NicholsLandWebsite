@@ -1,0 +1,46 @@
+{
+  "title": "543 Faust Farm Road",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 25,
+  "price": 237500,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2026-07-08",
+  "lat": 33.9028,
+  "lng": -83.1612,
+  "coordsApprox": true,
+  "summary": "25± acres of mixed timber with creek frontage and multiple homesites on Faust Farm Road in Crawford.",
+  "bullets": [
+    "25± acres located on Faust Farm Road in Crawford, Georgia",
+    "Offered at $237,500",
+    "Mix of mature pine and hardwood timber throughout the property",
+    "Scenic creek frontage",
+    "Opportunity for a custom home, private retreat, or recreational property",
+    "Established driveway and internal road system",
+    "Multiple potential homesites",
+    "Conveniently located less than 30 minutes from Athens and Watkinsville"
+  ],
+  "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
+  "docs": [
+    {
+      "label": "Faust Farm Road Survey",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/07/35-web-or-mls-33-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/56-web-or-mls-53-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/61-web-or-mls-58-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/21-web-or-mls-Tract-3-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-21-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/24-web-or-mls-22-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-28-845x684.jpg"
+  ]
+}

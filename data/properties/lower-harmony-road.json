@@ -1,0 +1,59 @@
+{
+  "title": "Lower Harmony Road Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 304.39,
+  "price": 2130000,
+  "city": "Eatonton",
+  "county": "Putnam County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Investment",
+    "Recreational"
+  ],
+  "listed": "2026-01-26",
+  "lat": 33.42,
+  "lng": -83.34,
+  "coordsApprox": true,
+  "summary": "304.39 acres minutes from Lake Oconee — planted pine, mature hardwoods and an internal creek, with frontage on two roads.",
+  "bullets": [
+    "Priced at $2,130,000",
+    "Timber investment, recreation, or future development",
+    "Located just minutes from Lake Oconee, Eatonton, and Madison",
+    "7-year-old planted pine and mature hardwoods",
+    "Well-maintained internal road system for easy access throughout the property",
+    "Frontage on both Kilpatrick Road and Harmony Road",
+    "Highlog Branch Creek runs internally on the property",
+    "Power and water available"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Topo-Map.pdf"
+    },
+    {
+      "label": "Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Plat.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Location-Map.pdf"
+    },
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Aerial-Map.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/01/14-web-or-mls-13-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/33-web-or-mls-32-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/44-web-or-mls-43-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/1-web-or-mls-Outline-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/37-web-or-mls-36-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/35-web-or-mls-34-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/34-web-or-mls-33-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2026/01/2-web-or-mls-1-845x684.jpg"
+  ]
+}

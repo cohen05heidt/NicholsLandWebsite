@@ -1,0 +1,57 @@
+{
+  "title": "Lower Wire Bridge Rd Tract",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 85,
+  "price": 553000,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite",
+    "Investment"
+  ],
+  "listed": "2025-12-19",
+  "lat": 33.94,
+  "lng": -83.1,
+  "coordsApprox": true,
+  "summary": "85± acres with a year-round creek, mature planted pines and 580 feet of road frontage — close to Athens and Watkinsville.",
+  "bullets": [
+    "85± acres with approximately 580 feet of road frontage on Lower Wire Bridge Road",
+    "Year-round creek and mature planted pines",
+    "Excellent for a homesite, recreational retreat, or long-term investment",
+    "Power and internet available, making it easy to build",
+    "Close to Athens and Watkinsville — rural living with quick access to town",
+    "Priced at $553,000"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Aerial Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadAerial.pdf"
+    },
+    {
+      "label": "Topo Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadTopo.pdf"
+    },
+    {
+      "label": "Location Map",
+      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadLocation.pdf"
+    },
+    {
+      "label": "Plat",
+      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWirebridgePlat.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/10/46-web-or-mls-46-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/17-web-or-mls-17-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/13-web-or-mls-13-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/1-web-or-mls-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/59-web-or-mls-59-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/50-web-or-mls-50-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/10/56-web-or-mls-56-1-845x684.jpg"
+  ]
+}

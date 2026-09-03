@@ -1,0 +1,41 @@
+{
+  "title": "Wilson Lane Tract",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 67.63,
+  "price": null,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Recreational",
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2025-12-19",
+  "lat": 33.83,
+  "lng": -83.27,
+  "coordsApprox": true,
+  "summary": "67.63 acres of gently rolling pine and hardwood less than 20 minutes from Watkinsville and Athens.",
+  "bullets": [
+    "Less than 20 minutes from Watkinsville and Athens",
+    "Natural mix of pine and hardwood",
+    "Gently rolling terrain",
+    "Private home, weekend retreat, or recreational property"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Plat (Book 2022, Page 12)",
+      "url": "https://nicholsland.net/wp-content/uploads/2025/11/Book-2022-Page-12-1-2.pdf"
+    }
+  ],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/11/20-web-or-mls-20-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/43-web-or-mls-43-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/1-web-or-mls-Outline-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/7-web-or-mls-7-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/32-web-or-mls-32-1-845x684.jpg",
+    "https://nicholsland.net/wp-content/uploads/2025/11/38-web-or-mls-38-845x684.jpg"
+  ]
+}

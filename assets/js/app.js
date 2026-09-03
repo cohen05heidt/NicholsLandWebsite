@@ -8,7 +8,6 @@ const NLI = (() => {
 
   const state = {
     properties: [],
-    team: [],
     saved: new Set()
   };
 
@@ -40,16 +39,6 @@ const NLI = (() => {
     }
     return state.properties;
   }
-
-  async function getTeam() {
-    if (!state.team.length) {
-      const data = await loadJSON(ROOT + 'data/team.json');
-      state.team = data.company;
-    }
-    return state.team;
-  }
-
-  const agentById = (id) => state.team.find(a => a.id === id) || null;
 
   /* --- chrome: nav, header, reveal ---------------------------------------- */
 
@@ -387,7 +376,7 @@ const NLI = (() => {
   /* --- home page ---------------------------------------------------------- */
 
   async function initHome() {
-    const [props] = await Promise.all([getProperties(), getTeam()]);
+    const props = await getProperties();
 
     // Featured carousel
     const featured = props.filter(p => p.featured && p.status !== 'Sold');
@@ -408,14 +397,8 @@ const NLI = (() => {
     const grid = $('[data-newest]');
     if (grid) { grid.innerHTML = newest.map(propertyCard).join(''); bindCardActions(grid); }
 
-    // Category tiles counts
-    $$('[data-type-count]').forEach(el => {
-      const t = el.dataset.typeCount;
-      el.textContent = `${props.filter(p => p.types.includes(t) && p.status !== 'Sold').length} Properties`;
-    });
-
-    // Full team (the single page carries the whole roster now)
-    renderTeam();
+    // The land map that replaced the category tiles.
+    initLandMap(props);
 
   }
 
@@ -483,42 +466,141 @@ const NLI = (() => {
     sync();
   }
 
-  /* --- team --------------------------------------------------------------- */
+  /* --- home land map -------------------------------------------------------
+     Sits where the five category tiles used to be. The legend is not
+     decoration: each chip is a real toggle, so the colour key and the filter
+     are the same control and a reader can never be looking at a colour they
+     have no name for. A tract carries more than one type, so it shows while
+     ANY of its types is on, and takes the colour of the first one that is.
+     -------------------------------------------------------------------------- */
 
-  function renderTeam() {
-    const host = $('[data-team-full]');
-    if (!host) return;
+  const LAND_TYPES = [
+    { key: 'Timber',       label: 'Timberland',   color: '#22362A' },
+    { key: 'Recreational', label: 'Recreational', color: '#9C4526' },
+    { key: 'Homesite',     label: 'Homesites',    color: '#B98A3C' },
+    { key: 'Investment',   label: 'Investment',   color: '#3E5C6B' }
+  ];
 
-    const groups = {};
-    state.team.forEach(a => { (groups[a.group] ||= []).push(a); });
+  function initLandMap(props) {
+    const canvas = $('[data-land-map]');
+    const legend = $('[data-map-legend]');
+    if (!canvas || !legend) return;
 
-    host.innerHTML = Object.entries(groups).map(([group, members], i) => `
-      <div style="margin-top:${i ? '52px' : '0'}">
-        <p class="eyebrow">${esc(group)}</p>
-        <div class="team-grid">${members.map(teamBio).join('')}</div>
-      </div>`).join('');
-    bindCardActions(host);
-  }
+    const listings = props.filter(p => p.status !== 'Sold' && p.lat != null && p.lng != null);
 
-  function teamBio(a) {
-    return `
-      <article class="tcard reveal">
-        <div class="tcard__photo"><img src="${esc(a.photo)}" alt="${esc(a.name)}" loading="lazy"></div>
-        <h3>${esc(a.name)}</h3>
-        <p class="tcard__role">${esc(a.title)}${a.credential ? ' · ' + esc(a.credential) : ''}</p>
-        <p class="tcard__bio">${esc(a.bio)}</p>
-        <p class="tcard__contact">
-          <a class="tcard__email" href="mailto:${esc(a.email)}">${esc(a.email)}</a><br>
-          <a class="tcard__email" href="tel:${esc(a.phone.replace(/[^0-9]/g, ''))}">${esc(a.phone)}</a>
-        </p>
-      </article>`;
+    // No mapping library (blocked, offline, CDN down) — say so and offer the
+    // listings page rather than leaving a grey rectangle on the front page.
+    if (!window.L || !listings.length) {
+      const section = canvas.closest('section');
+      if (section) {
+        section.querySelector('.landmap').innerHTML =
+          `<div class="empty-state" style="padding:56px 24px">
+             <p class="h3" style="margin-bottom:8px">The map couldn't load.</p>
+             <p><a class="link-arrow" href="properties.html">Browse the listings instead →</a></p>
+           </div>`;
+      }
+      return;
+    }
+
+    const active = new Set(LAND_TYPES.map(t => t.key));
+    // A tract is usually two or three types at once, so the pin takes the
+    // colour of its own first-listed type — the primary one. Filter down to a
+    // single type and every visible pin recolours to that type, so the legend
+    // and the map always agree about what a colour means.
+    const colorFor = (p) => {
+      const on = p.types.filter(t => active.has(t));
+      const key = (on.length ? on : p.types)[0];
+      return (LAND_TYPES.find(t => t.key === key) || LAND_TYPES[0]).color;
+    };
+
+    const pin = (color) => L.divIcon({
+      className: '',
+      html: `<span style="display:block;width:22px;height:22px;border-radius:50%;
+             background:${color};border:2px solid #F2F4EF;
+             box-shadow:0 2px 8px rgba(22,26,21,.4)"></span>`,
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    });
+
+    let map;
+    try {
+      map = L.map(canvas, { scrollWheelZoom: false, zoomControl: true })
+             .setView([33.75, -83.1], 8);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors', maxZoom: 18
+      }).addTo(map);
+    } catch (err) {
+      console.error('[NLI] land map failed to build', err);
+      return;
+    }
+
+    const markers = listings.map(p => {
+      const m = L.marker([p.lat, p.lng], { icon: pin(colorFor(p)), title: p.title });
+      m.bindPopup(`
+        <div class="map-pop">
+          <img src="${esc(p.images[0])}" alt="${esc(p.title)}">
+          <div class="map-pop__body">
+            <h4>${esc(p.title)}</h4>
+            <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
+            <p style="font-weight:600;color:#1F3527">${esc(p.priceLabel)}</p>
+            <a class="btn btn--primary btn--sm" href="properties.html#${encodeURIComponent(p.id)}">View Details</a>
+          </div>
+        </div>`);
+      return { p, m };
+    });
+
+    legend.innerHTML = LAND_TYPES.map(t => `
+      <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
+        <span class="legend-chip__dot" style="background:${t.color}"></span>
+        <span class="legend-chip__label">${t.label}</span>
+        <span class="legend-chip__count">${listings.filter(p => p.types.includes(t.key)).length}</span>
+      </button>`).join('') +
+      `<span class="legend-note" data-legend-note></span>`;
+
+    const note = $('[data-legend-note]', legend);
+
+    function draw() {
+      const shown = [];
+      markers.forEach(({ p, m }) => {
+        const on = p.types.some(t => active.has(t));
+        if (on) { m.setIcon(pin(colorFor(p))); m.addTo(map); shown.push(p); }
+        else { map.removeLayer(m); }
+      });
+      if (shown.length) {
+        map.fitBounds(shown.map(p => [p.lat, p.lng]), { padding: [45, 45], maxZoom: 11 });
+      }
+      note.textContent = shown.length === listings.length
+        ? `${listings.length} tracts`
+        : `${shown.length} of ${listings.length} tracts`;
+    }
+
+    $$('[data-legend-type]', legend).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.legendType;
+        // Never let the reader switch every type off and stare at an empty
+        // map — the last one standing turns the rest back on instead.
+        if (active.has(key) && active.size === 1) {
+          LAND_TYPES.forEach(t => active.add(t.key));
+        } else if (active.has(key)) {
+          active.delete(key);
+        } else {
+          active.add(key);
+        }
+        $$('[data-legend-type]', legend).forEach(b =>
+          b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
+        draw();
+      });
+    });
+
+    draw();
+    // The section can be laid out before the tiles have anywhere to sit.
+    setTimeout(() => map.invalidateSize(), 120);
   }
 
   /* --- properties listing page -------------------------------------------- */
 
   async function initProperties() {
     const props = await getProperties();
-    await getTeam();
 
     // The filter controls are gone for now — every active listing shows,
     // newest first. The lookups stay optional-chained so the controls can be
@@ -831,26 +913,6 @@ const NLI = (() => {
     ).join('');
     initLightbox(p.images);
 
-    // Agent card
-    const a = agentById(p.agent) || state.team[0];
-    if (a) {
-      $('[data-agent]').innerHTML = `
-        <div class="agent-card__top">
-          <img class="agent-card__photo" src="${esc(a.photo)}" alt="${esc(a.name)}">
-          <div>
-            <h4>${esc(a.name)}</h4>
-            <div class="role">${esc(a.title)}</div>
-          </div>
-        </div>
-        <dl>
-          <div><dt>Office</dt><dd><a href="tel:7063533900">706-353-3900</a></dd></div>
-          <div><dt>Direct</dt><dd><a href="tel:${esc(a.phone.replace(/[^0-9]/g, ''))}">${esc(a.phone)}</a></dd></div>
-          <div><dt>Email</dt><dd><a href="mailto:${esc(a.email)}">${esc(a.email)}</a></dd></div>
-        </dl>
-        <a class="btn btn--primary btn--block" href="index.html?property=${encodeURIComponent(p.title)}#contact">Request Information</a>
-        <a class="btn btn--ghost btn--block" style="margin-top:10px" href="tel:7063533900">Call the Office</a>`;
-    }
-
     // Similar properties — these link by hash, so they swap the panel in place.
     const similar = state.properties
       .filter(x => x.id !== p.id && x.status !== 'Sold' && x.types.some(t => p.types.includes(t)))
@@ -1007,7 +1069,7 @@ const NLI = (() => {
     if (run) {
       run().catch(err => {
         console.error('[NLI]', err);
-        const host = $('[data-results], [data-featured], [data-map-list], [data-team-full]');
+        const host = $('[data-results], [data-featured], [data-map-list], [data-land-map]');
         if (host) {
           host.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
             <p class="h3">Content could not load.</p>
@@ -1028,5 +1090,5 @@ const NLI = (() => {
     init();
   }
 
-  return { state, getProperties, getTeam };
+  return { state, getProperties };
 })();

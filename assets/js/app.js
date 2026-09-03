@@ -389,19 +389,6 @@ const NLI = (() => {
   async function initHome() {
     const [props] = await Promise.all([getProperties(), getTeam()]);
 
-    // Hero stats
-    const active = props.filter(p => p.status !== 'Sold');
-    const totalAcres = active.reduce((s, p) => s + p.acres, 0);
-    const counties = new Set(active.map(p => p.county));
-    setText('[data-stat="acres"]', Math.round(totalAcres).toLocaleString('en-US'));
-    setText('[data-stat="listings"]', active.length);
-    setText('[data-stat="counties"]', counties.size);
-
-    // Search bar options
-    populateSelect('[data-opt="county"]', [...counties].sort(), 'All Counties');
-    const types = new Set(); props.forEach(p => p.types.forEach(t => types.add(t)));
-    populateSelect('[data-opt="type"]', [...types].sort(), 'All Land Types');
-
     // Featured carousel
     const featured = props.filter(p => p.featured && p.status !== 'Sold');
     const track = $('[data-featured]');
@@ -430,27 +417,9 @@ const NLI = (() => {
     // Full team (the single page carries the whole roster now)
     renderTeam();
 
-    // Hero search submit -> properties page with query
-    const form = $('[data-search-form]');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const params = new URLSearchParams();
-        const fd = new FormData(form);
-        for (const [k, v] of fd.entries()) { if (v) params.set(k, v); }
-        window.location.href = `properties.html?${params.toString()}`;
-      });
-    }
   }
 
   const setText = (sel, val) => { const el = $(sel); if (el) el.textContent = val; };
-
-  function populateSelect(sel, values, allLabel) {
-    const el = $(sel);
-    if (!el) return;
-    el.innerHTML = `<option value="">${esc(allLabel)}</option>` +
-      values.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join('');
-  }
 
   function initCarousel(root) {
     if (!root) return;
@@ -536,11 +505,9 @@ const NLI = (() => {
       <article class="tcard reveal">
         <div class="tcard__photo"><img src="${esc(a.photo)}" alt="${esc(a.name)}" loading="lazy"></div>
         <h3>${esc(a.name)}</h3>
-        <p>${esc(a.title)}${a.credential ? ' · ' + esc(a.credential) : ''}</p>
-        <p style="margin-top:12px;text-transform:none;letter-spacing:0;color:#4A5044;font-size:.88rem;line-height:1.6">
-          ${esc(a.bio)}
-        </p>
-        <p style="margin-top:12px;text-transform:none;letter-spacing:0">
+        <p class="tcard__role">${esc(a.title)}${a.credential ? ' · ' + esc(a.credential) : ''}</p>
+        <p class="tcard__bio">${esc(a.bio)}</p>
+        <p class="tcard__contact">
           <a class="tcard__email" href="mailto:${esc(a.email)}">${esc(a.email)}</a><br>
           <a class="tcard__email" href="tel:${esc(a.phone.replace(/[^0-9]/g, ''))}">${esc(a.phone)}</a>
         </p>
@@ -553,7 +520,9 @@ const NLI = (() => {
     const props = await getProperties();
     await getTeam();
 
-    const q = new URLSearchParams(window.location.search);
+    // The filter controls are gone for now — every active listing shows,
+    // newest first. The lookups stay optional-chained so the controls can be
+    // dropped back in later without touching this function.
     const els = {
       type:   $('[name="type"]'),
       county: $('[name="county"]'),
@@ -564,16 +533,6 @@ const NLI = (() => {
       grid:   $('[data-results]'),
       count:  $('[data-count]')
     };
-
-    const counties = [...new Set(props.map(p => p.county))].sort();
-    const types = [...new Set(props.flatMap(p => p.types))].sort();
-    populateSelect('[name="county"]', counties, 'All Counties');
-    populateSelect('[name="type"]', types, 'All Land Types');
-
-    // Seed from URL
-    ['type', 'county', 'min', 'max', 'acres', 'sort'].forEach(k => {
-      if (q.get(k) && els[k]) els[k].value = q.get(k);
-    });
 
     function apply() {
       let out = props.filter(p => p.status !== 'Sold');
@@ -598,12 +557,12 @@ const NLI = (() => {
                      'acres-asc':  (a, b) => a.acres - b.acres };
       out.sort(rank[sort] || rank.newest);
 
-      els.count.innerHTML = `<b>${out.length}</b> ${out.length === 1 ? 'property' : 'properties'}`;
+      if (els.count) els.count.innerHTML = `<b>${out.length}</b> ${out.length === 1 ? 'property' : 'properties'}`;
       els.grid.innerHTML = out.length
         ? out.map(propertyCard).join('')
         : `<div class="empty-state" style="grid-column:1/-1">
-             <p class="h3" style="margin-bottom:8px">No properties match those filters.</p>
-             <p>Try widening your price or acreage range, or <a class="link-arrow" href="index.html#contact">tell us what you're looking for</a>.</p>
+             <p class="h3" style="margin-bottom:8px">No properties listed right now.</p>
+             <p>New tracts come up regularly — <a class="link-arrow" href="index.html#contact">tell us what you're looking for</a> and we'll be in touch.</p>
            </div>`;
       bindCardActions(els.grid);
 
@@ -658,6 +617,9 @@ const NLI = (() => {
     if (!window.L) {
       $$('[data-view]').forEach(b => b.remove());
       $('.viewtoggle')?.remove();
+      // The toggle is the only thing left in the bar now that the filter and
+      // sort controls are gone — an empty rule above the grid is just noise.
+      $('.results-bar')?.remove();
     }
 
     function syncMap(list) {
@@ -693,7 +655,7 @@ const NLI = (() => {
               <div class="price">${esc(p.priceLabel)}</div>
             </div>
           </button>`).join('')
-        : `<p class="muted" style="padding:20px">No properties match those filters.</p>`;
+        : `<p class="muted" style="padding:20px">No properties to show.</p>`;
 
       $$('[data-map-card]', listEl).forEach(card => {
         const id = card.dataset.mapCard;
@@ -743,7 +705,7 @@ const NLI = (() => {
     });
 
     apply();
-    setView(q.get('view') === 'map' ? 'map' : 'grid', false);
+    setView(new URLSearchParams(window.location.search).get('view') === 'map' ? 'map' : 'grid', false);
 
     /* --- detail overlay, driven by the URL hash --------------------------- */
 

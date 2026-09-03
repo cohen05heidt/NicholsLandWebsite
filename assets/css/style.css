@@ -28,10 +28,11 @@
 
   /* Display: American deed and legal-notice heritage, used sparingly.
      Body: squarish grotesque — map labels and county forms, not Inter.
-     Data: every recorded fact is typed, the way a deed or cruise report is. */
+     Detail: a letterspaced Garamond in the spirit of the engraved wordmark —
+     labels, nav, buttons, phone numbers and recorded figures. */
   --display: "Libre Caslon Display", "Iowan Old Style", Georgia, serif;
   --sans:    "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --mono:    "Cormorant Garamond", "Libre Caslon Text", Georgia, "Times New Roman", serif;
 
   /* Legacy aliases so existing rules keep resolving. */
   --forest: var(--pine);
@@ -87,9 +88,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
    labels are. Prose stays in the grotesque; only headlines get Caslon.
    -------------------------------------------------------------------------- */
 .eyebrow {
-  font-family: var(--mono);
-  font-size: .68rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.83rem;
+  font-weight: 600;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -119,8 +120,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 
 /* Recorded facts — acreage, price, county, IDs. Always typed. */
 .rec {
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
+  font-family: var(--mono); font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: -.01em;
 }
 
@@ -140,8 +141,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .tblock > div { padding: 12px 16px; border-right: 1px solid var(--rule); min-width: 0; }
 .tblock > div:last-child { border-right: 0; }
 .tblock dt {
-  font-family: var(--mono);
-  font-size: .6rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
+  font-size: 0.73rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -150,10 +151,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .tblock dd {
   margin: 0;
   font-family: var(--mono);
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--ink);
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -172,9 +173,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
   padding: 14px 26px;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  font-family: var(--mono);
-  font-size: .72rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.88rem;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
   cursor: pointer;
@@ -202,9 +203,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--mono);
-  font-size: .72rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.88rem;
+  font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--ink);
@@ -243,9 +244,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
    working if the palette changes.
    Proper fix when the client can supply it: a transparent PNG or SVG. */
 .brand-mark {
-  height: 40px;
+  height: 46px;
   width: auto;
-  mix-blend-mode: multiply;
   background: transparent;
 }
 .brand-fallback {
@@ -256,8 +256,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .brand-fallback small {
   display: block;
-  font-family: var(--mono);
-  font-size: .56rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
+  font-size: 0.68rem;
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -266,9 +266,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav a {
-  font-family: var(--mono);
-  font-size: .72rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.88rem;
+  font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--ink);
@@ -317,10 +317,11 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .header-actions { display: flex; align-items: center; gap: 18px; flex: none; }
 .header-phone {
   font-family: var(--mono);
-  font-size: .78rem;
-  font-weight: 500;
-  letter-spacing: .02em;
+  font-size: 1.06rem;
+  font-weight: 600;
+  letter-spacing: .07em;
   color: var(--ink);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 .header-phone:hover { color: var(--clay); }
 
@@ -436,8 +437,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  font-family: var(--mono);
-  font-size: .58rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
+  font-size: 0.71rem;
   letter-spacing: .2em;
   text-transform: uppercase;
   color: rgba(227, 231, 224, .55);
@@ -459,64 +460,6 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .hero__title { font-size: clamp(2.7rem, 6.4vw, 5.4rem); max-width: 15ch; letter-spacing: -.015em; }
 .hero__title em { font-style: italic; color: var(--clay-lift); }
 .hero__sub { max-width: 46ch; color: rgba(227, 231, 224, .84); font-size: 1.04rem; margin-top: 22px; }
-
-/* --- search bar ----------------------------------------------------------- */
-.searchbar {
-  position: relative;
-  z-index: 20;
-  background: var(--white);
-  box-shadow: var(--shadow-md);
-  margin-top: -46px;
-  border-top: 2px solid var(--clay);
-}
-.searchbar__inner {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) auto;
-  align-items: stretch;
-}
-.searchbar__field {
-  padding: 18px 22px;
-  border-right: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.searchbar__field label {
-  font-family: var(--mono);
-  font-size: .6rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--graphite);
-  font-weight: 500;
-}
-.searchbar__field select,
-.searchbar__field input {
-  border: 0;
-  background: transparent;
-  padding: 2px 0;
-  font-size: .95rem;
-  color: var(--ink);
-  outline: none;
-  width: 100%;
-  cursor: pointer;
-}
-.searchbar__field select:focus-visible,
-.searchbar__field input:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-.searchbar__submit {
-  border: 0;
-  background: var(--pine);
-  color: var(--paper);
-  padding: 0 44px;
-  font-family: var(--mono);
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background .25s var(--ease);
-}
-.searchbar__submit:hover { background: var(--ink); }
 
 /* --- sections ------------------------------------------------------------- */
 .section { padding: 92px 0; }
@@ -561,9 +504,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 
 .pcard__tags { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 2; }
 .tag {
-  font-family: var(--mono);
-  font-size: .58rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.71rem;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
   padding: 5px 10px;
@@ -583,18 +526,18 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   background: var(--pine);
   color: var(--paper);
   font-family: var(--mono);
-  font-size: .95rem;
-  font-weight: 500;
+  font-size: 1.04rem;
+  font-weight: 600;
   letter-spacing: -.01em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
   padding: 8px 16px;
   z-index: 2;
 }
 .pcard__body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
 .pcard__title { font-size: 1.35rem; margin-bottom: 5px; line-height: 1.12; }
 .pcard__loc {
-  font-family: var(--mono);
-  font-size: .72rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500;
+  font-size: 0.88rem;
   letter-spacing: .04em;
   color: var(--graphite);
   margin-bottom: 18px;
@@ -608,8 +551,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   border-top: 1px solid var(--rule);
 }
 .pcard__meta span {
-  font-family: var(--mono);
-  font-size: .7rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600;
+  font-size: 0.85rem;
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -622,7 +565,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   font-weight: 500;
   font-size: 1.02rem;
   letter-spacing: -.01em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .pcard__save {
@@ -702,7 +645,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .tile:hover img { transform: scale(1.07); }
 .tile:hover::after { background: linear-gradient(180deg, rgba(31,53,39,.35) 0%, rgba(22,37,27,.9) 100%); }
 .tile b { display: block; font-family: var(--display); font-size: 1.55rem; font-weight: 400; }
-.tile span { font-family: var(--mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--clay-lift); }
+.tile span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.81rem; letter-spacing: .14em; text-transform: uppercase; color: var(--clay-lift); }
 
 /* --- team ----------------------------------------------------------------- */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 30px; }
@@ -718,7 +661,11 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .tcard:hover .tcard__photo { filter: grayscale(0%); }
 .tcard__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .tcard h3 { font-size: 1.15rem; }
-.tcard p { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); margin: 6px 0 0; }
+.tcard__role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.85rem; letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); margin: 6px 0 0; }
+/* Bio and contact lines stay in the body face — a long paragraph set in the
+   letterspaced detail serif reads as a caption, not as text. */
+.tcard__bio { margin-top: 12px; color: #4A5044; font-size: .92rem; line-height: 1.65; }
+.tcard__contact { margin-top: 12px; font-size: .9rem; }
 .tcard a.tcard__email { font-size: .82rem; color: var(--forest); border-bottom: 1px solid var(--line); }
 .tcard a.tcard__email:hover { border-color: var(--gold); }
 
@@ -742,11 +689,11 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .field { display: flex; flex-direction: column; gap: 7px; }
 .field--full { grid-column: 1 / -1; }
 .field label {
-  font-family: var(--mono);
-  font-size: .64rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.78rem;
   letter-spacing: .14em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--graphite);
 }
 .field input, .field select, .field textarea {
@@ -767,7 +714,17 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .field .err { font-size: .74rem; color: #9A3B2E; display: none; }
 .field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-color: #9A3B2E; }
 .field.is-invalid .err { display: block; }
-.check { display: flex; gap: 10px; align-items: flex-start; font-size: .85rem; color: #4A5044; }
+/* The consent line is a sentence, not a field label — it opts out of the
+   letterspaced caps that .field label applies to everything else. */
+.check, .field label.check {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-family: var(--sans);
+  font-size: .85rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #4A5044;
+}
 .check input { width: auto; margin-top: 3px; }
 .form-note { font-size: .8rem; color: #6C7266; }
 .form-success {
@@ -784,33 +741,20 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 /* --- listings page -------------------------------------------------------- */
 .page-head { background: var(--forest-deep); color: var(--bone); padding: 74px 0 58px; }
 .page-head .lede { color: rgba(247,244,236,.74); }
-.breadcrumb { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(227,231,224,.55); margin-bottom: 16px; }
+.breadcrumb { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.83rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(227,231,224,.55); margin-bottom: 16px; }
 .breadcrumb a:hover { color: var(--gold-soft); }
-
-.filters {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 20px 22px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 18px;
-  align-items: end;
-  margin-bottom: 28px;
-}
-.filters .field label { font-size: .62rem; }
-.filters select, .filters input { padding: 10px 12px; font-size: .9rem; }
 
 .results-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 18px;
   flex-wrap: wrap;
   margin-bottom: 26px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
 }
-.results-count { font-family: var(--mono); font-size: .8rem; color: var(--graphite); }
+.results-count { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.98rem; color: var(--graphite); }
 .results-count b { color: var(--ink); font-weight: 500; }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .chip {
@@ -847,8 +791,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .fact { padding: 20px 22px; border-right: 1px solid var(--line); }
 .fact:last-child { border-right: 0; }
-.fact span { display: block; font-family: var(--mono); font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--graphite); margin-bottom: 5px; }
-.fact b { font-family: var(--mono); font-size: 1.1rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fact span { display: block; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.73rem; letter-spacing: .15em; text-transform: uppercase; color: var(--graphite); margin-bottom: 5px; }
+.fact b { font-family: var(--mono); font-size: 1.21rem; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
 
 .bullet-list li {
   position: relative;
@@ -879,7 +823,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   transition: background .2s var(--ease), padding-left .2s var(--ease);
 }
 .doclist a:hover { background: var(--sand); padding-left: 24px; }
-.doclist a span { font-family: var(--mono); font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
+.doclist a span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
 .gallery button { border: 0; padding: 0; background: var(--sand); cursor: pointer; aspect-ratio: 4/3; overflow: hidden; }
@@ -890,11 +834,11 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .agent-card__top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
 .agent-card__photo { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; object-position: center top; flex: none; background: var(--sand); }
 .agent-card h4 { font-family: var(--display); font-size: 1.2rem; font-weight: 400; margin: 0; }
-.agent-card .role { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
+.agent-card .role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; font-size: 0.81rem; letter-spacing: .12em; text-transform: uppercase; color: var(--graphite); }
 .agent-card dl { margin: 0 0 20px; display: grid; gap: 9px; font-size: .88rem; }
 .agent-card dl div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dotted var(--line); padding-bottom: 8px; }
-.agent-card dt { font-family: var(--mono); color: var(--graphite); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
-.agent-card dd { margin: 0; text-align: right; word-break: break-word; font-family: var(--mono); font-size: .82rem; }
+.agent-card dt { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 600; color: var(--graphite); font-size: 0.88rem; letter-spacing: .06em; text-transform: uppercase; }
+.agent-card dd { margin: 0; text-align: right; word-break: break-word; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 1.0rem; }
 
 /* --- lightbox ------------------------------------------------------------- */
 .lightbox {
@@ -936,9 +880,9 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   border: 0;
   background: transparent;
   padding: 9px 16px;
-  font-family: var(--mono);
-  font-size: .68rem;
-  font-weight: 500;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.83rem;
+  font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -978,8 +922,8 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .mcard:hover, .mcard.is-active { border-color: var(--gold); box-shadow: var(--shadow-sm); }
 .mcard img { width: 96px; height: 72px; object-fit: cover; background: var(--sand); }
 .mcard h4 { font-size: 1.05rem; font-family: var(--display); font-weight: 400; margin: 0 0 3px; }
-.mcard p { font-family: var(--mono); font-size: .7rem; color: var(--graphite); margin: 0; }
-.mcard .price { font-family: var(--mono); font-size: .8rem; font-weight: 500; color: var(--clay); margin-top: 4px; }
+.mcard p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.85rem; color: var(--graphite); margin: 0; }
+.mcard .price { font-family: var(--mono); font-variant-numeric: lining-nums; font-size: 0.98rem; font-weight: 600; color: var(--clay); margin-top: 4px; }
 
 /* --- Leaflet guards -------------------------------------------------------
    The global `img { max-width:100% }` rule and stacking contexts elsewhere in
@@ -1002,7 +946,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .map-pop img { width: 100%; height: 120px; object-fit: cover; }
 .map-pop__body { padding: 12px 14px 14px; }
 .map-pop h4 { font-family: var(--display); font-size: 1.05rem; font-weight: 400; margin: 0 0 4px; }
-.map-pop p { font-family: var(--mono); font-size: .72rem; color: var(--graphite); margin: 0 0 8px; }
+.map-pop p { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 500; font-size: 0.88rem; color: var(--graphite); margin: 0 0 8px; }
 .map-note { font-size: .72rem; color: #6C7266; padding: 10px 24px; background: var(--sand); }
 
 /* --- property detail overlay ---------------------------------------------
@@ -1115,13 +1059,13 @@ body.has-overlay { overflow: hidden; }
 .site-footer { background: var(--ink); color: rgba(247,244,236,.7); padding: 72px 0 32px; font-size: .9rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 44px; }
 .site-footer h4 {
-  font-family: var(--mono);
-  font-size: .64rem;
+  font-family: var(--mono); font-variant-numeric: lining-nums;
+  font-size: 0.78rem;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--clay-lift);
   margin-bottom: 18px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .site-footer a:hover { color: var(--gold-soft); }
 .site-footer li { margin-bottom: 9px; }
@@ -1165,9 +1109,6 @@ body.has-overlay { overflow: hidden; }
 }
 
 @media (max-width: 900px) {
-  .searchbar__inner { grid-template-columns: 1fr 1fr; }
-  .searchbar__field { border-bottom: 1px solid var(--line); }
-  .searchbar__submit { grid-column: 1 / -1; padding: 18px; }
   .hero { min-height: 78vh; min-height: 78dvh; }
 
   /* Form first, then the two office cards beneath it. Below this width the
@@ -1211,14 +1152,15 @@ body.has-overlay { overflow: hidden; }
   /* The copy now occupies the foot of the frame, which is where the cue used
      to sit. Keeping both would stack two things in the same place. */
   .hero__cue { display: none; }
-
-  /* Desktop pulls the search bar up over the hero by 46px. That overlap would
-     now crop the headline block, so the two sit flush instead. */
-  .searchbar { margin-top: 0; }
 }
 
 @media (max-width: 820px) {
   .wrap, .wrap-narrow { width: calc(100% - 36px); }
+  /* The wordmark is wide; at phone widths it has to give room to the phone
+     number and the menu button beside it. */
+  .brand-mark { height: 34px; }
+  .header-phone { font-size: .95rem; letter-spacing: .04em; }
+  .hero .eyebrow { font-size: .74rem; letter-spacing: .12em; }
   .nav {
     position: fixed;
     inset: 82px 0 auto;
@@ -1306,8 +1248,6 @@ html, body { overflow-x: clip; max-width: 100%; }
    anywhere it matters. */
 @media (max-width: 900px) {
   .field input, .field select, .field textarea,
-  .filters select, .filters input,
-  .searchbar__field select, .searchbar__field input,
   #p-sort { font-size: 16px; }
 }
 
@@ -1350,7 +1290,6 @@ html, body { overflow-x: clip; max-width: 100%; }
 }
 
 @media (max-width: 560px) {
-  .searchbar__inner { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .grid-cards { grid-template-columns: 1fr; }
 }

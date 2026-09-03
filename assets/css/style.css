@@ -35,6 +35,14 @@
   --sans:    "Libre Baskerville", Georgia, "Times New Roman", serif;
   --mono:    "Libre Baskerville", Georgia, "Times New Roman", serif;
 
+  /* Figures are the exception. Libre Baskerville's bold numerals are
+     ambiguous at small sizes — its 3 closes up and reads as an 8, which is
+     fatal in a phone number. Every recorded number on the site is set in
+     IBM Plex Mono instead: open apertures, unmistakable digits, fixed width
+     so columns of acreage and price align. It also happens to be exactly
+     the face a drafted plat's title block would carry. */
+  --figure:  "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
   /* Legacy aliases so existing rules keep resolving. */
   --forest: var(--pine);
   --forest-deep: var(--pine-deep);
@@ -317,14 +325,15 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 
 .header-actions { display: flex; align-items: center; gap: 18px; flex: none; }
 .header-phone {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: .04em;
+  font-family: var(--figure);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: .01em;
   color: var(--ink);
   font-variant-numeric: lining-nums tabular-nums;
 }
 .header-phone:hover { color: var(--clay); }
+
 
 .nav-toggle {
   display: none;
@@ -622,53 +631,79 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .carousel__btn:disabled { opacity: .3; cursor: default; }
 .carousel__btn:disabled:hover { background: transparent; border-color: var(--line); color: var(--forest); }
 
-/* --- category tiles ------------------------------------------------------- */
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 2px; }
-.tile {
-  position: relative;
-  min-height: 300px;
-  display: flex;
-  align-items: flex-end;
-  padding: 26px;
-  overflow: hidden;
-  color: var(--bone);
-  isolation: isolate;
-}
-.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .8s var(--ease); }
-.tile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(22,37,27,.15) 0%, rgba(22,37,27,.85) 100%);
-  transition: background .4s var(--ease);
-}
-.tile:hover img { transform: scale(1.07); }
-.tile:hover::after { background: linear-gradient(180deg, rgba(31,53,39,.35) 0%, rgba(22,37,27,.9) 100%); }
-.tile b { display: block; font-family: var(--display); font-size: 1.3rem; font-weight: 700; }
-.tile span { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--clay-lift); }
+/* --- home land map --------------------------------------------------------
+   Replaced the category tiles. The legend is the filter, so it is styled as a
+   row of real buttons rather than a passive key: pressed chips read solid,
+   unpressed ones drop to an outline so the off state is obvious at a glance
+   and not carried by colour alone.
+   -------------------------------------------------------------------------- */
+.landmap { border: 1px solid var(--rule); background: var(--sheet); }
 
-/* --- team ----------------------------------------------------------------- */
-.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 30px; }
-.tcard { text-align: left; }
-.tcard__photo {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: var(--sand);
-  margin-bottom: 16px;
-  filter: grayscale(100%) contrast(1.03);
-  transition: filter .5s var(--ease);
+.landmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
 }
-.tcard:hover .tcard__photo { filter: grayscale(0%); }
-.tcard__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.tcard h3 { font-size: 1.15rem; }
-.tcard__role { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--graphite); margin: 6px 0 0; }
-/* Bio and contact lines stay in the body face — a long paragraph set in the
-   letterspaced detail serif reads as a caption, not as text. */
-.tcard__bio { margin-top: 12px; color: #4A5044; font-size: .92rem; line-height: 1.65; }
-.tcard__contact { margin-top: 12px; font-size: .9rem; }
-.tcard a.tcard__email { font-size: .82rem; color: var(--forest); border-bottom: 1px solid var(--line); }
-.tcard a.tcard__email:hover { border-color: var(--gold); }
+.landmap__loading {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  transition: all .2s var(--ease);
+}
+.legend-chip:hover { border-color: var(--ink); color: var(--ink); }
+.legend-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.legend-chip__dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+  box-shadow: 0 0 0 1px rgba(242,244,239,.7);
+}
+/* An unpressed chip keeps its swatch but hollows it out, so the key still
+   works when a type is filtered off. */
+.legend-chip[aria-pressed="false"] .legend-chip__dot { opacity: .35; }
+.legend-chip__count {
+  font-size: 0.6rem;
+  opacity: .75;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.legend-note {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.landmap__canvas { height: 460px; width: 100%; }
+.landmap__note { padding: 12px 16px; margin: 0; border-top: 1px solid var(--rule); }
 
 /* --- values / numbered list ----------------------------------------------- */
 .values { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; background: rgba(227,231,224,.16); }
@@ -939,7 +974,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   max-height: none !important;
 }
 .leaflet-pane { z-index: auto; }
-#map, #detail-map { min-height: 260px; }
+#map, #detail-map, .landmap__canvas { min-height: 260px; }
 
 .leaflet-popup-content-wrapper { border-radius: var(--radius); }
 .leaflet-popup-content { margin: 0; width: 220px !important; }
@@ -1160,7 +1195,7 @@ body.has-overlay { overflow: hidden; }
   /* The wordmark is wide; at phone widths it has to give room to the phone
      number and the menu button beside it. */
   .brand-mark { height: 34px; }
-  .header-phone { font-size: .95rem; letter-spacing: .04em; }
+  .header-phone { font-size: .88rem; letter-spacing: .01em; }
   .hero .eyebrow { font-size: .74rem; letter-spacing: .12em; }
   .nav {
     position: fixed;
@@ -1183,7 +1218,9 @@ body.has-overlay { overflow: hidden; }
 
   /* The phone number is the conversion for this business — it stays visible
      at every width. Only the wordy CTA collapses into the menu. */
-  .header-phone { font-size: .72rem; letter-spacing: 0; }
+  .header-phone { font-size: .82rem; letter-spacing: 0; }
+  .landmap__canvas { height: 340px; }
+  .legend-note { margin-left: 0; width: 100%; }
   .header-actions > .btn { display: none; }
   .header-actions { gap: 12px; }
 
@@ -1314,3 +1351,43 @@ html, body { overflow-x: clip; max-width: 100%; }
 @media (prefers-reduced-data: reduce) {
   .hero__media video { display: none; }
 }
+
+
+/* --- figures --------------------------------------------------------------
+   Libre Baskerville's bold numerals close up at small sizes — its 3 reads as
+   an 8, which is fatal in a phone number. Anything carrying a recorded number
+   (a phone line, an acreage, a price, a county count) is typed in the figure
+   face instead. Set by selector rather than by redefining --mono, so the
+   uppercase micro-labels that share that variable keep their current setting.
+
+   This block lives at the end of the sheet on purpose: several of these
+   selectors are also matched by earlier rules that set font-family to
+   --mono, and at equal specificity the later declaration is the one that
+   wins. Do not move it up.
+   -------------------------------------------------------------------------- */
+a[href^="tel:"],
+.header-phone,
+.rec,
+.tblock dd,
+.legend-chip__count,
+.legend-note,
+.fact:nth-child(-n+3) b,
+.pcard__price,
+.pcard__meta span:first-child b,
+.mcard p,
+.mcard .price,
+.map-pop p,
+.results-count,
+.agent-card dd {
+  font-family: var(--figure);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Mono runs optically small beside Baskerville, so a number sitting inside a
+   sentence gets a nudge back up to match the prose around it. */
+p a[href^="tel:"],
+dd a[href^="tel:"],
+li a[href^="tel:"] { font-size: 1.02em; letter-spacing: .01em; }
+
+/* The button label is already uppercase and letterspaced; mono needs less. */
+.btn[href^="tel:"] { letter-spacing: .05em; }

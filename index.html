@@ -7,7 +7,7 @@
 <meta name="description" content="Since 1976, Nichols Land &amp; Investment Co. has helped buyers and sellers across Georgia with farms, timberland, recreational land and commercial real estate. Based in Athens, serving Oglethorpe, Elbert, Walton, Putnam and surrounding counties.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
@@ -16,6 +16,7 @@
 <!-- Warm up the video host and start the hero clip before the parser reaches it.
      No crossorigin on either hint: the <video> fetch is not CORS, and mixing
      the two would open a second connection and download the clip twice. -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
 <link rel="preload" as="video" type="video/mp4" fetchpriority="high"
       href="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260812_155029_06527fa9-b1cb-4900-91ff-30b452ee8dd6.mp4">
@@ -34,7 +35,6 @@
       <a href="properties.html">Properties</a>
       <a href="#about">About</a>
       <a href="#services">Services</a>
-      <a href="#team">Our Team</a>
       <a href="#contact">Contact</a>
       <div class="nav__cta">
         <a class="btn btn--primary" href="#contact">List Your Land</a>
@@ -114,29 +114,31 @@
     </div>
   </section>
 
-  <!-- ================= LAND TYPES ================= -->
-  <section class="section--tight">
-    <div class="tiles">
-      <a class="tile" href="properties.html">
-        <img src="https://nicholsland.net/wp-content/uploads/2026/06/13-print-14-845x684.jpg" alt="Georgia timberland" loading="lazy">
-        <div><span data-type-count="Timber">—</span><b>Timberland</b></div>
-      </a>
-      <a class="tile" href="properties.html">
-        <img src="https://nicholsland.net/wp-content/uploads/2026/04/30-web-or-mls-30-845x684.jpg" alt="Recreational hunting land" loading="lazy">
-        <div><span data-type-count="Recreational">—</span><b>Recreational</b></div>
-      </a>
-      <a class="tile" href="properties.html">
-        <img src="https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-4-845x684.jpg" alt="Rural homesite acreage" loading="lazy">
-        <div><span data-type-count="Homesite">—</span><b>Homesites</b></div>
-      </a>
-      <a class="tile" href="properties.html">
-        <img src="https://nicholsland.net/wp-content/uploads/2026/01/44-web-or-mls-43-845x684.jpg" alt="Investment timber tract" loading="lazy">
-        <div><span data-type-count="Investment">—</span><b>Investment</b></div>
-      </a>
-      <a class="tile" href="#services">
-        <img src="https://nicholsland.net/wp-content/uploads/2020/08/PressPlace-2020_07_s-1-300x200.jpg" alt="Commercial property" loading="lazy">
-        <div><span>Sales &amp; Leasing</span><b>Commercial</b></div>
-      </a>
+  <!-- ================= MAP ================= -->
+  <!-- Replaces the old land-type tile grid. The tiles were five links to the
+       same listings page; the map answers the question people actually open
+       this site with, which is *where*. Pins are coloured by land type and the
+       legend above doubles as the filter, so a reader can tell one colour from
+       another without clicking anything. -->
+  <section class="section--tight" id="land-map">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:20px">
+        <div>
+          <p class="eyebrow">Where the land is</p>
+          <h2 class="h1">Every tract on the map</h2>
+        </div>
+        <p class="lede" style="max-width:42ch">Pins are coloured by each tract's primary land type. Tap the legend to show or hide a type, and click a pin for acreage, price and a link through to the listing.</p>
+      </div>
+
+      <div class="landmap">
+        <div class="landmap__legend" data-map-legend role="group" aria-label="Show or hide land types on the map">
+          <p class="landmap__loading">Loading the map…</p>
+        </div>
+        <div class="landmap__canvas" id="land-map-canvas" data-land-map></div>
+        <p class="form-note landmap__note">
+          Pins are approximate. <a href="properties.html" style="border-bottom:1px solid var(--clay)">Browse all listings →</a>
+        </p>
+      </div>
     </div>
   </section>
 
@@ -226,7 +228,7 @@
         </article>
         <article class="pcard reveal" style="padding:32px 30px;background:var(--forest-deep);color:var(--bone);border-color:transparent">
           <h3 class="h3" style="margin-bottom:12px">Timberland Management</h3>
-          <p style="font-size:.94rem;color:rgba(227,231,224,.78)">Southeastern Agri-Business Management can design a custom plan whether you own a small family property or a thousand-acre tract.</p>
+          <p style="font-size:.94rem;color:rgba(227,231,224,.78)">Our resident foresters can design a custom plan whether you own a small family property or a thousand-acre tract.</p>
           <a class="link-arrow" href="#timberland" style="color:var(--gold-soft);border-color:var(--gold-soft)">Learn more →</a>
         </article>
       </div>
@@ -238,10 +240,10 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow eyebrow--light">Southeastern Agri-Business Management, Inc.</p>
+          <p class="eyebrow eyebrow--light">Land Management</p>
           <h2 class="h1" style="max-width:18ch">Timberland &amp; transitional land management</h2>
         </div>
-        <p class="lede" style="max-width:44ch">A subsidiary of Nichols Land &amp; Investment Co. and a full-fledged land management firm, managing property in Georgia for more than 30 years with resident foresters, forest technicians, agents and accountants.</p>
+        <p class="lede" style="max-width:44ch">A full-fledged land management practice, managing property in Georgia for more than 30 years with resident foresters, forest technicians, agents and accountants.</p>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;margin-top:20px">
@@ -263,25 +265,11 @@
         </div>
         <div>
           <h3 class="h3" style="margin-bottom:18px">Transitional Property Management</h3>
-          <p style="color:rgba(227,231,224,.78)">Land considered to be of a higher and better use than a traditional timberland investment requires a different set of considerations. Southeastern Agri-Business works closely with Nichols Land &amp; Investment to ensure proper planning and management of tracts that will one day be developed or converted — from zoning concerns to erosion management.</p>
+          <p style="color:rgba(227,231,224,.78)">Land considered to be of a higher and better use than a traditional timberland investment requires a different set of considerations. Our management and brokerage teams work side by side to ensure proper planning for tracts that will one day be developed or converted — from zoning concerns to erosion management.</p>
           <p style="color:rgba(227,231,224,.78)">Should a property develop from a timber investment into a commercial investment, the transition from timberland management to sales and commercial leasing is seamless.</p>
           <a class="btn btn--ghost-light" href="#contact" style="margin-top:10px">Discuss a Management Plan</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ================= TEAM ================= -->
-  <section class="section" id="team">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Our Team</p>
-          <h2 class="h1">The people behind the transactions</h2>
-        </div>
-        <p class="lede" style="max-width:40ch">Brokers, a registered forester, appraisers, salespeople and managers — most of them here for a decade or more.</p>
-      </div>
-      <div data-team-full></div>
     </div>
   </section>
 
@@ -393,7 +381,6 @@
         </div>
 
         <aside>
-          <!-- Two entities at one address. Each carries its own phone line. -->
           <div class="agent-card office-card" style="position:static">
             <p class="eyebrow" style="margin-bottom:14px">Athens Office</p>
             <p style="font-family:var(--display);font-size:1.15rem;margin-bottom:12px">Nichols Land &amp; Investment Co.</p>
@@ -404,18 +391,6 @@
             </p>
             <dl style="margin-bottom:0">
               <div><dt>Office</dt><dd><a href="tel:7063533900">706‑353‑3900</a></dd></div>
-              <div><dt>Email</dt><dd><a href="mailto:info@nicholsland.net">info@nicholsland.net</a></dd></div>
-            </dl>
-          </div>
-
-          <div class="agent-card office-card" style="position:static;margin-top:16px">
-            <p class="eyebrow" style="margin-bottom:14px">Timberland Services</p>
-            <p style="font-family:var(--display);font-size:1.15rem;margin-bottom:12px">Southeastern Agri-Business Management, Inc.</p>
-            <p style="margin-bottom:18px">
-              Same building — Suite 1F
-            </p>
-            <dl style="margin-bottom:0">
-              <div><dt>Office</dt><dd><a href="tel:7065497382">706‑549‑7382</a></dd></div>
               <div><dt>Email</dt><dd><a href="mailto:info@nicholsland.net">info@nicholsland.net</a></dd></div>
             </dl>
           </div>
@@ -432,12 +407,11 @@
         <div class="section-head" style="margin-bottom:22px">
           <div>
             <p class="eyebrow">Find Us</p>
-            <h3 class="h2">Both offices, one building</h3>
+            <h3 class="h2">The Athens office</h3>
           </div>
           <p class="muted" style="font-size:.86rem;max-width:38ch;margin:0">
-            Nichols Land &amp; Investment and Southeastern Agri-Business Management
-            share Building 200 on Daniells Bridge Road, off Atlanta Highway in
-            west Athens.
+            Nichols Land &amp; Investment sits in Building 200 on Daniells Bridge
+            Road, off Atlanta Highway in west Athens.
           </p>
         </div>
 
@@ -497,7 +471,6 @@
           <li><a href="#about">About &amp; History</a></li>
           <li><a href="#services">Services</a></li>
           <li><a href="#timberland">Timberland Services</a></li>
-          <li><a href="#team">Our Team</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
@@ -521,11 +494,11 @@
 
     <div class="footer-bottom">
       <span>© <span data-year>2026</span> Nichols Land &amp; Investment Company. All rights reserved.</span>
-      <span>Southeastern Agri-Business Management, Inc. · 706‑549‑7382</span>
     </div>
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

@@ -11,9 +11,12 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
-    "types": ["Recreational", "Timber", "Homesite"],
+    "types": [
+      "Recreational",
+      "Timber",
+      "Homesite"
+    ],
     "listed": "2026-08-10",
-    "agent": "stephen-davison",
     "lat": 33.9505,
     "lng": -83.0512,
     "coordsApprox": true,
@@ -27,10 +30,22 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Aerial-Map.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Location-Map.pdf" },
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Topo-Map.pdf" },
-      { "label": "Tract Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Tract-Plat.pdf" }
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Aerial-Map.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Location-Map.pdf"
+      },
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Topo-Map.pdf"
+      },
+      {
+        "label": "Tract Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Tract-Plat.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/08/25-web-or-mls-25-845x684.jpg",
@@ -41,6 +56,276 @@
       "https://nicholsland.net/wp-content/uploads/2026/08/1-web-or-mls-1-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2026/08/18-web-or-mls-18-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2026/08/34-web-or-mls-34-845x684.jpg"
+    ]
+  },
+  {
+    "id": "brewers-bridge-2",
+    "title": "Brewer's Bridge Tract 2",
+    "acres": 37.75,
+    "acresLabel": "37.75± Acres",
+    "price": 208000,
+    "priceLabel": "$208,000",
+    "status": "For Sale",
+    "featured": false,
+    "county": "Elbert County",
+    "state": "GA",
+    "city": "Elberton",
+    "types": [
+      "Recreational",
+      "Timber"
+    ],
+    "listed": "2026-07-20",
+    "lat": 34.1285,
+    "lng": -82.8945,
+    "coordsApprox": true,
+    "summary": "37.75± acres of recreational land with planted pine, mature hardwoods and creek frontage just minutes from Elberton and Lake Russell.",
+    "bullets": [
+      "37.75± acres of recreational land in Elberton, GA",
+      "Priced at $208,000",
+      "Paved road frontage on Brewer's Bridge Road",
+      "Features approximately 9-year-old planted pines",
+      "Includes mature hardwoods and creek frontage",
+      "Ideal for hunting, recreation, or a private retreat",
+      "Located just minutes from Elberton",
+      "Approximately 40 minutes from Athens and minutes from Lake Russell"
+    ],
+    "directions": "From downtown Elberton, GA, turn left onto GA-72 (College Ave). Continue for 1 mile, then turn right onto Brewer's Bridge Road. Continue on Brewer's Bridge Road for 1 mile, and the property will be on the left.",
+    "docs": [
+      {
+        "label": "Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Plat.pdf"
+      },
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Road-Tract-2-Topo-Map.pdf"
+      },
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Aerial.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Location-Map.pdf"
+      }
+    ],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/07/2-web-or-mls-2-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-4-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/8-web-or-mls-8-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/13-web-or-mls-13-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/15-web-or-mls-15-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/20-web-or-mls-20-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/29-web-or-mls-29-845x684.jpg"
+    ]
+  },
+  {
+    "id": "lower-mill-road",
+    "title": "Lower Mill Road Tract",
+    "acres": 28,
+    "acresLabel": "28± Acres",
+    "price": 180000,
+    "priceLabel": "$180,000",
+    "status": "For Sale",
+    "featured": false,
+    "county": "Taliaferro County",
+    "state": "GA",
+    "city": "Sharon",
+    "types": [
+      "Recreational",
+      "Timber",
+      "Homesite",
+      "Investment"
+    ],
+    "listed": "2026-07-15",
+    "lat": 33.562,
+    "lng": -82.796,
+    "coordsApprox": true,
+    "summary": "28± acres of young planted pine with an internal creek, food-plot clearing and established roads — about an hour from both Athens and Augusta.",
+    "bullets": [
+      "28± acres with recreation, investment, and homestead potential",
+      "Priced at $180,000",
+      "Conveniently located about one hour from Athens and Augusta",
+      "Paved frontage on Lower Mill Road",
+      "Additional frontage on Reynoldsville Road",
+      "5-year-old planted pine",
+      "Internal creek",
+      "Power and high-speed internet available",
+      "Established internal road providing easy access throughout the property",
+      "One-acre clearing ready for a food plot, cabin, or future homesite",
+      "Ideal for a hunting retreat, timber investment, or rural homesite"
+    ],
+    "directions": "From Sharon, GA head East on Raytown Road. At the stop sign continue straight onto Lower Mill Road. The property will be on your right in 0.25 miles.",
+    "docs": [
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Aerial-Map.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Location-Map.pdf"
+      },
+      {
+        "label": "Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Plat.pdf"
+      },
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Topo-Map.pdf"
+      }
+    ],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-5-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/12-web-or-mls-12-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/17-web-or-mls-17-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/26-web-or-mls-26-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-30-845x684.jpg"
+    ]
+  },
+  {
+    "id": "faust-farm-499",
+    "title": "499 Faust Farm Road",
+    "acres": 25,
+    "acresLabel": "25± Acres",
+    "price": 237500,
+    "priceLabel": "$237,500",
+    "status": "For Sale",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Crawford",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2026-07-08",
+    "lat": 33.9011,
+    "lng": -83.164,
+    "coordsApprox": true,
+    "summary": "25± acres of mature pine and hardwood on Faust Farm Road, with established access and multiple potential homesites.",
+    "bullets": [
+      "25± acres located on Faust Farm Road in Crawford, Georgia",
+      "Priced at $237,500",
+      "Mix of mature pine and hardwood timber",
+      "Ideal opportunity for a custom home, private retreat, or recreation",
+      "Established driveway and internal road system",
+      "Multiple potential homesites",
+      "Conveniently located less than 30 minutes from Athens and Watkinsville"
+    ],
+    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
+    "docs": [
+      {
+        "label": "Faust Farm Road Survey",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf"
+      }
+    ],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-Tract-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-3-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/6-web-or-mls-5-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/11-web-or-mls-10-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/19-web-or-mls-18-845x684.jpg"
+    ]
+  },
+  {
+    "id": "faust-farm-543",
+    "title": "543 Faust Farm Road",
+    "acres": 25,
+    "acresLabel": "25± Acres",
+    "price": 237500,
+    "priceLabel": "$237,500",
+    "status": "For Sale",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Crawford",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2026-07-08",
+    "lat": 33.9028,
+    "lng": -83.1612,
+    "coordsApprox": true,
+    "summary": "25± acres of mixed timber with creek frontage and multiple homesites on Faust Farm Road in Crawford.",
+    "bullets": [
+      "25± acres located on Faust Farm Road in Crawford, Georgia",
+      "Offered at $237,500",
+      "Mix of mature pine and hardwood timber throughout the property",
+      "Scenic creek frontage",
+      "Opportunity for a custom home, private retreat, or recreational property",
+      "Established driveway and internal road system",
+      "Multiple potential homesites",
+      "Conveniently located less than 30 minutes from Athens and Watkinsville"
+    ],
+    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
+    "docs": [
+      {
+        "label": "Faust Farm Road Survey",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf"
+      }
+    ],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/07/35-web-or-mls-33-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/56-web-or-mls-53-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/61-web-or-mls-58-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/21-web-or-mls-Tract-3-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-21-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/24-web-or-mls-22-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-28-845x684.jpg"
+    ]
+  },
+  {
+    "id": "faust-farm-557",
+    "title": "557 Faust Farm Road",
+    "acres": 25,
+    "acresLabel": "25± Acres",
+    "price": 237500,
+    "priceLabel": "$237,500",
+    "status": "For Sale",
+    "featured": true,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Crawford",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2026-07-08",
+    "lat": 33.9042,
+    "lng": -83.1585,
+    "coordsApprox": true,
+    "summary": "25± acres of mature pine and hardwood with scenic creek frontage on Faust Farm Road in Crawford — under 30 minutes from Athens.",
+    "bullets": [
+      "25± acres located on Faust Farm Road in Crawford, Georgia",
+      "Offered at $237,500",
+      "Mix of mature pine and hardwood timber throughout the property",
+      "Scenic creek frontage",
+      "Opportunity for a custom home, private retreat, or recreational property",
+      "Established driveway and internal road system",
+      "Multiple potential homesites",
+      "Conveniently located less than 30 minutes from Athens and Watkinsville"
+    ],
+    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
+    "docs": [
+      {
+        "label": "Faust Farm Road Survey",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf"
+      }
+    ],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/07/54-web-or-mls-Tract-4-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/68-web-or-mls-65-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/75-web-or-mls-72-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/79-web-or-mls-76-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/82-web-or-mls-79-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/42-web-or-mls-40-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/07/45-web-or-mls-43-845x684.jpg"
     ]
   },
   {
@@ -55,9 +340,10 @@
     "county": "Walton County",
     "state": "GA",
     "city": "Monroe",
-    "types": ["Homesite"],
+    "types": [
+      "Homesite"
+    ],
     "listed": "2026-07-08",
-    "agent": "stephen-davison",
     "lat": 33.792,
     "lng": -83.706,
     "coordsApprox": true,
@@ -72,7 +358,10 @@
     ],
     "directions": "From downtown Monroe, head out on E Church Street and continue for approximately 1.5 miles. Then turn onto Poplar Street. When you reach the stop sign, continue left and drive for about 1 mile. The property will be located on your right-hand side.",
     "docs": [
-      { "label": "Poplar Street Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf" }
+      {
+        "label": "Poplar Street Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-2-845x684.jpg",
@@ -94,9 +383,11 @@
     "county": "Walton County",
     "state": "GA",
     "city": "Monroe",
-    "types": ["Homesite", "Recreational"],
+    "types": [
+      "Homesite",
+      "Recreational"
+    ],
     "listed": "2026-07-08",
-    "agent": "stephen-davison",
     "lat": 33.7955,
     "lng": -83.7098,
     "coordsApprox": true,
@@ -112,7 +403,10 @@
     ],
     "directions": "From downtown Monroe, head out on E Church Street and continue for approximately 1.5 miles. Then turn onto Poplar Street. When you reach the stop sign, continue left and drive for about 1 mile. The property will be located on your right-hand side.",
     "docs": [
-      { "label": "Poplar Street Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf" }
+      {
+        "label": "Poplar Street Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/07/Poplar-Street-Plat.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-22-845x684.jpg",
@@ -125,232 +419,10 @@
     ]
   },
   {
-    "id": "faust-farm-557",
-    "title": "557 Faust Farm Road",
-    "acres": 25,
-    "acresLabel": "25± Acres",
-    "price": 237500,
-    "priceLabel": "$237,500",
-    "status": "For Sale",
-    "featured": true,
-    "county": "Oglethorpe County",
-    "state": "GA",
-    "city": "Crawford",
-    "types": ["Timber", "Recreational", "Homesite"],
-    "listed": "2026-07-08",
-    "agent": "stephen-davison",
-    "lat": 33.9042,
-    "lng": -83.1585,
-    "coordsApprox": true,
-    "summary": "25± acres of mature pine and hardwood with scenic creek frontage on Faust Farm Road in Crawford — under 30 minutes from Athens.",
-    "bullets": [
-      "25± acres located on Faust Farm Road in Crawford, Georgia",
-      "Offered at $237,500",
-      "Mix of mature pine and hardwood timber throughout the property",
-      "Scenic creek frontage",
-      "Opportunity for a custom home, private retreat, or recreational property",
-      "Established driveway and internal road system",
-      "Multiple potential homesites",
-      "Conveniently located less than 30 minutes from Athens and Watkinsville"
-    ],
-    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
-    "docs": [
-      { "label": "Faust Farm Road Survey", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/07/54-web-or-mls-Tract-4-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/68-web-or-mls-65-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/75-web-or-mls-72-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/79-web-or-mls-76-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/82-web-or-mls-79-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/42-web-or-mls-40-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/45-web-or-mls-43-845x684.jpg"
-    ]
-  },
-  {
-    "id": "faust-farm-543",
-    "title": "543 Faust Farm Road",
-    "acres": 25,
-    "acresLabel": "25± Acres",
-    "price": 237500,
-    "priceLabel": "$237,500",
-    "status": "For Sale",
-    "featured": false,
-    "county": "Oglethorpe County",
-    "state": "GA",
-    "city": "Crawford",
-    "types": ["Timber", "Recreational", "Homesite"],
-    "listed": "2026-07-08",
-    "agent": "stephen-davison",
-    "lat": 33.9028,
-    "lng": -83.1612,
-    "coordsApprox": true,
-    "summary": "25± acres of mixed timber with creek frontage and multiple homesites on Faust Farm Road in Crawford.",
-    "bullets": [
-      "25± acres located on Faust Farm Road in Crawford, Georgia",
-      "Offered at $237,500",
-      "Mix of mature pine and hardwood timber throughout the property",
-      "Scenic creek frontage",
-      "Opportunity for a custom home, private retreat, or recreational property",
-      "Established driveway and internal road system",
-      "Multiple potential homesites",
-      "Conveniently located less than 30 minutes from Athens and Watkinsville"
-    ],
-    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
-    "docs": [
-      { "label": "Faust Farm Road Survey", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/07/35-web-or-mls-33-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/56-web-or-mls-53-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/61-web-or-mls-58-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/21-web-or-mls-Tract-3-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/23-web-or-mls-21-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/24-web-or-mls-22-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-28-845x684.jpg"
-    ]
-  },
-  {
-    "id": "faust-farm-499",
-    "title": "499 Faust Farm Road",
-    "acres": 25,
-    "acresLabel": "25± Acres",
-    "price": 237500,
-    "priceLabel": "$237,500",
-    "status": "For Sale",
-    "featured": false,
-    "county": "Oglethorpe County",
-    "state": "GA",
-    "city": "Crawford",
-    "types": ["Timber", "Recreational", "Homesite"],
-    "listed": "2026-07-08",
-    "agent": "stephen-davison",
-    "lat": 33.9011,
-    "lng": -83.164,
-    "coordsApprox": true,
-    "summary": "25± acres of mature pine and hardwood on Faust Farm Road, with established access and multiple potential homesites.",
-    "bullets": [
-      "25± acres located on Faust Farm Road in Crawford, Georgia",
-      "Priced at $237,500",
-      "Mix of mature pine and hardwood timber",
-      "Ideal opportunity for a custom home, private retreat, or recreation",
-      "Established driveway and internal road system",
-      "Multiple potential homesites",
-      "Conveniently located less than 30 minutes from Athens and Watkinsville"
-    ],
-    "directions": "From Downtown Athens, GA turn onto US-78E towards Crawford, GA. Continue for 14 miles until you reach Crawford. Then take a right onto Hutchins Road. Continue for 1.25 miles and turn right onto Faust Farm Road. Once on Faust Farm Road continue for 1 mile and the tract will be on your right.",
-    "docs": [
-      { "label": "Faust Farm Road Survey", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Faust-Farm-Road-Survey.pdf" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-Tract-1-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-3-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/6-web-or-mls-5-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/11-web-or-mls-10-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/19-web-or-mls-18-845x684.jpg"
-    ]
-  },
-  {
-    "id": "brewers-bridge",
-    "title": "Brewer's Bridge Tract",
-    "acres": 110,
-    "acresLabel": "110± Acres",
-    "price": 506000,
-    "priceLabel": "$506,000",
-    "status": "For Sale",
-    "featured": true,
-    "county": "Elbert County",
-    "state": "GA",
-    "city": "Elberton",
-    "types": ["Timber", "Recreational", "Investment"],
-    "listed": "2026-04-30",
-    "agent": "stephen-davison",
-    "lat": 34.131,
-    "lng": -82.89,
-    "coordsApprox": true,
-    "summary": "110± acres of planted pine and mature hardwoods with 2,800 feet of creek frontage, minutes from Elberton and near Lake Russell.",
-    "bullets": [
-      "Priced at $506,000",
-      "Approximately 70± acres of 9-year-old planted pines",
-      "40± acres of mature hardwoods",
-      "1,200± feet of paved road frontage on Brewer's Bridge Road",
-      "Approximately 2,800 feet of scenic creek frontage",
-      "Minutes from Elberton, approximately 40 minutes from Athens, and near Lake Russell"
-    ],
-    "directions": "",
-    "docs": [
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Topo-Map.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Location-Map.pdf" },
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Aerial-Map.pdf" },
-      { "label": "Video Tour", "url": "https://southeast-drone.aryeo.com/videos/019dc5ba-8677-7323-ba68-5839eda2d593?v=137" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/04/16-web-or-mls-16-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/38-web-or-mls-38-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/35-web-or-mls-35-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/33-web-or-mls-33-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/30-web-or-mls-30-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/27-web-or-mls-27-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/23-web-or-mls-23-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/14-web-or-mls-14-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/19-web-or-mls-19-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/04/9-web-or-mls-9-845x684.jpg"
-    ]
-  },
-  {
-    "id": "lower-mill-road",
-    "title": "Lower Mill Road Tract",
-    "acres": 28,
-    "acresLabel": "28± Acres",
-    "price": 180000,
-    "priceLabel": "$180,000",
-    "status": "For Sale",
-    "featured": false,
-    "county": "Taliaferro County",
-    "state": "GA",
-    "city": "Sharon",
-    "types": ["Recreational", "Timber", "Homesite", "Investment"],
-    "listed": "2026-07-15",
-    "agent": "stephen-davison",
-    "lat": 33.562,
-    "lng": -82.796,
-    "coordsApprox": true,
-    "summary": "28± acres of young planted pine with an internal creek, food-plot clearing and established roads — about an hour from both Athens and Augusta.",
-    "bullets": [
-      "28± acres with recreation, investment, and homestead potential",
-      "Priced at $180,000",
-      "Conveniently located about one hour from Athens and Augusta",
-      "Paved frontage on Lower Mill Road",
-      "Additional frontage on Reynoldsville Road",
-      "5-year-old planted pine",
-      "Internal creek",
-      "Power and high-speed internet available",
-      "Established internal road providing easy access throughout the property",
-      "One-acre clearing ready for a food plot, cabin, or future homesite",
-      "Ideal for a hunting retreat, timber investment, or rural homesite"
-    ],
-    "directions": "From Sharon, GA head East on Raytown Road. At the stop sign continue straight onto Lower Mill Road. The property will be on your right in 0.25 miles.",
-    "docs": [
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Aerial-Map.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Location-Map.pdf" },
-      { "label": "Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Plat.pdf" },
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Topo-Map.pdf" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/07/1-web-or-mls-1-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/5-web-or-mls-5-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/12-web-or-mls-12-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/17-web-or-mls-17-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/26-web-or-mls-26-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/30-web-or-mls-30-845x684.jpg"
-    ]
-  },
-  {
     "id": "gene-smith-road",
     "title": "Gene Smith Road Tract",
     "acres": 198.66,
-    "acresLabel": "198.66 Acres",
+    "acresLabel": "198.66± Acres",
     "price": 755000,
     "priceLabel": "$755,000",
     "status": "For Sale",
@@ -358,9 +430,12 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
-    "types": ["Timber", "Recreational", "Investment"],
+    "types": [
+      "Timber",
+      "Recreational",
+      "Investment"
+    ],
     "listed": "2026-06-03",
-    "agent": "stephen-davison",
     "lat": 34.01,
     "lng": -83.03,
     "coordsApprox": true,
@@ -379,9 +454,18 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Aerial-Map.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Location-Map.pdf" },
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Topo-Map.pdf" }
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Aerial-Map.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Location-Map.pdf"
+      },
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Topo-Map.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/06/1-print-15-845x684.jpg",
@@ -397,57 +481,72 @@
     ]
   },
   {
-    "id": "brewers-bridge-2",
-    "title": "Brewer's Bridge Tract 2",
-    "acres": 37.75,
-    "acresLabel": "37.75± Acres",
-    "price": 208000,
-    "priceLabel": "$208,000",
+    "id": "brewers-bridge",
+    "title": "Brewer's Bridge Tract",
+    "acres": 110,
+    "acresLabel": "110± Acres",
+    "price": 506000,
+    "priceLabel": "$506,000",
     "status": "For Sale",
-    "featured": false,
+    "featured": true,
     "county": "Elbert County",
     "state": "GA",
     "city": "Elberton",
-    "types": ["Recreational", "Timber"],
-    "listed": "2026-07-20",
-    "agent": "stephen-davison",
-    "lat": 34.1285,
-    "lng": -82.8945,
-    "coordsApprox": true,
-    "summary": "37.75± acres of recreational land with planted pine, mature hardwoods and creek frontage just minutes from Elberton and Lake Russell.",
-    "bullets": [
-      "37.75± acres of recreational land in Elberton, GA",
-      "Priced at $208,000",
-      "Paved road frontage on Brewer's Bridge Road",
-      "Features approximately 9-year-old planted pines",
-      "Includes mature hardwoods and creek frontage",
-      "Ideal for hunting, recreation, or a private retreat",
-      "Located just minutes from Elberton",
-      "Approximately 40 minutes from Athens and minutes from Lake Russell"
+    "types": [
+      "Timber",
+      "Recreational",
+      "Investment"
     ],
-    "directions": "From downtown Elberton, GA, turn left onto GA-72 (College Ave). Continue for 1 mile, then turn right onto Brewer's Bridge Road. Continue on Brewer's Bridge Road for 1 mile, and the property will be on the left.",
+    "listed": "2026-04-30",
+    "lat": 34.131,
+    "lng": -82.89,
+    "coordsApprox": true,
+    "summary": "110± acres of planted pine and mature hardwoods with 2,800 feet of creek frontage, minutes from Elberton and near Lake Russell.",
+    "bullets": [
+      "Priced at $506,000",
+      "Approximately 70± acres of 9-year-old planted pines",
+      "40± acres of mature hardwoods",
+      "1,200± feet of paved road frontage on Brewer's Bridge Road",
+      "Approximately 2,800 feet of scenic creek frontage",
+      "Minutes from Elberton, approximately 40 minutes from Athens, and near Lake Russell"
+    ],
+    "directions": "",
     "docs": [
-      { "label": "Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Plat.pdf" },
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Road-Tract-2-Topo-Map.pdf" },
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Aerial.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/07/Brewers-Bridge-Tract-2-Location-Map.pdf" }
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Topo-Map.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Location-Map.pdf"
+      },
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/04/Brewers-Bridge-Aerial-Map.pdf"
+      },
+      {
+        "label": "Video Tour",
+        "url": "https://southeast-drone.aryeo.com/videos/019dc5ba-8677-7323-ba68-5839eda2d593?v=137"
+      }
     ],
     "images": [
-      "https://nicholsland.net/wp-content/uploads/2026/07/2-web-or-mls-2-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/3-web-or-mls-3-1-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/4-web-or-mls-4-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/8-web-or-mls-8-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/13-web-or-mls-13-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/15-web-or-mls-15-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/20-web-or-mls-20-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2026/07/29-web-or-mls-29-845x684.jpg"
+      "https://nicholsland.net/wp-content/uploads/2026/04/16-web-or-mls-16-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/38-web-or-mls-38-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/35-web-or-mls-35-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/33-web-or-mls-33-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/30-web-or-mls-30-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/27-web-or-mls-27-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/23-web-or-mls-23-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/14-web-or-mls-14-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/19-web-or-mls-19-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2026/04/9-web-or-mls-9-845x684.jpg"
     ]
   },
   {
     "id": "lower-harmony-road",
     "title": "Lower Harmony Road Tract",
     "acres": 304.39,
-    "acresLabel": "304.39 Acres",
+    "acresLabel": "304.39± Acres",
     "price": 2130000,
     "priceLabel": "$2,130,000",
     "status": "For Sale",
@@ -455,9 +554,12 @@
     "county": "Putnam County",
     "state": "GA",
     "city": "Eatonton",
-    "types": ["Timber", "Investment", "Recreational"],
+    "types": [
+      "Timber",
+      "Investment",
+      "Recreational"
+    ],
     "listed": "2026-01-26",
-    "agent": "stephen-davison",
     "lat": 33.42,
     "lng": -83.34,
     "coordsApprox": true,
@@ -474,10 +576,22 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Topo-Map.pdf" },
-      { "label": "Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Plat.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Location-Map.pdf" },
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Aerial-Map.pdf" }
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Topo-Map.pdf"
+      },
+      {
+        "label": "Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Plat.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Location-Map.pdf"
+      },
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Lower-Harmony-Road-Aerial-Map.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/01/14-web-or-mls-13-845x684.jpg",
@@ -494,7 +608,7 @@
     "id": "hwy-77",
     "title": "Hwy 77 Tract",
     "acres": 10,
-    "acresLabel": "10 Acres",
+    "acresLabel": "10± Acres",
     "price": 125000,
     "priceLabel": "$125,000",
     "status": "Under Contract",
@@ -502,9 +616,11 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
-    "types": ["Homesite", "Recreational"],
+    "types": [
+      "Homesite",
+      "Recreational"
+    ],
     "listed": "2026-01-15",
-    "agent": "stephen-davison",
     "lat": 33.86,
     "lng": -83.07,
     "coordsApprox": true,
@@ -521,50 +637,18 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Plat", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Plat.pdf" },
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Aerial-Map.pdf" }
+      {
+        "label": "Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Plat.pdf"
+      },
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2026/01/Hwy-77-Aerial-Map.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2026/01/18-web-or-mls-18.jpg",
       "https://nicholsland.net/wp-content/uploads/2025/11/43-web-or-mls-43-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/11/7-web-or-mls-7-1-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/11/32-web-or-mls-32-1-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/11/38-web-or-mls-38-845x684.jpg"
-    ]
-  },
-  {
-    "id": "wilson-lane",
-    "title": "Wilson Lane Tract",
-    "acres": 67.63,
-    "acresLabel": "67.63 Acres",
-    "price": null,
-    "priceLabel": "Call for Price",
-    "status": "For Sale",
-    "featured": false,
-    "county": "Oglethorpe County",
-    "state": "GA",
-    "city": "Crawford",
-    "types": ["Recreational", "Timber", "Homesite"],
-    "listed": "2025-12-19",
-    "agent": "stephen-davison",
-    "lat": 33.83,
-    "lng": -83.27,
-    "coordsApprox": true,
-    "summary": "67.63 acres of gently rolling pine and hardwood less than 20 minutes from Watkinsville and Athens.",
-    "bullets": [
-      "Less than 20 minutes from Watkinsville and Athens",
-      "Natural mix of pine and hardwood",
-      "Gently rolling terrain",
-      "Private home, weekend retreat, or recreational property"
-    ],
-    "directions": "",
-    "docs": [
-      { "label": "Plat (Book 2022, Page 12)", "url": "https://nicholsland.net/wp-content/uploads/2025/11/Book-2022-Page-12-1-2.pdf" }
-    ],
-    "images": [
-      "https://nicholsland.net/wp-content/uploads/2025/11/20-web-or-mls-20-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/11/43-web-or-mls-43-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/11/1-web-or-mls-Outline-1-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2025/11/7-web-or-mls-7-1-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2025/11/32-web-or-mls-32-1-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2025/11/38-web-or-mls-38-845x684.jpg"
@@ -582,9 +666,13 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
-    "types": ["Timber", "Recreational", "Homesite", "Investment"],
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite",
+      "Investment"
+    ],
     "listed": "2025-12-19",
-    "agent": "stephen-davison",
     "lat": 33.94,
     "lng": -83.1,
     "coordsApprox": true,
@@ -599,10 +687,22 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Aerial Map", "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadAerial.pdf" },
-      { "label": "Topo Map", "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadTopo.pdf" },
-      { "label": "Location Map", "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadLocation.pdf" },
-      { "label": "Plat", "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWirebridgePlat.pdf" }
+      {
+        "label": "Aerial Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadAerial.pdf"
+      },
+      {
+        "label": "Topo Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadTopo.pdf"
+      },
+      {
+        "label": "Location Map",
+        "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadLocation.pdf"
+      },
+      {
+        "label": "Plat",
+        "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWirebridgePlat.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2025/10/46-web-or-mls-46-1-845x684.jpg",
@@ -615,49 +715,54 @@
     ]
   },
   {
-    "id": "lumber-city",
-    "title": "Lumber City Tract",
-    "acres": 377,
-    "acresLabel": "377 Acres",
+    "id": "wilson-lane",
+    "title": "Wilson Lane Tract",
+    "acres": 67.63,
+    "acresLabel": "67.63± Acres",
     "price": null,
     "priceLabel": "Call for Price",
     "status": "For Sale",
-    "featured": true,
-    "county": "Wheeler County",
+    "featured": false,
+    "county": "Oglethorpe County",
     "state": "GA",
-    "city": "Lumber City",
-    "types": ["Timber", "Recreational", "Investment"],
-    "listed": "2025-07-14",
-    "agent": "garrett-williams",
-    "lat": 31.93,
-    "lng": -82.68,
+    "city": "Crawford",
+    "types": [
+      "Recreational",
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2025-12-19",
+    "lat": 33.83,
+    "lng": -83.27,
     "coordsApprox": true,
-    "summary": "377 acres of recreational timberland with paved Highway 19 frontage and diverse cover types, divisible into two tracts.",
+    "summary": "67.63 acres of gently rolling pine and hardwood less than 20 minutes from Watkinsville and Athens.",
     "bullets": [
-      "377 acres",
-      "Recreational timberland with paved Highway 19 frontage",
-      "Diverse cover types offering great wildlife habitat",
-      "Close proximity to Lumber City and Dublin, Georgia",
-      "The property can be divided into two smaller tracts"
+      "Less than 20 minutes from Watkinsville and Athens",
+      "Natural mix of pine and hardwood",
+      "Gently rolling terrain",
+      "Private home, weekend retreat, or recreational property"
     ],
     "directions": "",
-    "docs": [],
+    "docs": [
+      {
+        "label": "Plat (Book 2022, Page 12)",
+        "url": "https://nicholsland.net/wp-content/uploads/2025/11/Book-2022-Page-12-1-2.pdf"
+      }
+    ],
     "images": [
-      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026026-845x684.jpeg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026061-845x684.jpeg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026064-845x684.jpeg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026162-845x684.jpeg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026181-845x684.jpeg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8652-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8651-845x684.jpg",
-      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8653-845x684.jpg"
+      "https://nicholsland.net/wp-content/uploads/2025/11/20-web-or-mls-20-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/11/43-web-or-mls-43-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/11/1-web-or-mls-Outline-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/11/7-web-or-mls-7-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/11/32-web-or-mls-32-1-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/11/38-web-or-mls-38-845x684.jpg"
     ]
   },
   {
     "id": "bridges-road-1",
     "title": "Bridges Rd Tract 1",
     "acres": 60,
-    "acresLabel": "60 Acres",
+    "acresLabel": "60± Acres",
     "price": 353000,
     "priceLabel": "$353,000",
     "status": "For Sale",
@@ -665,9 +770,11 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
-    "types": ["Recreational", "Timber"],
+    "types": [
+      "Recreational",
+      "Timber"
+    ],
     "listed": "2025-10-20",
-    "agent": "stephen-davison",
     "lat": 33.77,
     "lng": -82.98,
     "coordsApprox": true,
@@ -696,10 +803,52 @@
     ]
   },
   {
+    "id": "lumber-city",
+    "title": "Lumber City Tract",
+    "acres": 377,
+    "acresLabel": "377± Acres",
+    "price": null,
+    "priceLabel": "Call for Price",
+    "status": "For Sale",
+    "featured": true,
+    "county": "Wheeler County",
+    "state": "GA",
+    "city": "Lumber City",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Investment"
+    ],
+    "listed": "2025-07-14",
+    "lat": 31.93,
+    "lng": -82.68,
+    "coordsApprox": true,
+    "summary": "377 acres of recreational timberland with paved Highway 19 frontage and diverse cover types, divisible into two tracts.",
+    "bullets": [
+      "377 acres",
+      "Recreational timberland with paved Highway 19 frontage",
+      "Diverse cover types offering great wildlife habitat",
+      "Close proximity to Lumber City and Dublin, Georgia",
+      "The property can be divided into two smaller tracts"
+    ],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026026-845x684.jpeg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026061-845x684.jpeg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026064-845x684.jpeg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026162-845x684.jpeg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/1-5240026181-845x684.jpeg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8652-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8651-845x684.jpg",
+      "https://nicholsland.net/wp-content/uploads/2025/07/IMG_8653-845x684.jpg"
+    ]
+  },
+  {
     "id": "golf-course-road",
     "title": "Golf Course Road Tract",
     "acres": 12.9,
-    "acresLabel": "12.9 Acres",
+    "acresLabel": "12.9± Acres",
     "price": 100000,
     "priceLabel": "$100,000",
     "status": "For Sale",
@@ -707,9 +856,11 @@
     "county": "Elbert County",
     "state": "GA",
     "city": "Elberton",
-    "types": ["Homesite", "Recreational"],
+    "types": [
+      "Homesite",
+      "Recreational"
+    ],
     "listed": "2025-05-20",
-    "agent": "stephen-davison",
     "lat": 34.1,
     "lng": -82.86,
     "coordsApprox": true,
@@ -725,7 +876,10 @@
     ],
     "directions": "",
     "docs": [
-      { "label": "Tract Flyer", "url": "https://nicholsland.net/wp-content/uploads/2022/04/Golf-Course-Road-Tract-Flyer.pdf" }
+      {
+        "label": "Tract Flyer",
+        "url": "https://nicholsland.net/wp-content/uploads/2022/04/Golf-Course-Road-Tract-Flyer.pdf"
+      }
     ],
     "images": [
       "https://nicholsland.net/wp-content/uploads/2022/04/GC-7-845x684.jpg",

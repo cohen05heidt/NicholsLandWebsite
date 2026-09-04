@@ -70,9 +70,19 @@ The result: Claude can write a change and publish it without anyone clicking
 anything. Its record of each run is `Claude outputs\auto-deploy-log.txt`.
 
 Setting up on another computer is `enable-auto-deploy.bat`, once. It has to be
-re-run per machine because the task stores an absolute path, and the drive
-letter changes. `disable-auto-deploy.bat` turns it off; the website and its
-history are untouched either way.
+re-run per machine because the path is baked in when it registers, and the
+drive letter changes.
+
+**Unplugging the drive needs no ceremony.** The task does not point at the
+drive. It points at a small launcher written into `%LOCALAPPDATA%` on whichever
+computer you set it up on, and that launcher checks the project folder is
+actually present before doing anything. Pull the drive and it finds nothing and
+exits without a sound; plug it back in and it resumes on the next minute. There
+is nothing to switch off and nothing to remember.
+
+`disable-auto-deploy.bat` is for retiring the automation for good, not for
+unplugging. It deletes the task and its launcher; the website and its history
+are untouched either way.
 
 ### Three things that are handled for you
 

@@ -213,28 +213,41 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .btn--block { width: 100%; }
 
 /* The one button on the page that has to carry a whole grid's worth of
-   attention. Everything else here is deliberately quiet, so this earns its
-   weight through size and a little air rather than a louder colour: roughly
-   double the padding of a standard .btn, a wider tracking, and a lift on
-   hover that the flat cards above it never do. */
-.btn--lg {
-  padding: 22px 46px;
-  font-size: .78rem;
-  letter-spacing: .12em;
-  box-shadow: 0 2px 0 0 var(--clay);
+   attention. The grid above it is eight photographs; a button that only
+   nudges past body-copy size loses to them every time. So this one is sized
+   like a heading rather than a control — roughly 1.5x the type and 2.5x the
+   padding of a standard .btn — and takes clay, which the rest of this
+   section deliberately never uses. The 3px clay-to-pine edge under it reads
+   as a physical key rather than a shadow, and lifts on hover. */
+.btn--xl {
+  padding: 30px 72px;
+  font-size: 1rem;
+  letter-spacing: .14em;
+  box-shadow: 0 3px 0 0 var(--pine);
 }
-.btn--lg:hover { transform: translateY(-2px); box-shadow: 0 4px 0 0 var(--clay); }
-.btn--lg:active { transform: translateY(0); box-shadow: 0 2px 0 0 var(--clay); }
+.btn--xl:hover { transform: translateY(-3px); box-shadow: 0 6px 0 0 var(--pine); }
+.btn--xl:active { transform: translateY(0); box-shadow: 0 3px 0 0 var(--pine); }
 @media (prefers-reduced-motion: reduce) {
-  .btn--lg, .btn--lg:hover, .btn--lg:active { transform: none; }
+  .btn--xl, .btn--xl:hover, .btn--xl:active { transform: none; }
 }
 
 /* Centred under a card grid, with enough space above that it reads as the
    section's closing move and not as a stray item in the last row. */
 .section-cta {
-  margin-top: 52px;
+  margin-top: 64px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+/* A button this size still only says where it goes, not why. One line of
+   plain text above it answers that before anyone has to decide. */
+.section-cta__note {
+  margin: 0;
+  color: var(--graphite);
+  font-size: 1.02rem;
+  text-align: center;
+  max-width: 46ch;
 }
 
 .link-arrow {
@@ -1280,6 +1293,18 @@ body.has-overlay { overflow: hidden; }
 
 @media (max-width: 820px) {
   .wrap, .wrap-narrow { width: calc(100% - 36px); }
+  /* 72px of side padding does not fit a handset, and the label must not
+     shrink — so the button gives up its horizontal padding and spans the
+     column instead, which is a larger tap target than it had on desktop. */
+  .section-cta { margin-top: 44px; gap: 14px; }
+  .section-cta__note { font-size: .95rem; }
+  .btn--xl {
+    width: 100%;
+    padding: 24px 20px;
+    font-size: .85rem;
+    letter-spacing: .1em;
+    white-space: normal;
+  }
   /* The wordmark is wide; at phone widths it has to give room to the phone
      number and the menu button beside it. */
   .brand-mark { height: 34px; }

@@ -395,6 +395,13 @@ const NLI = (() => {
       bindCardActions(track);
     }
 
+    // The button under the grid names how many tracts are waiting on the other
+    // side of it. That number is the reason to press it, so it is read from the
+    // live data rather than typed into the markup — the fallback in the HTML is
+    // only what shows if this script never runs.
+    const allCount = $('[data-all-count]');
+    if (allCount) allCount.textContent = live.length;
+
     // The land map that replaced the category tiles.
     initLandMap(props);
 

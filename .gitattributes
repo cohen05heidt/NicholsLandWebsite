@@ -1,0 +1,31 @@
+# Line endings are decided here, in the repository, rather than by whatever
+# core.autocrlf happens to be set to on the computer you are sitting at.
+#
+# This matters the moment the project lives on more than one machine. Without
+# this file, a second computer with a different Git setting will convert every
+# line of every text file on checkout, and `git status` will report the entire
+# project as modified when nothing was actually edited. That noise then hides
+# the one file you really did change, and a commit made in that state rewrites
+# every file in the repo.
+#
+# text=auto  — Git decides what is text and stores it with LF internally.
+# eol=crlf   — text files are written to disk with Windows line endings.
+* text=auto eol=crlf
+
+# Binary files must never be line-ending converted; doing so corrupts them.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.svg  text eol=crlf
+*.mp4  binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.eot  binary
+*.zip  binary
+*.pdf  binary

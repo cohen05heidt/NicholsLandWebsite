@@ -19,20 +19,27 @@ Verified live after deployment:
 
 ## Pushing changes later
 
-Your local repo has a different commit history from the remote (I built the remote through the browser). To reconnect them, from `D:\NicholsLandWebsite`:
+Double-click **`claude-deploy.bat`** in the project folder. It stages everything,
+commits, pushes, and writes what happened to `Claude outputs\deploy-log.txt`.
+It asks nothing and closes on its own — check the log to confirm it worked.
 
-```bash
-git fetch origin
-git reset --hard origin/main
-```
+`deploy.bat` does the same thing but prompts for a commit message and waits for
+you to confirm. Use whichever you prefer.
 
-After that, normal edits go up with:
+By hand, from the project folder, it is the usual three:
 
 ```bash
 git add -A
 git commit -m "what changed"
 git push
 ```
+
+> An earlier version of this file said to run `git fetch origin` followed by
+> `git reset --hard origin/main`, because the local and remote histories had
+> been built separately and needed reconnecting. **That is done — do not run it
+> now.** `reset --hard` throws away every uncommitted edit in the folder without
+> asking. If the two ever diverge again, `git pull` first and only reach for
+> `reset --hard` once you are certain there is nothing local worth keeping.
 
 Pages redeploys in about a minute. If the terminal asks for a password, GitHub wants a [personal access token](https://github.com/settings/tokens) — account passwords over HTTPS stopped working in 2021.
 

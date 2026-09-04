@@ -6,12 +6,50 @@ A static site (HTML/CSS/vanilla JS) rebuilt from the content on nicholsland.net,
 
 The site loads listings from JSON via `fetch()`, so it **must be served over HTTP** — opening `index.html` straight from the file system will show an error message.
 
+Open a terminal **in the project folder** (right-click an empty spot in it and
+pick "Open in Terminal") and run:
+
 ```bash
-cd D:\NicholsLandWebsite
 python -m http.server 8080
 ```
 
 Then open http://localhost:8080
+
+Nothing in the project depends on where that folder lives, so it works from any
+drive letter or path — the folder can be moved or copied to another computer as
+a unit.
+
+## Moving the project to another computer
+
+Copy the **whole folder**, including the hidden `.git` directory. That single
+folder is the entire project — there is nothing installed elsewhere, no database
+and no absolute paths, so it runs from any drive letter.
+
+Two things are easy to lose, and neither announces itself:
+
+**1. The hidden `.git` folder.** It holds the entire history *and* your GitHub
+deploy token at `.git/deploy-token.txt`. Windows hides it by default, so a
+drag-and-drop copy with hidden files switched off silently leaves it behind —
+you get the website but no history and no ability to push. Turn on
+**View → Show → Hidden items** in Explorer and confirm `.git` came across.
+
+**2. The token itself** is not in the repository and cannot be recovered from
+GitHub. If it is lost, generate a new one at
+<https://github.com/settings/tokens> and save it as `.git/deploy-token.txt`
+with no trailing blank line. Nothing else needs changing — the credential
+helper in `.git/config` finds it relative to the repo.
+
+On the new machine, install [Git for Windows](https://git-scm.com/download/win)
+if it isn't there, then open a terminal in the folder and check:
+
+```bash
+git status          # should say "working tree clean"
+git log --oneline -1
+git fetch           # proves the token still authenticates
+```
+
+Line endings are pinned by `.gitattributes`, so the second machine will not
+report the whole project as modified the first time it opens it.
 
 ## Structure
 

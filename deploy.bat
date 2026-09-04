@@ -27,7 +27,8 @@ rem --- Is this actually a repo? -----------------------------
 git rev-parse --is-inside-work-tree >nul 2>nul
 if errorlevel 1 (
   echo   PROBLEM: this folder is not a git repository.
-  echo   Make sure deploy.bat is sitting in D:\NicholsLandWebsite
+  echo   Make sure deploy.bat is sitting in the project folder, beside
+  echo   index.html and the hidden .git folder.
   echo.
   pause
   exit /b 1

@@ -51,10 +51,28 @@ stranded on the machine you are walking away from.
 
 | When | Do this |
 |---|---|
-| Plug the drive in | Double-click `repo-check.bat`, read the last line |
-| Make edits | Edit files normally |
-| Publish | Double-click `claude-deploy.bat` (or `deploy.bat` to type your own message) |
-| Before unplugging | Double-click `repo-check.bat` again — want *clean* and *nothing unpushed* |
+| Plug the drive into a new PC | Double-click `enable-auto-deploy.bat` once |
+| Change something | Ask Claude — it edits and deploys on its own |
+| Publish by hand instead | Double-click `claude-deploy.bat`, or `deploy.bat` to type a message |
+| Check on things | Double-click `repo-check.bat`, read the last line |
+
+### Automatic deploying
+
+A scheduled task, **NicholsLand Auto Deploy**, runs `auto-deploy.bat` once a
+minute in the background with no visible window. It does nothing at all unless
+it finds a signal file at `Claude outputs\deploy-now.txt`; when it does, it
+claims that file, uses its contents as the commit message, and commits, pulls
+and pushes. That gating is the point — the task can never publish a
+half-finished edit that happens to be sitting in the folder, only work that has
+been explicitly declared ready.
+
+The result: Claude can write a change and publish it without anyone clicking
+anything. Its record of each run is `Claude outputs\auto-deploy-log.txt`.
+
+Setting up on another computer is `enable-auto-deploy.bat`, once. It has to be
+re-run per machine because the task stores an absolute path, and the drive
+letter changes. `disable-auto-deploy.bat` turns it off; the website and its
+history are untouched either way.
 
 ### Three things that are handled for you
 

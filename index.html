@@ -33,8 +33,8 @@
     </a>
     <nav class="nav" id="nav" data-scrollspy>
       <a href="properties.html">Properties</a>
-      <a href="#about">About</a>
       <a href="#services">Services</a>
+      <a href="#commercial">Commercial</a>
       <a href="#contact">Contact</a>
       <div class="nav__cta">
         <a class="btn btn--primary" href="#contact">List Your Land</a>
@@ -78,12 +78,10 @@
         </video>
       </div>
     </div>
-    <a class="hero__cue" href="#about" aria-label="Scroll down"><i></i>Scroll</a>
+    <a class="hero__cue" href="#featured" aria-label="Scroll down"><i></i>Scroll</a>
     <div class="hero__inner">
       <div class="wrap">
-        <p class="eyebrow eyebrow--light">Serving Georgia landowners since 1976</p>
-        <h1 class="hero__title">Land is the <em>long game.</em><br>We've played it for 50 years.</h1>
-        <p class="hero__sub">Farms, timberland, recreational tracts and commercial property across northeast and middle Georgia — represented by foresters, brokers and appraisers who walk every acre.</p>
+        <h1 class="hero__title">Real asset management for private wealth and family offices</h1>
       </div>
     </div>
   </section>
@@ -93,21 +91,10 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Featured Tracts</p>
-          <h2 class="h1">Land worth walking</h2>
-        </div>
-        <div class="carousel__nav">
-          <button class="carousel__btn" type="button" data-car-prev aria-label="Previous">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <button class="carousel__btn" type="button" data-car-next aria-label="Next">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg>
-          </button>
+          <h2 class="h1">Land assets for sale</h2>
         </div>
       </div>
-      <div class="carousel">
-        <div class="carousel__track" data-featured></div>
-      </div>
+      <div class="grid-cards" data-featured></div>
       <div style="margin-top:36px">
         <a class="link-arrow" href="properties.html">View all properties →</a>
       </div>
@@ -122,14 +109,6 @@
        another without clicking anything. -->
   <section class="section--tight" id="land-map">
     <div class="wrap">
-      <div class="section-head" style="margin-bottom:20px">
-        <div>
-          <p class="eyebrow">Where the land is</p>
-          <h2 class="h1">Every tract on the map</h2>
-        </div>
-        <p class="lede" style="max-width:42ch">Pins are coloured by each tract's primary land type. Tap the legend to show or hide a type, and click a pin for acreage, price and a link through to the listing.</p>
-      </div>
-
       <div class="landmap">
         <div class="landmap__legend" data-map-legend role="group" aria-label="Show or hide land types on the map">
           <p class="landmap__loading">Loading the map…</p>
@@ -142,46 +121,53 @@
     </div>
   </section>
 
-  <!-- ================= NEWEST ================= -->
-  <section class="section">
+  <!-- ================= COMMERCIAL ================= -->
+  <!-- Two hand-authored cards rather than a data-driven grid: the commercial
+       book is small and slow-moving, so a listing feed would be more machinery
+       than the content justifies. Edit the markup directly to change them. -->
+  <section class="section" id="commercial">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Recently Listed</p>
-          <h2 class="h1">New to the market</h2>
+          <h2 class="h1">Commercial assets for sale</h2>
         </div>
-        <a class="link-arrow" href="properties.html?view=map">Explore on the map →</a>
       </div>
-      <div class="grid-cards" data-newest></div>
-    </div>
-  </section>
+      <div class="grid-cards grid-cards--pair">
 
-  <!-- ================= VALUES ================= -->
-  <section class="section section--dark">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow eyebrow--light">Why Nichols</p>
-          <h2 class="h1" style="max-width:16ch">Not a listing site.<br>A land company.</h2>
-        </div>
-        <p class="lede" style="max-width:40ch">Founded to serve investors who wanted real guidance on agricultural and timberland holdings. Five decades later that's still the job.</p>
-      </div>
-      <div class="values">
-        <div class="value">
-          <b>01</b>
-          <h3>Foresters, not just agents</h3>
-          <p>A registered forester leads the firm. We can tell you what's standing on a tract, what it's worth, and what it will be worth in ten years.</p>
-        </div>
-        <div class="value">
-          <b>02</b>
-          <h3>Every acre, in person</h3>
-          <p>Aerials, topos, plats and surveys on every listing — because buyers who understand a property make faster, better decisions.</p>
-        </div>
-        <div class="value">
-          <b>03</b>
-          <h3>Start to finish</h3>
-          <p>Acquisition, management, development and disposition. We stay involved long after closing through management and timberland services.</p>
-        </div>
+        <article class="pcard reveal">
+          <div class="pcard__media">
+            <img src="assets/img/comm-745-gaines.jpg" alt="Fully leased office building at 745 Gaines School Road, Athens, Georgia" loading="lazy" decoding="async">
+            <div class="pcard__tags"><span class="tag">For Sale</span></div>
+            <div class="pcard__price">$850,000</div>
+          </div>
+          <div class="pcard__body">
+            <h3 class="pcard__title">Fully Leased Office Building</h3>
+            <p class="pcard__loc">745 Gaines School Road, Athens, GA 30605</p>
+            <div class="pcard__meta">
+              <span>Type<b>Office</b></span>
+              <span>Tenancy<b>Long-Term Credit Tenant</b></span>
+            </div>
+            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
+          </div>
+        </article>
+
+        <article class="pcard reveal">
+          <div class="pcard__media">
+            <img src="assets/img/comm-710-gaines.jpg" alt="Office and retail building at 710 Gaines School Road, Athens, Georgia" loading="lazy" decoding="async">
+            <div class="pcard__tags"><span class="tag">For Sale</span></div>
+            <div class="pcard__price">$350,000</div>
+          </div>
+          <div class="pcard__body">
+            <h3 class="pcard__title">East Side Office/Retail with Great Visibility</h3>
+            <p class="pcard__loc">710 Gaines School Road, Athens, GA 30605</p>
+            <div class="pcard__meta">
+              <span>Type<b>Office / Retail</b></span>
+              <span>Size<b>1,302 SF</b></span>
+            </div>
+            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -189,12 +175,11 @@
   <!-- ================= SERVICES ================= -->
   <section class="section section--sand" id="services">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head section-head--stacked">
         <div>
-          <p class="eyebrow">What We Do</p>
           <h2 class="h1">Experience, expertise &amp; guidance</h2>
+          <p class="lede section-head__sub">Eight service lines cover a property from acquisition through ownership to disposition — for a 10-acre homesite, commercial building or a thousand-acre timber investment.</p>
         </div>
-        <p class="lede" style="max-width:40ch">Eight service lines covering a property from acquisition through ownership to disposition — for a 10-acre homesite or a thousand-acre timber investment.</p>
       </div>
 
       <div class="grid-cards">
@@ -211,8 +196,8 @@
           <p class="muted" style="font-size:.94rem">Overseeing the accounting, administrative and legal concerns associated with every lease in a real estate portfolio.</p>
         </article>
         <article class="pcard reveal" style="padding:32px 30px">
-          <h3 class="h3" style="margin-bottom:12px">Development Services</h3>
-          <p class="muted" style="font-size:.94rem">We began developing commercial property in 1989 and continue to develop retail, office, medical and industrial properties.</p>
+          <h3 class="h3" style="margin-bottom:12px">Forestry Services</h3>
+          <p class="muted" style="font-size:.94rem">All aspects of forestry services from timber inventory to prescribed burning and wildlife management.</p>
         </article>
         <article class="pcard reveal" style="padding:32px 30px">
           <h3 class="h3" style="margin-bottom:12px">Construction Management</h3>
@@ -229,63 +214,8 @@
         <article class="pcard reveal" style="padding:32px 30px;background:var(--forest-deep);color:var(--bone);border-color:transparent">
           <h3 class="h3" style="margin-bottom:12px">Timberland Management</h3>
           <p style="font-size:.94rem;color:rgba(227,231,224,.78)">Our resident foresters can design a custom plan whether you own a small family property or a thousand-acre tract.</p>
-          <a class="link-arrow" href="#timberland" style="color:var(--gold-soft);border-color:var(--gold-soft)">Learn more →</a>
+          <a class="link-arrow" href="#contact" style="color:var(--gold-soft);border-color:var(--gold-soft)">Learn more →</a>
         </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TIMBERLAND ================= -->
-  <section class="section section--dark" id="timberland">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow eyebrow--light">Land Management</p>
-          <h2 class="h1" style="max-width:18ch">Timberland &amp; transitional land management</h2>
-        </div>
-        <p class="lede" style="max-width:44ch">A full-fledged land management practice, managing property in Georgia for more than 30 years with resident foresters, forest technicians, agents and accountants.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;margin-top:20px">
-        <div>
-          <h3 class="h3" style="margin-bottom:18px">Timberland Management</h3>
-          <ul class="bullet-list bullet-list--light">
-            <li>Forest Management Plans</li>
-            <li>Timber Inventory</li>
-            <li>Timber Sales</li>
-            <li>Timberland Valuation</li>
-            <li>Land Appraisals</li>
-            <li>Timber Stand Improvement</li>
-            <li>Regeneration</li>
-            <li>GIS Mapping Services</li>
-            <li>Hunting Lease Management</li>
-            <li>Boundary Maintenance</li>
-            <li>Road Construction &amp; Maintenance</li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="h3" style="margin-bottom:18px">Transitional Property Management</h3>
-          <p style="color:rgba(227,231,224,.78)">Land considered to be of a higher and better use than a traditional timberland investment requires a different set of considerations. Our management and brokerage teams work side by side to ensure proper planning for tracts that will one day be developed or converted — from zoning concerns to erosion management.</p>
-          <p style="color:rgba(227,231,224,.78)">Should a property develop from a timber investment into a commercial investment, the transition from timberland management to sales and commercial leasing is seamless.</p>
-          <a class="btn btn--ghost-light" href="#contact" style="margin-top:10px">Discuss a Management Plan</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= ABOUT ================= -->
-  <section class="section" id="about">
-    <div class="wrap">
-      <div style="max-width:64ch;margin:0 auto;text-align:center">
-        <div>
-          <p class="eyebrow eyebrow--center">Our History</p>
-          <h2 class="h1" style="margin:0 auto 22px;max-width:22ch">Providing expertise and guidance for 50 years</h2>
-          <p class="lede" style="margin-left:auto;margin-right:auto">Nichols Land &amp; Investment Co. has been growing to serve the real estate investment and management goals of our clients since 1976.</p>
-          <p>Founded by Carl Nichols in 1976, the business started by serving local investors who demanded expert advice and guidance with their agricultural and timberland investments.</p>
-          <p>Today, five decades later, we are a full-service real estate company specializing in timberland, rural land, recreational land and all classes of commercial property including office, retail, industrial and special use. Our growth has allowed us to better serve the needs of our local clients as well as those of our large and active base of European clients.</p>
-          <p>Nichols Land &amp; Investment Co. is focused on providing high-quality services for the acquisition, ownership and disposition of your real estate investments, and strives to meet the long-term investment needs of our clients.</p>
-          <a class="link-arrow" href="#contact" style="margin-top:12px">Get in touch →</a>
-        </div>
       </div>
     </div>
   </section>
@@ -294,7 +224,6 @@
   <section class="cta-band">
     <img src="https://nicholsland.net/wp-content/uploads/2026/06/2-print-5-845x684.jpg" alt="" aria-hidden="true" loading="lazy">
     <div class="wrap-narrow">
-      <p class="eyebrow eyebrow--center eyebrow--light">Thinking of selling?</p>
       <h2 class="h1" style="margin-bottom:16px">We'll tell you what your land is really worth.</h2>
       <p class="lede" style="margin:0 auto 30px;text-align:center;color:rgba(227,231,224,.80)">Timber cruise, comparable sales, highest-and-best-use — a proper valuation before you ever list.</p>
       <a class="btn btn--gold" href="#contact">Request a Valuation</a>
@@ -306,7 +235,6 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Connect With Us</p>
           <h2 class="h1">Tell us what you're looking for</h2>
         </div>
         <p class="lede" style="max-width:40ch">Buying, selling or just weighing options on a family tract — send us the details and the right person will get back to you.</p>
@@ -406,13 +334,8 @@
       <div style="margin-top:56px">
         <div class="section-head" style="margin-bottom:22px">
           <div>
-            <p class="eyebrow">Find Us</p>
             <h3 class="h2">The Athens office</h3>
           </div>
-          <p class="muted" style="font-size:.86rem;max-width:38ch;margin:0">
-            Nichols Land &amp; Investment sits in Building 200 on Daniells Bridge
-            Road, off Atlanta Highway in west Athens.
-          </p>
         </div>
 
         <!-- Google Maps embed. A plain iframe on purpose: no API key, no
@@ -468,9 +391,8 @@
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="#about">About &amp; History</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#timberland">Timberland Services</a></li>
+          <li><a href="#commercial">Commercial Listings</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>

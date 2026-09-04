@@ -378,24 +378,22 @@ const NLI = (() => {
   async function initHome() {
     const props = await getProperties();
 
-    // Featured carousel
-    const featured = props.filter(p => p.featured && p.status !== 'Sold');
+    // Featured grid. Eight tracts, all on the page at once — the carousel it
+    // replaced hid five of them behind an arrow most readers never pressed.
+    // Featured listings come first; if fewer than eight are flagged, the
+    // newest unflagged tracts backfill so the grid never renders short.
+    const FEATURED_COUNT = 8;
+    const live = props.filter(p => p.status !== 'Sold');
+    const byNewest = (a, b) => new Date(b.listed) - new Date(a.listed);
+    const flagged = live.filter(p => p.featured).sort(byNewest);
+    const backfill = live.filter(p => !p.featured).sort(byNewest);
+    const featured = [...flagged, ...backfill].slice(0, FEATURED_COUNT);
+
     const track = $('[data-featured]');
     if (track) {
       track.innerHTML = featured.map(propertyCard).join('');
       bindCardActions(track);
-      // The section, not .carousel — the arrows sit up in the section header,
-      // outside the scroller, so scoping to .carousel finds no buttons.
-      initCarousel(track.closest('section'));
     }
-
-    // Newest grid
-    const newest = [...props]
-      .filter(p => p.status !== 'Sold')
-      .sort((a, b) => new Date(b.listed) - new Date(a.listed))
-      .slice(0, 6);
-    const grid = $('[data-newest]');
-    if (grid) { grid.innerHTML = newest.map(propertyCard).join(''); bindCardActions(grid); }
 
     // The land map that replaced the category tiles.
     initLandMap(props);
@@ -403,68 +401,6 @@ const NLI = (() => {
   }
 
   const setText = (sel, val) => { const el = $(sel); if (el) el.textContent = val; };
-
-  function initCarousel(root) {
-    if (!root) return;
-    const track = $('.carousel__track', root);
-    if (!track) return;
-    const prev = $('[data-car-prev]', root);
-    const next = $('[data-car-next]', root);
-
-    // One card plus one gutter. Measured rather than assumed: the track's
-    // column width is a min()/1fr expression that resolves to a different
-    // number at every viewport, so a hardcoded step lands mid-card.
-    const step = () => {
-      const card = track.firstElementChild;
-      if (!card) return track.clientWidth;
-      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      return card.getBoundingClientRect().width + gap;
-    };
-
-    // Dim the arrows at each end. Without this they look broken at the last
-    // card — you click and nothing moves, with no reason given.
-    const sync = () => {
-      const max = track.scrollWidth - track.clientWidth - 1;
-      if (prev) prev.disabled = track.scrollLeft <= 0;
-      if (next) next.disabled = track.scrollLeft >= max;
-    };
-
-    // The glide is animated by hand rather than with scrollBy({behavior:'smooth'}).
-    // The track uses scroll-snap-type: x mandatory, and mandatory snap re-snaps
-    // the scroller on every frame of a native smooth scroll — which drags the
-    // animation straight back to the snap point it started from. The net effect
-    // was arrows that fired their handler and then moved nothing at all.
-    // Suspending snap for the duration and restoring it at the end lets the
-    // scroll run and still land cleanly on a card boundary.
-    let anim = null;
-    const glide = (delta) => {
-      if (anim) cancelAnimationFrame(anim);
-      const from = track.scrollLeft;
-      const limit = track.scrollWidth - track.clientWidth;
-      const to = Math.max(0, Math.min(limit, from + delta));
-      if (to === from) return;
-      const started = performance.now();
-      const DUR = 380;
-      track.style.scrollSnapType = 'none';
-      track.style.scrollBehavior = 'auto';
-      const tick = (now) => {
-        const p = Math.min(1, (now - started) / DUR);
-        track.scrollLeft = from + (to - from) * (1 - Math.pow(1 - p, 3));
-        if (p < 1) { anim = requestAnimationFrame(tick); return; }
-        anim = null;
-        track.style.scrollSnapType = '';
-        track.style.scrollBehavior = '';
-        sync();
-      };
-      anim = requestAnimationFrame(tick);
-    };
-
-    prev && prev.addEventListener('click', () => glide(-step()));
-    next && next.addEventListener('click', () => glide(step()));
-    track.addEventListener('scroll', sync, { passive: true });
-    if (typeof window !== 'undefined') window.addEventListener('resize', sync);
-    sync();
-  }
 
   /* --- home land map -------------------------------------------------------
      Sits where the five category tiles used to be. The legend is not

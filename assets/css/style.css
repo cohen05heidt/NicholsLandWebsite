@@ -488,6 +488,18 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .section-head--center { flex-direction: column; align-items: center; text-align: center; }
 
+/* A heading with its sentence stacked underneath instead of set across the
+   row. The default section-head pushes the lede to the far right; when the
+   sentence is meant to read as a subtitle it has to sit under the words it
+   qualifies. */
+.section-head--stacked { display: block; }
+.section-head__sub { margin: 14px 0 0; max-width: 62ch; }
+
+/* The commercial book is two listings, not a feed. auto-fill would stretch a
+   pair of cards the full width of the wrap on a wide screen; capping the
+   track count keeps them the size of every other card on the page. */
+.grid-cards--pair { grid-template-columns: repeat(auto-fill, minmax(320px, 420px)); }
+
 /* --- property cards ------------------------------------------------------- */
 .grid-cards {
   display: grid;

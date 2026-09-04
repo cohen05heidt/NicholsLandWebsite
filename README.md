@@ -39,17 +39,42 @@ GitHub. If it is lost, generate a new one at
 with no trailing blank line. Nothing else needs changing — the credential
 helper in `.git/config` finds it relative to the repo.
 
-On the new machine, install [Git for Windows](https://git-scm.com/download/win)
-if it isn't there, then open a terminal in the folder and check:
+Install [Git for Windows](https://git-scm.com/download/win) on the new machine
+if it isn't there. Then, **every time you plug the drive into a computer,
+double-click `repo-check.bat` first.** It confirms git can use the folder, that
+the token is present and still works, that nothing is uncommitted or unpushed,
+and that the history is undamaged — then writes the answer to
+`Claude outputs\repo-check.txt`. Run it again before unplugging, so nothing is
+stranded on the machine you are walking away from.
 
-```bash
-git status          # should say "working tree clean"
-git log --oneline -1
-git fetch           # proves the token still authenticates
-```
+### The routine, in one line each
 
-Line endings are pinned by `.gitattributes`, so the second machine will not
+| When | Do this |
+|---|---|
+| Plug the drive in | Double-click `repo-check.bat`, read the last line |
+| Make edits | Edit files normally |
+| Publish | Double-click `claude-deploy.bat` (or `deploy.bat` to type your own message) |
+| Before unplugging | Double-click `repo-check.bat` again — want *clean* and *nothing unpushed* |
+
+### Three things that are handled for you
+
+**Line endings** are pinned by `.gitattributes`, so a second machine won't
 report the whole project as modified the first time it opens it.
+
+**"Dubious ownership."** Git refuses a repository whose folder belongs to a
+different Windows account than the one running it — which is precisely what a
+moved drive looks like. Both scripts detect this and trust the folder for the
+current user, so the error never reaches you.
+
+**GitHub moving on its own.** The Actions workflow rebuilds
+`data/properties.json` whenever a listing changes, and the `/admin` CMS commits
+straight to the remote. Either can leave GitHub ahead of this folder while it
+sits in a drawer. Both scripts now pull before they push, so that resolves
+itself instead of failing with "non-fast-forward".
+
+The one case the scripts won't decide for you is a genuine conflict — the same
+lines edited both here and on GitHub. They stop, keep your commit, send nothing,
+and say so in the log. That is deliberate: guessing there would lose work.
 
 ## Structure
 

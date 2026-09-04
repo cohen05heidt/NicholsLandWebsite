@@ -25,6 +25,7 @@
   --clay-lift:#C0663F;
   --rule:     #C2C9BC;   /* hairline */
   --graphite: #5A6257;   /* secondary text */
+  --sold:     #D42A1E;   /* sold pins and the map's Sold switch */
 
   /* One face throughout: Libre Baskerville, the closest match to the bold
      serif of the wordmark. Bold carries every heading, label, button and
@@ -805,13 +806,15 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .legend-chip--sold {
   margin-left: 6px;
   border-style: dashed;
-  color: var(--graphite);
+  color: var(--sold);
+  border-color: rgba(212, 42, 30, .45);
 }
+.legend-chip--sold:hover { border-color: var(--sold); color: var(--sold); }
 .legend-chip--sold[aria-pressed="true"] {
-  background: var(--graphite);
-  border-color: var(--graphite);
+  background: var(--sold);
+  border-color: var(--sold);
   border-style: solid;
-  color: var(--paper);
+  color: #FFF3F1;
 }
 @media (max-width: 820px) { .legend-chip--sold { margin-left: 0; } }
 .legend-chip__count {

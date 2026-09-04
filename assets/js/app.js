@@ -419,7 +419,10 @@ const NLI = (() => {
 
   const LAND_TYPES = [
     { key: 'Timber',       label: 'Timberland',   color: '#22362A' },
-    { key: 'Recreational', label: 'Recreational', color: '#9C4526' },
+    // Recreational was clay, which is the site's accent and read as a warning
+    // beside the new red. A mid green separates cleanly from Timber's near
+    // black pine by lightness, not hue.
+    { key: 'Recreational', label: 'Recreational', color: '#5E8C3C' },
     { key: 'Homesite',     label: 'Homesites',    color: '#B98A3C' },
     { key: 'Investment',   label: 'Investment',   color: '#3E5C6B' }
   ];
@@ -435,7 +438,9 @@ const NLI = (() => {
     // same map behind their own switch, off by default, so the first thing a
     // buyer sees is still what they can actually buy.
     const soldList = mapped.filter(p => p.status === 'Sold');
-    const SOLD_COLOR = '#8A9187';
+    // Bright red: sold pins have to be legible as a different kind of thing
+    // from every land type at a glance. Kept in step with --sold in style.css.
+    const SOLD_COLOR = '#D42A1E';
 
     // No mapping library (blocked, offline, CDN down) — say so and offer the
     // listings page rather than leaving a grey rectangle on the front page.
@@ -507,7 +512,7 @@ const NLI = (() => {
           <div class="map-pop__body">
             <h4>${esc(p.title)}</h4>
             <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
-            <p style="font-weight:600;color:#5A6257">Sold${p.listed ? ' · ' + p.listed.slice(0, 4) : ''}</p>
+            <p style="font-weight:600;color:#D42A1E">Sold${p.listed ? ' · ' + p.listed.slice(0, 4) : ''}</p>
           </div>
         </div>`);
       return { p, m };

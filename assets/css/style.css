@@ -483,9 +483,6 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
    that stack clear of the scroll cue pinned to the section's floor — without
    it the buttons and the cue land on top of each other. */
 .hero__inner { padding-bottom: 88px; }
-/* .eyebrow is graphite by default, which is meant for a paper ground. Over
-   bright daylight footage it disappears, so in the hero it goes to bone. */
-.hero__inner .eyebrow { color: rgba(227, 231, 224, .92); }
 .hero__actions {
   display: flex;
   flex-wrap: wrap;

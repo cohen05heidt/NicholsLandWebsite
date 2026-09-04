@@ -2,15 +2,19 @@
 rem ===========================================================================
 rem  claude-deploy.bat  --  non-interactive commit + push for Nichols Land
 rem
-rem  Written by Claude. Unlike deploy.bat this asks nothing and pauses never,
-rem  so it can be launched with a single double-click and left alone. Every
-rem  line of output lands in "Claude outputs\deploy-log.txt", which Claude
-rem  reads back to confirm the push actually landed.
+rem  Unlike deploy.bat this asks nothing and pauses never, so it can be
+rem  launched with a single double-click and left alone. Every line of output
+rem  lands in "Claude outputs\deploy-log.txt", which Claude reads back to
+rem  confirm the push actually landed.
 rem
-rem  Commit message comes from "Claude outputs\commit-message.txt" if present,
-rem  otherwise "Site update".
+rem  The commit message is read from "Claude outputs\commit-message.txt" and
+rem  handed to git with -F rather than -m. That matters: cmd.exe splits an
+rem  argument on any embedded double quote, so a message containing one used
+rem  to reach git as several broken pathspecs and the commit failed. Passing
+rem  a file means the message never travels through the command line at all,
+rem  and any character is safe.
 rem ===========================================================================
-setlocal enabledelayedexpansion
+setlocal
 cd /d "%~dp0"
 
 set "LOGDIR=%~dp0Claude outputs"
@@ -35,34 +39,24 @@ if errorlevel 1 (
   goto :done
 )
 
-rem --- commit message -------------------------------------------------------
-set "MSG=Site update"
+>>"%LOG%" echo --- commit message ---
 if exist "%MSGFILE%" (
-  for /f "usebackq delims=" %%L in ("%MSGFILE%") do (
-    if not "%%L"=="" (
-      set "MSG=%%L"
-      goto :gotmsg
-    )
-  )
+  type "%MSGFILE%" >>"%LOG%"
+) else (
+  >>"%LOG%" echo Site update ^(no commit-message.txt found^)
 )
-:gotmsg
->>"%LOG%" echo Commit message: !MSG!
 >>"%LOG%" echo.
 
-rem --- what is about to go up ----------------------------------------------
 >>"%LOG%" echo --- git status --short ---
 git status --short >>"%LOG%" 2>&1
 >>"%LOG%" echo.
 
-git diff --quiet
-set "DIRTY=%errorlevel%"
-git diff --cached --quiet
-set "STAGED=%errorlevel%"
-git ls-files --others --exclude-standard >"%TEMP%\cl_untracked.txt" 2>nul
-for %%A in ("%TEMP%\cl_untracked.txt") do set "UNTRACKED=%%~zA"
-del "%TEMP%\cl_untracked.txt" >nul 2>nul
+rem --- is there anything at all to send? ------------------------------------
+git status --porcelain >"%TEMP%\cl_status.txt" 2>nul
+for %%A in ("%TEMP%\cl_status.txt") do set "PENDING=%%~zA"
+del "%TEMP%\cl_status.txt" >nul 2>nul
 
-if "%DIRTY%"=="0" if "%STAGED%"=="0" if "%UNTRACKED%"=="0" (
+if "%PENDING%"=="0" (
   >>"%LOG%" echo Nothing to commit. Checking whether the branch is ahead of origin...
   git push >>"%LOG%" 2>&1
   if errorlevel 1 (
@@ -82,7 +76,11 @@ if errorlevel 1 (
 )
 
 >>"%LOG%" echo --- git commit ---
-git commit -m "!MSG!" >>"%LOG%" 2>&1
+if exist "%MSGFILE%" (
+  git commit -F "%MSGFILE%" >>"%LOG%" 2>&1
+) else (
+  git commit -m "Site update" >>"%LOG%" 2>&1
+)
 if errorlevel 1 (
   >>"%LOG%" echo RESULT: FAILED - git commit
   goto :done

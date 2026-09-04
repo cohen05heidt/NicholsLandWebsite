@@ -476,6 +476,34 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .section--tight { padding: 64px 0; }
 .section--dark { background: var(--forest-deep); color: var(--bone); }
 .section--dark .lede { color: rgba(247,244,236,.74); }
+
+/* A light card sitting on a dark section has to reclaim its own ink. The
+   section sets `color: var(--bone)` for text printed straight onto the dark
+   ground, and that inherits into the cream cards, where a bone heading on
+   card stock is invisible. Scoped to .pcard so the section's own headings
+   and lede are untouched. */
+.section--dark .pcard { color: var(--ink); }
+
+/* The one tile that stays dark. On the old sand background its own fill did
+   the separating and it carried no border; against a section of the same
+   colour the fill no longer reads, so a hairline draws the edge instead and
+   the tile becomes a cut-out rather than a block. */
+/* Doubled class on purpose: .pcard sets its cream background further down
+   the file, so a single .pcard--invert ties on specificity and loses on
+   order, leaving bone text on card stock. */
+.pcard.pcard--invert { background: var(--forest-deep); }
+.section--dark .pcard--invert {
+  color: var(--bone);
+  border-color: rgba(227, 231, 224, .28);
+}
+.section--dark .pcard--invert .muted { color: rgba(227, 231, 224, .78); }
+
+/* Every service tile ends on a button, and the buttons line up across a row
+   whatever the copy length: margin-top:auto pushes each one to its card's
+   floor. align-self stops it stretching to the card's full width, which is
+   what a column flex container does to an inline-flex child by default. The
+   1em below the paragraph above it supplies the minimum gap. */
+.service-cta { margin-top: auto; align-self: flex-start; }
 .section--sand { background: var(--sand); }
 
 .section-head {

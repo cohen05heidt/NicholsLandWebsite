@@ -19,3 +19,8 @@ token.txt
 .env
 .env.*
 secrets.*
+
+# Deploy token, in case a copy is ever dropped at the repo root again.
+# The live one lives in .git/deploy-token.txt, which git cannot commit.
+NicholsLandWebsiteDeploy.txt
+*Deploy*.txt

@@ -286,18 +286,36 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   gap: 32px;
   height: 82px;
 }
-.brand { display: flex; align-items: center; gap: 12px; flex: none; }
+.brand { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; flex: none; }
 
-/* The supplied logo is a JPG with a white background baked into the file.
-   Multiply blending maps pure white onto whatever is beneath it, so the white
-   box disappears into the bar while the green and black artwork stays exactly
-   as drawn. Nothing here depends on knowing the bar's colour, so it keeps
-   working if the palette changes.
-   Proper fix when the client can supply it: a transparent PNG or SVG. */
+/* The image is now the NICHOLS wordmark alone. "LAND & INVESTMENT" used to be
+   part of it, and at header size that band came out about five pixels tall --
+   too few to resolve a letterform, so it read as a grey smudge no amount of
+   recolouring could rescue. It is set as live text below instead: sharp at any
+   size, on any screen, in the same face the rest of the site uses. */
 .brand-mark {
-  height: 46px;
+  height: 34px;
   width: auto;
+  display: block;
   background: transparent;
+}
+/* Tracking measured against the original artwork, where the subtitle ran to
+   about 68% of the wordmark's width. This sets it a touch wider than that --
+   legibility was the whole reason for the change, and the extra size is worth
+   more than matching the old lockup to the pixel. */
+.brand-sub {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: .58rem;
+  line-height: 1;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--pine);
+  white-space: nowrap;
+  /* letter-spacing adds a trailing gap after the last letter; pull it back so
+     the block stays optically flush with the N above it. */
+  margin-right: -.26em;
 }
 .brand-fallback {
   font-family: var(--display);
@@ -1320,7 +1338,8 @@ body.has-overlay { overflow: hidden; }
   }
   /* The wordmark is wide; at phone widths it has to give room to the phone
      number and the menu button beside it. */
-  .brand-mark { height: 34px; }
+  .brand-mark { height: 27px; }
+  .brand-sub { font-size: .5rem; letter-spacing: .22em; margin-right: -.22em; }
   .header-phone { font-size: .88rem; letter-spacing: .01em; }
   .hero .eyebrow { font-size: .74rem; letter-spacing: .12em; }
   .nav {

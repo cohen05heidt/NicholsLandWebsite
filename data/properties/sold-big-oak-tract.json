@@ -1,0 +1,27 @@
+{
+  "title": "Big Oak Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 184.56,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite",
+    "Investment"
+  ],
+  "listed": "2024-09-16",
+  "lat": 33.8411,
+  "lng": -83.0333,
+  "coordsApprox": true,
+  "summary": "184.56\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2024/09/28-web-or-mls-28.jpg"
+  ]
+}

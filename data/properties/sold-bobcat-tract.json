@@ -1,0 +1,25 @@
+{
+  "title": "Bobcat Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 88.98,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational"
+  ],
+  "listed": "2025-05-07",
+  "lat": 33.825,
+  "lng": -83.08,
+  "coordsApprox": true,
+  "summary": "88.98\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/05/48-web-or-mls-33.jpg"
+  ]
+}

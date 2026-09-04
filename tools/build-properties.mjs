@@ -26,13 +26,24 @@ const OUT = 'data/properties.json';
 const acresLabel = (acres) =>
   `${Number(acres).toLocaleString('en-US', { maximumFractionDigits: 2 })}± Acres`;
 
-/** 149500 -> "$149,500";  null/blank -> "Call for Price". */
-const priceLabel = (price) =>
-  price === null || price === undefined || price === ''
+/** 149500 -> "$149,500";  null/blank -> "Call for Price". A sold tract shows
+ *  "Sold" instead: there is nothing left to quote, and "Call for Price" on a
+ *  closed sale invites calls about land that is gone. */
+const priceLabel = (price, status) => {
+  if (status === 'Sold') return 'Sold';
+  return price === null || price === undefined || price === ''
     ? 'Call for Price'
     : `$${Number(price).toLocaleString('en-US')}`;
+};
 
-const REQUIRED = ['title', 'acres', 'status', 'county', 'city', 'lat', 'lng'];
+/** "Crawford, Oglethorpe County, GA" — skipping any part we do not have. */
+const locationLabel = (city, county, state) =>
+  [city, county, state].filter(Boolean).join(', ');
+
+const REQUIRED = ['title', 'acres', 'status', 'county', 'lat', 'lng'];
+// A live listing must say where it is. Sold records are archival and the old
+// site often recorded only the county, so town is not demanded of them.
+const REQUIRED_FOR_SALE = ['city'];
 
 const files = (await readdir(SRC)).filter((f) => f.endsWith('.json')).sort();
 if (!files.length) throw new Error(`No listings found in ${SRC}/`);
@@ -50,7 +61,8 @@ for (const file of files) {
     continue;
   }
 
-  const missing = REQUIRED.filter((k) => raw[k] === undefined || raw[k] === '');
+  const required = raw.status === 'Sold' ? REQUIRED : [...REQUIRED, ...REQUIRED_FOR_SALE];
+  const missing = required.filter((k) => raw[k] === undefined || raw[k] === '');
   if (missing.length) {
     problems.push(`${file}: missing ${missing.join(', ')}`);
     continue;
@@ -64,12 +76,13 @@ for (const file of files) {
     acres: Number(raw.acres),
     acresLabel: acresLabel(raw.acres),
     price,
-    priceLabel: priceLabel(price),
+    priceLabel: priceLabel(price, raw.status),
     status: raw.status,
     featured: Boolean(raw.featured),
     county: raw.county,
     state: raw.state || 'GA',
-    city: raw.city,
+    city: raw.city ?? '',
+    locationLabel: locationLabel(raw.city, raw.county, raw.state || 'GA'),
     types: raw.types ?? [],
     // The CMS writes an ISO timestamp; the site only ever shows the date.
     listed: String(raw.listed ?? '').slice(0, 10),

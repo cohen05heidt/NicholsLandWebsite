@@ -1,0 +1,26 @@
+{
+  "title": "Buffalo Creek Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 521.93,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2025-05-10",
+  "lat": 33.901,
+  "lng": -83.141,
+  "coordsApprox": true,
+  "summary": "521.93\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/01/105-web-or-mls-104.jpg"
+  ]
+}

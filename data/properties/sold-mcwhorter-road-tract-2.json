@@ -1,0 +1,26 @@
+{
+  "title": "McWhorter Road Tract 2",
+  "status": "Sold",
+  "featured": false,
+  "acres": 10.95,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2025-06-25",
+  "lat": 33.9308,
+  "lng": -83.0547,
+  "coordsApprox": true,
+  "summary": "10.95\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/06/34-web-or-mls-34.jpg"
+  ]
+}

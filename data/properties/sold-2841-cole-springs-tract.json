@@ -1,0 +1,25 @@
+{
+  "title": "2841 Cole Springs Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 5.07,
+  "price": null,
+  "city": "",
+  "county": "Oconee County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2026-02-04",
+  "lat": 33.83,
+  "lng": -83.374,
+  "coordsApprox": true,
+  "summary": "5.07\u00b1 acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2026/02/16-web-or-mls-14-1.jpg"
+  ]
+}

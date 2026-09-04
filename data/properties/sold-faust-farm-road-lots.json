@@ -1,0 +1,25 @@
+{
+  "title": "Faust Farm Road Lots",
+  "status": "Sold",
+  "featured": false,
+  "acres": 30.14,
+  "price": null,
+  "city": "Crawford",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2025-05-09",
+  "lat": 33.859,
+  "lng": -83.141,
+  "coordsApprox": true,
+  "summary": "30.14\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/01/52-web-or-mls-51.jpg"
+  ]
+}

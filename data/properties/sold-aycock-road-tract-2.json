@@ -1,0 +1,25 @@
+{
+  "title": "Aycock Road Tract 2",
+  "status": "Sold",
+  "featured": false,
+  "acres": 27.38,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2025-02-26",
+  "lat": 33.8292,
+  "lng": -83.0547,
+  "coordsApprox": true,
+  "summary": "27.38\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/02/4-web-or-mls-2.jpg"
+  ]
+}

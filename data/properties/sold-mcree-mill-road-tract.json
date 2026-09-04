@@ -1,0 +1,26 @@
+{
+  "title": "McRee Mill Road Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 50.56,
+  "price": null,
+  "city": "",
+  "county": "Oconee County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2025-03-25",
+  "lat": 33.83,
+  "lng": -83.506,
+  "coordsApprox": true,
+  "summary": "50.56\u00b1 acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/03/52-web-or-mls-51.jpg"
+  ]
+}

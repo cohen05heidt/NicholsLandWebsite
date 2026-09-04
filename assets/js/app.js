@@ -351,7 +351,7 @@ const NLI = (() => {
         </div>
         <div class="pcard__body">
           <h3 class="pcard__title"><a href="${href}">${esc(p.title)}</a></h3>
-          <p class="pcard__loc">${esc(p.city)}, ${esc(p.county)}, ${esc(p.state)}</p>
+          <p class="pcard__loc">${esc(p.locationLabel)}</p>
           <div class="pcard__meta">
             <span>Acreage<b>${acresFmt(p.acres)}±</b></span>
             <span>Type<b>${esc(p.types.slice(0, 2).join(', '))}</b></span>
@@ -429,7 +429,13 @@ const NLI = (() => {
     const legend = $('[data-map-legend]');
     if (!canvas || !legend) return;
 
-    const listings = props.filter(p => p.status !== 'Sold' && p.lat != null && p.lng != null);
+    const mapped   = props.filter(p => p.lat != null && p.lng != null);
+    const listings = mapped.filter(p => p.status !== 'Sold');
+    // Sold tracts are the track record, not the inventory. They ride on the
+    // same map behind their own switch, off by default, so the first thing a
+    // buyer sees is still what they can actually buy.
+    const soldList = mapped.filter(p => p.status === 'Sold');
+    const SOLD_COLOR = '#8A9187';
 
     // No mapping library (blocked, offline, CDN down) — say so and offer the
     // listings page rather than leaving a grey rectangle on the front page.
@@ -446,6 +452,7 @@ const NLI = (() => {
     }
 
     const active = new Set(LAND_TYPES.map(t => t.key));
+    let showSold = false;
     // A tract is usually two or three types at once, so the pin takes the
     // colour of its own first-listed type — the primary one. Filter down to a
     // single type and every visible pin recolours to that type, so the legend
@@ -492,12 +499,32 @@ const NLI = (() => {
       return { p, m };
     });
 
+    const soldMarkers = soldList.map(p => {
+      const m = L.marker([p.lat, p.lng], { icon: pin(SOLD_COLOR), title: p.title + ' (sold)' });
+      m.bindPopup(`
+        <div class="map-pop">
+          ${p.images[0] ? `<img src="${esc(p.images[0])}" alt="${esc(p.title)}">` : ''}
+          <div class="map-pop__body">
+            <h4>${esc(p.title)}</h4>
+            <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
+            <p style="font-weight:600;color:#5A6257">Sold${p.listed ? ' · ' + p.listed.slice(0, 4) : ''}</p>
+          </div>
+        </div>`);
+      return { p, m };
+    });
+
     legend.innerHTML = LAND_TYPES.map(t => `
       <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
         <span class="legend-chip__dot" style="background:${t.color}"></span>
         <span class="legend-chip__label">${t.label}</span>
         <span class="legend-chip__count">${listings.filter(p => p.types.includes(t.key)).length}</span>
       </button>`).join('') +
+      (soldList.length ? `
+      <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="false">
+        <span class="legend-chip__dot" style="background:${SOLD_COLOR}"></span>
+        <span class="legend-chip__label">Sold</span>
+        <span class="legend-chip__count">${soldList.length}</span>
+      </button>` : '') +
       `<span class="legend-note" data-legend-note></span>`;
 
     const note = $('[data-legend-note]', legend);
@@ -509,12 +536,18 @@ const NLI = (() => {
         if (on) { m.setIcon(pin(colorFor(p))); m.addTo(map); shown.push(p); }
         else { map.removeLayer(m); }
       });
+      soldMarkers.forEach(({ p, m }) => {
+        if (showSold) { m.addTo(map); shown.push(p); }
+        else { map.removeLayer(m); }
+      });
       if (shown.length) {
         map.fitBounds(shown.map(p => [p.lat, p.lng]), { padding: [45, 45], maxZoom: 11 });
       }
-      note.textContent = shown.length === listings.length
+      const forSaleShown = shown.length - (showSold ? soldMarkers.length : 0);
+      const base = forSaleShown === listings.length
         ? `${listings.length} tracts`
-        : `${shown.length} of ${listings.length} tracts`;
+        : `${forSaleShown} of ${listings.length} tracts`;
+      note.textContent = showSold ? `${base} · ${soldList.length} sold` : base;
     }
 
     $$('[data-legend-type]', legend).forEach(btn => {
@@ -534,6 +567,15 @@ const NLI = (() => {
         draw();
       });
     });
+
+    const soldBtn = $('[data-legend-sold]', legend);
+    if (soldBtn) {
+      soldBtn.addEventListener('click', () => {
+        showSold = !showSold;
+        soldBtn.setAttribute('aria-pressed', String(showSold));
+        draw();
+      });
+    }
 
     draw();
     // The section can be laid out before the tiles have anywhere to sit.
@@ -826,7 +868,7 @@ const NLI = (() => {
     $('[data-hero-img]').src = p.images[0];
     $('[data-hero-img]').alt = `${p.title}, ${p.county}`;
     setText('[data-title]', p.title);
-    setText('[data-loc]', `${p.city}, ${p.county}, Georgia`);
+    setText('[data-loc]', p.locationLabel);
 
     $('[data-tags]').innerHTML = statusTag(p) + (p.featured ? '<span class="tag tag--gold">Featured</span>' : '');
 

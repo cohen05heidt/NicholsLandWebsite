@@ -11,6 +11,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Recreational",
       "Timber",
@@ -70,6 +71,7 @@
     "county": "Elbert County",
     "state": "GA",
     "city": "Elberton",
+    "locationLabel": "Elberton, Elbert County, GA",
     "types": [
       "Recreational",
       "Timber"
@@ -131,6 +133,7 @@
     "county": "Taliaferro County",
     "state": "GA",
     "city": "Sharon",
+    "locationLabel": "Sharon, Taliaferro County, GA",
     "types": [
       "Recreational",
       "Timber",
@@ -196,6 +199,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -242,6 +246,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -291,6 +296,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -340,6 +346,7 @@
     "county": "Walton County",
     "state": "GA",
     "city": "Monroe",
+    "locationLabel": "Monroe, Walton County, GA",
     "types": [
       "Homesite"
     ],
@@ -383,6 +390,7 @@
     "county": "Walton County",
     "state": "GA",
     "city": "Monroe",
+    "locationLabel": "Monroe, Walton County, GA",
     "types": [
       "Homesite",
       "Recreational"
@@ -430,6 +438,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
+    "locationLabel": "Lexington, Oglethorpe County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -481,6 +490,36 @@
     ]
   },
   {
+    "id": "sold-cunningham-road-tract",
+    "title": "Cunningham Road Tract",
+    "acres": 12.96,
+    "acresLabel": "12.96± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Lexington",
+    "locationLabel": "Lexington, Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2026-05-08",
+    "lat": 33.88,
+    "lng": -83.014,
+    "coordsApprox": true,
+    "summary": "12.96± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/05/67-web-or-mls-Tract-1.jpg"
+    ]
+  },
+  {
     "id": "brewers-bridge",
     "title": "Brewer's Bridge Tract",
     "acres": 110,
@@ -492,6 +531,7 @@
     "county": "Elbert County",
     "state": "GA",
     "city": "Elberton",
+    "locationLabel": "Elberton, Elbert County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -543,6 +583,64 @@
     ]
   },
   {
+    "id": "sold-2821-cole-springs-tract",
+    "title": "2821 Cole Springs Tract",
+    "acres": 6.28,
+    "acresLabel": "6.28± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oconee County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oconee County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2026-02-04",
+    "lat": 33.885,
+    "lng": -83.44,
+    "coordsApprox": true,
+    "summary": "6.28± acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/02/3-web-or-mls-1.jpg"
+    ]
+  },
+  {
+    "id": "sold-2841-cole-springs-tract",
+    "title": "2841 Cole Springs Tract",
+    "acres": 5.07,
+    "acresLabel": "5.07± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oconee County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oconee County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2026-02-04",
+    "lat": 33.83,
+    "lng": -83.374,
+    "coordsApprox": true,
+    "summary": "5.07± acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2026/02/16-web-or-mls-14-1.jpg"
+    ]
+  },
+  {
     "id": "lower-harmony-road",
     "title": "Lower Harmony Road Tract",
     "acres": 304.39,
@@ -554,6 +652,7 @@
     "county": "Putnam County",
     "state": "GA",
     "city": "Eatonton",
+    "locationLabel": "Eatonton, Putnam County, GA",
     "types": [
       "Timber",
       "Investment",
@@ -616,6 +715,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
+    "locationLabel": "Lexington, Oglethorpe County, GA",
     "types": [
       "Homesite",
       "Recreational"
@@ -666,6 +766,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -726,6 +827,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
     "types": [
       "Recreational",
       "Timber",
@@ -759,6 +861,62 @@
     ]
   },
   {
+    "id": "sold-bridges-road-tract-2",
+    "title": "Bridges Road Tract 2",
+    "acres": 52,
+    "acresLabel": "52± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Recreational"
+    ],
+    "listed": "2025-10-28",
+    "lat": 33.901,
+    "lng": -83.019,
+    "coordsApprox": true,
+    "summary": "52± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/10/27-web-or-mls-25.jpg"
+    ]
+  },
+  {
+    "id": "sold-new-hope-vesta-tract",
+    "title": "New Hope Vesta Tract",
+    "acres": 62,
+    "acresLabel": "62± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Vesta",
+    "locationLabel": "Vesta, Oglethorpe County, GA",
+    "types": [
+      "Recreational"
+    ],
+    "listed": "2025-10-28",
+    "lat": 33.9189,
+    "lng": -83.0333,
+    "coordsApprox": true,
+    "summary": "62± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/10/65-web-or-mls-65.jpg"
+    ]
+  },
+  {
     "id": "bridges-road-1",
     "title": "Bridges Rd Tract 1",
     "acres": 60,
@@ -770,6 +928,7 @@
     "county": "Oglethorpe County",
     "state": "GA",
     "city": "Lexington",
+    "locationLabel": "Lexington, Oglethorpe County, GA",
     "types": [
       "Recreational",
       "Timber"
@@ -814,6 +973,7 @@
     "county": "Wheeler County",
     "state": "GA",
     "city": "Lumber City",
+    "locationLabel": "Lumber City, Wheeler County, GA",
     "types": [
       "Timber",
       "Recreational",
@@ -845,6 +1005,66 @@
     ]
   },
   {
+    "id": "sold-mcwhorter-road-tract-2",
+    "title": "McWhorter Road Tract 2",
+    "acres": 10.95,
+    "acresLabel": "10.95± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2025-06-25",
+    "lat": 33.9308,
+    "lng": -83.0547,
+    "coordsApprox": true,
+    "summary": "10.95± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/06/34-web-or-mls-34.jpg"
+    ]
+  },
+  {
+    "id": "sold-mcwhorter-road-tract-1",
+    "title": "McWhorter Road Tract 1",
+    "acres": 10.95,
+    "acresLabel": "10.95± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Stephens",
+    "locationLabel": "Stephens, Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2025-06-05",
+    "lat": 33.935,
+    "lng": -83.08,
+    "coordsApprox": true,
+    "summary": "10.95± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/06/33-web-or-mls-33-1.jpg"
+    ]
+  },
+  {
     "id": "golf-course-road",
     "title": "Golf Course Road Tract",
     "acres": 12.9,
@@ -856,6 +1076,7 @@
     "county": "Elbert County",
     "state": "GA",
     "city": "Elberton",
+    "locationLabel": "Elberton, Elbert County, GA",
     "types": [
       "Homesite",
       "Recreational"
@@ -887,6 +1108,421 @@
       "https://nicholsland.net/wp-content/uploads/2022/04/GC-5-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2022/04/GC-10-845x684.jpg",
       "https://nicholsland.net/wp-content/uploads/2022/04/GC-4-845x684.jpg"
+    ]
+  },
+  {
+    "id": "sold-skull-shoals-tracts-1-and-2",
+    "title": "Skull Shoals Tracts 1 & 2",
+    "acres": 11,
+    "acresLabel": "11± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Wilkes County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Wilkes County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2025-05-17",
+    "lat": 33.78,
+    "lng": -82.74,
+    "coordsApprox": true,
+    "summary": "11± acres in Wilkes County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/04/0-web-or-mls-36-1.jpg"
+    ]
+  },
+  {
+    "id": "sold-bob-smith-road-tract",
+    "title": "Bob Smith Road Tract",
+    "acres": 134.11,
+    "acresLabel": "134.11± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite",
+      "Investment"
+    ],
+    "listed": "2025-05-16",
+    "lat": 33.9308,
+    "lng": -83.1053,
+    "coordsApprox": true,
+    "summary": "134.11± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2024/10/49-web-or-mls-62.jpg"
+    ]
+  },
+  {
+    "id": "sold-aycock-road-tract-1",
+    "title": "Aycock Road Tract 1",
+    "acres": 26.19,
+    "acresLabel": "26.19± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2025-05-15",
+    "lat": 33.9189,
+    "lng": -83.1267,
+    "coordsApprox": true,
+    "summary": "26.19± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/02/52-web-or-mls-50.jpg"
+    ]
+  },
+  {
+    "id": "sold-buffalo-creek-tract",
+    "title": "Buffalo Creek Tract",
+    "acres": 521.93,
+    "acresLabel": "521.93± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2025-05-10",
+    "lat": 33.901,
+    "lng": -83.141,
+    "coordsApprox": true,
+    "summary": "521.93± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/01/105-web-or-mls-104.jpg"
+    ]
+  },
+  {
+    "id": "sold-177-comer-road-tract",
+    "title": "177 Comer Road Tract",
+    "acres": 56.63,
+    "acresLabel": "56.63± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite",
+      "Investment"
+    ],
+    "listed": "2025-05-09",
+    "lat": 33.88,
+    "lng": -83.146,
+    "coordsApprox": true,
+    "summary": "56.63± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2024/11/63-web-or-mls-63.jpg"
+    ]
+  },
+  {
+    "id": "sold-faust-farm-road-lots",
+    "title": "Faust Farm Road Lots",
+    "acres": 30.14,
+    "acresLabel": "30.14± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "Crawford",
+    "locationLabel": "Crawford, Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2025-05-09",
+    "lat": 33.859,
+    "lng": -83.141,
+    "coordsApprox": true,
+    "summary": "30.14± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/01/52-web-or-mls-51.jpg"
+    ]
+  },
+  {
+    "id": "sold-1568-lexington-carlton-road-tract",
+    "title": "1568 Lexington Carlton Road Tract",
+    "acres": 327.83,
+    "acresLabel": "327.83± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber"
+    ],
+    "listed": "2025-05-08",
+    "lat": 33.8292,
+    "lng": -83.1053,
+    "coordsApprox": true,
+    "summary": "327.83± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/05/10-web-or-mls-9.jpg"
+    ]
+  },
+  {
+    "id": "sold-whitetail-ridge-tract",
+    "title": "Whitetail Ridge Tract",
+    "acres": 111.38,
+    "acresLabel": "111.38± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2025-05-08",
+    "lat": 33.8411,
+    "lng": -83.1267,
+    "coordsApprox": true,
+    "summary": "111.38± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/05/11-web-or-mls-3.jpg"
+    ]
+  },
+  {
+    "id": "sold-bobcat-tract",
+    "title": "Bobcat Tract",
+    "acres": 88.98,
+    "acresLabel": "88.98± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational"
+    ],
+    "listed": "2025-05-07",
+    "lat": 33.825,
+    "lng": -83.08,
+    "coordsApprox": true,
+    "summary": "88.98± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/05/48-web-or-mls-33.jpg"
+    ]
+  },
+  {
+    "id": "sold-mcree-mill-road-tract",
+    "title": "McRee Mill Road Tract",
+    "acres": 50.56,
+    "acresLabel": "50.56± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oconee County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oconee County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite"
+    ],
+    "listed": "2025-03-25",
+    "lat": 33.83,
+    "lng": -83.506,
+    "coordsApprox": true,
+    "summary": "50.56± acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/03/52-web-or-mls-51.jpg"
+    ]
+  },
+  {
+    "id": "sold-aycock-road-tract-2",
+    "title": "Aycock Road Tract 2",
+    "acres": 27.38,
+    "acresLabel": "27.38± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2025-02-26",
+    "lat": 33.8292,
+    "lng": -83.0547,
+    "coordsApprox": true,
+    "summary": "27.38± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2025/02/4-web-or-mls-2.jpg"
+    ]
+  },
+  {
+    "id": "sold-2153-barnett-shoals-tract",
+    "title": "2153 Barnett Shoals Tract",
+    "acres": 48.96,
+    "acresLabel": "48.96± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oconee County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oconee County, GA",
+    "types": [
+      "Timber",
+      "Homesite"
+    ],
+    "listed": "2024-11-14",
+    "lat": 33.775,
+    "lng": -83.44,
+    "coordsApprox": true,
+    "summary": "48.96± acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2024/11/42-web-or-mls-41.jpg"
+    ]
+  },
+  {
+    "id": "sold-big-oak-tract",
+    "title": "Big Oak Tract",
+    "acres": 184.56,
+    "acresLabel": "184.56± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Homesite",
+      "Investment"
+    ],
+    "listed": "2024-09-16",
+    "lat": 33.8411,
+    "lng": -83.0333,
+    "coordsApprox": true,
+    "summary": "184.56± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2024/09/28-web-or-mls-28.jpg"
+    ]
+  },
+  {
+    "id": "sold-eades-road-tract",
+    "title": "Eades Road Tract",
+    "acres": 112.92,
+    "acresLabel": "112.92± Acres",
+    "price": null,
+    "priceLabel": "Sold",
+    "status": "Sold",
+    "featured": false,
+    "county": "Oglethorpe County",
+    "state": "GA",
+    "city": "",
+    "locationLabel": "Oglethorpe County, GA",
+    "types": [
+      "Timber",
+      "Recreational",
+      "Investment"
+    ],
+    "listed": "2024-01-11",
+    "lat": 33.859,
+    "lng": -83.019,
+    "coordsApprox": true,
+    "summary": "112.92± acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+    "bullets": [],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "https://nicholsland.net/wp-content/uploads/2024/01/D5-773x1030.jpg"
     ]
   }
 ]

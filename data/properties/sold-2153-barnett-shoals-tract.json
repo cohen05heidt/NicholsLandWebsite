@@ -1,0 +1,25 @@
+{
+  "title": "2153 Barnett Shoals Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 48.96,
+  "price": null,
+  "city": "",
+  "county": "Oconee County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2024-11-14",
+  "lat": 33.775,
+  "lng": -83.44,
+  "coordsApprox": true,
+  "summary": "48.96\u00b1 acres in Oconee County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2024/11/42-web-or-mls-41.jpg"
+  ]
+}

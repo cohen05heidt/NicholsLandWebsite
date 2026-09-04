@@ -780,6 +780,22 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 /* An unpressed chip keeps its swatch but hollows it out, so the key still
    works when a type is filtered off. */
 .legend-chip[aria-pressed="false"] .legend-chip__dot { opacity: .35; }
+
+/* Sold is a status, not a land type, so it must not read as a fifth category
+   in the same row. It sits behind a divider, carries a lighter weight, and
+   turns graphite rather than ink when pressed — present, clearly secondary. */
+.legend-chip--sold {
+  margin-left: 6px;
+  border-style: dashed;
+  color: var(--graphite);
+}
+.legend-chip--sold[aria-pressed="true"] {
+  background: var(--graphite);
+  border-color: var(--graphite);
+  border-style: solid;
+  color: var(--paper);
+}
+@media (max-width: 820px) { .legend-chip--sold { margin-left: 0; } }
 .legend-chip__count {
   font-size: 0.6rem;
   opacity: .75;

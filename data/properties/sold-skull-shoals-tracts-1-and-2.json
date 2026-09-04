@@ -1,0 +1,26 @@
+{
+  "title": "Skull Shoals Tracts 1 & 2",
+  "status": "Sold",
+  "featured": false,
+  "acres": 11,
+  "price": null,
+  "city": "",
+  "county": "Wilkes County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2025-05-17",
+  "lat": 33.78,
+  "lng": -82.74,
+  "coordsApprox": true,
+  "summary": "11\u00b1 acres in Wilkes County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/04/0-web-or-mls-36-1.jpg"
+  ]
+}

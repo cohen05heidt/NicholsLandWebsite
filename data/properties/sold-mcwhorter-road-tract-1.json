@@ -1,0 +1,26 @@
+{
+  "title": "McWhorter Road Tract 1",
+  "status": "Sold",
+  "featured": false,
+  "acres": 10.95,
+  "price": null,
+  "city": "Stephens",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite"
+  ],
+  "listed": "2025-06-05",
+  "lat": 33.935,
+  "lng": -83.08,
+  "coordsApprox": true,
+  "summary": "10.95\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2025/06/33-web-or-mls-33-1.jpg"
+  ]
+}

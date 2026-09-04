@@ -1,0 +1,27 @@
+{
+  "title": "177 Comer Road Tract",
+  "status": "Sold",
+  "featured": false,
+  "acres": 56.63,
+  "price": null,
+  "city": "",
+  "county": "Oglethorpe County",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Homesite",
+    "Investment"
+  ],
+  "listed": "2025-05-09",
+  "lat": 33.88,
+  "lng": -83.146,
+  "coordsApprox": true,
+  "summary": "56.63\u00b1 acres in Oglethorpe County, Georgia. Sold by Nichols Land & Investment.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "https://nicholsland.net/wp-content/uploads/2024/11/63-web-or-mls-63.jpg"
+  ]
+}

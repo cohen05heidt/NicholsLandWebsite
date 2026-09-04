@@ -1,0 +1,21 @@
+# Build artefact — regenerate with: zip -r nichols-land-site.zip index.html properties.html assets data
+nichols-land-site.zip
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Session scratch folder
+Claude outputs/
+
+# Credentials — never commit. This folder publishes to a PUBLIC repository,
+# so anything here that isn't ignored becomes readable by anyone the moment
+# it is pushed. GitHub access tokens belong in the browser (the admin page
+# stores them locally after you paste them once), never in a file.
+token.txt
+*token*.txt
+*.token
+.env
+.env.*
+secrets.*

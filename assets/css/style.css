@@ -65,6 +65,15 @@
 
 /* --- reset ---------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* The [hidden] attribute is how the JS shows and hides the grid, the map view
+   and the detail overlay. The browser's own [hidden] rule is only
+   `display: none` at the lowest possible specificity, so any class that sets a
+   display — `.grid-cards { display: grid }` was the one that bit us — silently
+   beats it and the element stays on screen with the attribute set. Switching
+   to Map left all seventeen cards stacked under the map because of exactly
+   that. One authoritative rule instead of patching each class as it surfaces. */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 /* The header is sticky and 82px tall, so an in-page jump would otherwise park
    the target section's top edge underneath it. Every #anchor on the site now
@@ -349,6 +358,18 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .nav a:hover,
 .nav a[aria-current="page"],
 .nav a[aria-current="true"] { border-bottom-color: var(--clay); color: var(--clay); }
+
+/* The two buttons at the foot of the mobile drawer are <a> inside .nav, so the
+   rule above — one class plus an element, which outranks a lone .btn--primary —
+   was repainting them ink. "List Your Land" was drawing near-black text on the
+   dark pine fill and could not be read at all. Each button gets its own colour
+   back at a specificity that holds, and the underline .nav a carries for the
+   text links is taken off them. */
+.nav .nav__cta .btn { border-bottom-color: transparent; }
+.nav .nav__cta .btn--primary { color: var(--paper); }
+.nav .nav__cta .btn--primary:hover { color: var(--paper); border-bottom-color: transparent; }
+.nav .nav__cta .btn--ghost { color: var(--forest); }
+.nav .nav__cta .btn--ghost:hover { color: var(--bone); border-bottom-color: var(--forest); }
 
 /* Skip link — visible only on keyboard focus. */
 .skip-link {
@@ -930,7 +951,18 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   text-transform: none;
   color: #4A5044;
 }
-.check input { width: auto; margin-top: 3px; }
+/* A default checkbox renders about 13px square, which is a poor target with a
+   thumb and this one gates the whole form. Scaled up and given room, without
+   swapping in a custom control that would have to reimplement focus and the
+   checked state from scratch. */
+.check input {
+  width: auto;
+  flex: none;
+  margin-top: 1px;
+  inline-size: 20px;
+  block-size: 20px;
+  accent-color: var(--forest);
+}
 .form-note { font-size: .8rem; color: #6C7266; }
 .form-success {
   display: none;
@@ -1263,6 +1295,12 @@ body.has-overlay { overflow: hidden; }
   aspect-ratio: 16 / 8;
   min-height: 320px;
   overflow: hidden;
+  /* aspect-ratio and min-height together will size the box off the HEIGHT when
+     the minimum bites, and the ratio then dictates a width wider than the
+     column — on a 320px screen the frame came out 320px inside a 288px column
+     and pushed the page sideways. This caps it; the box just runs taller than
+     the ratio at that point, which is the right trade on a narrow screen. */
+  max-width: 100%;
 }
 .mapframe iframe {
   position: absolute;
@@ -1344,6 +1382,18 @@ body.has-overlay { overflow: hidden; }
      a rule between the intro and the tiles rather than a second screenful. */
   .services-intro { grid-template-columns: 1fr; gap: 28px; }
   .services-intro__fig img { max-height: 240px; }
+
+  /* Thumb-sized targets. The map legend doubles as the filter, so these are
+     the busiest controls on the home page, and the Grid/Map pair is the only
+     way to change the listings view. Both sat around 33px. */
+  .legend-chip { padding: 11px 14px; }
+  .viewtoggle button { padding: 13px 18px; }
+
+  /* Right-aligned, the toggle left a wide empty band across a phone screen and
+     read as a stray pair of buttons. Full width it reads as the control it is. */
+  .results-bar { justify-content: stretch; }
+  .viewtoggle { width: 100%; }
+  .viewtoggle button { flex: 1 1 0; justify-content: center; }
 }
 
 /* --- phone hero ------------------------------------------------------------
@@ -1541,6 +1591,22 @@ html, body { overflow-x: clip; max-width: 100%; }
 @media (max-width: 560px) {
   .footer-grid { grid-template-columns: 1fr; }
   .grid-cards { grid-template-columns: 1fr; }
+
+  /* Small handsets — 360px and 375px are still the two commonest widths in the
+     wild. The header row is brand + phone number + menu button, all three set
+     to flex:none, so below about 380px they simply ran out of room and the
+     menu button hung off the right edge where it could not be tapped. Three
+     things give the row the ~30px it was short of: a narrower page gutter, a
+     tighter gap between the three items, and a smaller wordmark. The brand is
+     also allowed to shrink now rather than insisting on its full width. */
+  .wrap { width: min(100% - 32px, var(--wrap)); }
+  .wrap-narrow { width: min(100% - 32px, 860px); }
+  .header-bar { gap: 12px; }
+  .brand { flex: 0 1 auto; min-width: 0; }
+  .brand-mark { height: 22px; max-width: 100%; }
+  .brand-sub { font-size: .46rem; letter-spacing: .18em; margin-right: -.18em; }
+  .header-actions { gap: 10px; }
+  .header-phone { font-size: .78rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

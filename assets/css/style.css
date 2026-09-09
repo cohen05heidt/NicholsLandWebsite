@@ -541,8 +541,28 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .hero__inner { position: relative; z-index: 2; width: 100%; padding: 0 0 56px; }
 .hero__title { font-size: clamp(2.15rem, 4.8vw, 3.95rem); max-width: 23ch; letter-spacing: -.018em; }
-.hero__title em { font-style: italic; color: var(--clay-lift); }
+/* Italic only. The headline and the line beneath it are one sentence broken
+   across two sizes, so an accent colour on the first word would read as a
+   separate label rather than the start of the thought. */
+.hero__title em { font-style: italic; }
 .hero__sub { max-width: 46ch; color: rgba(227, 231, 224, .84); font-size: 1rem; margin-top: 22px; }
+
+/* The tagline is a single sentence set at two sizes: a short headline that
+   trails off on an ellipsis, and a subline that picks the sentence back up.
+   The headline is short enough to carry more weight than the default, and the
+   gap between the two closes so they read as one continuous line of thought
+   rather than a heading followed by body copy. */
+.hero__title-ell { letter-spacing: -.04em; }
+.hero__sub--lead {
+  max-width: 52ch;
+  font-size: 1.12rem;
+  line-height: 1.5;
+  margin-top: 12px;
+  color: rgba(227, 231, 224, .90);
+}
+@media (min-width: 900px) {
+  .hero__title { font-size: clamp(2.9rem, 6vw, 4.9rem); }
+}
 
 /* --- sections ------------------------------------------------------------- */
 .section { padding: 92px 0; }
@@ -1312,8 +1332,9 @@ body.has-overlay { overflow: hidden; }
   }
 
   .hero__inner { padding-bottom: calc(30px + env(safe-area-inset-bottom)); }
-  .hero__title { font-size: clamp(1.6rem, 6.9vw, 2.15rem); max-width: 100%; }
+  .hero__title { font-size: clamp(2rem, 8.4vw, 2.7rem); max-width: 100%; }
   .hero__sub { font-size: .95rem; line-height: 1.55; margin-top: 14px; max-width: 40ch; }
+  .hero__sub--lead { font-size: 1rem; margin-top: 10px; max-width: 44ch; }
   .hero__block { margin-top: 24px; }
   /* Side by side these two wrap onto separate lines and eat the frame, so on a
      handset they share a row and each takes half of it. */
@@ -1461,7 +1482,7 @@ html, body { overflow-x: clip; max-width: 100%; }
    in a 1240px column on a 27-inch display. */
 @media (min-width: 1600px) {
   :root { --wrap: 1400px; }
-  .hero__title { font-size: clamp(2.5rem, 4.2vw, 4.7rem); }
+  .hero__title { font-size: clamp(3.6rem, 5vw, 5.6rem); }
 }
 
 /* Landscape phones — short and wide. The hero must not eat the whole screen. */

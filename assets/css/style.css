@@ -616,6 +616,24 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .section-head--stacked { display: block; }
 .section-head__sub { margin: 14px 0 0; max-width: 62ch; }
 
+/* Services intro: copy on the left, one photograph on the right.
+   --stacked sets display:block for the text-only case, so the grid is
+   re-declared here rather than fought with. The image column is the narrower
+   of the two: the heading is what the section leads on, and a photograph that
+   matched it for width would read as a banner. */
+.services-intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 44px; align-items: center; }
+.services-intro__fig { margin: 0; }
+.services-intro__fig img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  /* Hairline rather than a shadow: the section behind is near-black, and a
+     shadow on a dark ground reads as a smudge. */
+  border: 1px solid rgba(227, 231, 224, .18);
+}
+
 /* The commercial book is two listings, not a feed. auto-fill would stretch a
    pair of cards the full width of the wrap on a wide screen; capping the
    track count keeps them the size of every other card on the page. */
@@ -1215,6 +1233,18 @@ body.has-overlay { overflow: hidden; }
   align-items: start;
 }
 
+/* Photograph at the head of the contact aside. 4:3 is cropped to something
+   closer to a letterbox so it sits as a header above the office card rather
+   than competing with it for the column. */
+.contact-fig { margin: 0 0 16px; }
+.contact-fig img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(34, 54, 42, .14);
+}
+
 /* --- office cards + map frame --------------------------------------------- */
 .office-card .eyebrow { margin-bottom: 14px; }
 
@@ -1302,6 +1332,12 @@ body.has-overlay { overflow: hidden; }
      sidebar's 280px minimum and the form's fields fight for the same room and
      end up sitting on top of each other. */
   .contact-layout { grid-template-columns: 1fr; gap: 44px; }
+
+  /* Side by side, the services photo would be a letterbox strip at this
+     width. Stacked under the copy it can be shallower still, so it reads as
+     a rule between the intro and the tiles rather than a second screenful. */
+  .services-intro { grid-template-columns: 1fr; gap: 28px; }
+  .services-intro__fig img { max-height: 240px; }
 }
 
 /* --- phone hero ------------------------------------------------------------

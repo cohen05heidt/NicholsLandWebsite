@@ -1233,14 +1233,20 @@ body.has-overlay { overflow: hidden; }
   align-items: start;
 }
 
-/* Photograph at the head of the contact aside. 4:3 is cropped to something
-   closer to a letterbox so it sits as a header above the office card rather
-   than competing with it for the column. */
-.contact-fig { margin: 0 0 16px; }
+/* Photograph closing the contact form, filling the well the taller office
+   column opens up beside it. Cropped to 3:2 rather than run at the file's own
+   4:3: at the form's width a full 4:3 would stand taller than the fields above
+   it and stop reading as a footer to them. */
+.contact-fig { margin: 34px 0 0; }
 .contact-fig img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  /* height:auto is load-bearing. The <img> carries width/height attributes so
+     the space is reserved before the file arrives, and those attributes set a
+     used height that aspect-ratio cannot override on its own — without this
+     the picture renders at its full 900px. */
+  height: auto;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   border: 1px solid rgba(34, 54, 42, .14);
 }

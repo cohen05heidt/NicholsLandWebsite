@@ -486,6 +486,45 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
    and no CSS combinator reaches backwards. */
 .hero__stage.is-playing > img { opacity: 0; transition: opacity .3s linear; }
 
+/* --- background rotation: Land / Commercial / Timber ----------------------
+   Slides stack on the same footprint. Exactly one carries .is-current, and
+   the dissolve between them is long enough to read as a change of scene
+   rather than a cut — the hero is ambient, so nothing here should grab.
+   The base <video> rule above still governs the first reveal; these rules
+   only take over once a slide is handed the .is-current baton. */
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  will-change: opacity;
+}
+.hero__slide.is-current { opacity: 1; }
+/* A slide's own media fills it; the video opacity rule above would otherwise
+   keep clips in slides 2+ invisible, since only slide 1 gets .is-ready. */
+.hero__slide > img,
+.hero__slide > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 1;
+}
+/* Stills would otherwise sit dead still against two moving clips. A very slow
+   push keeps the hero breathing; it runs only while the slide is up. */
+@keyframes hero-drift {
+  from { transform: scale(1.03) translate3d(0, 0, 0); }
+  to   { transform: scale(1.10) translate3d(0, -1.2%, 0); }
+}
+.hero__slide.is-current > img { animation: hero-drift 14s ease-out forwards; }
+
+/* The base still underneath is uncovered by .is-playing, which is still set
+   off slide 1's first decoded frame — so the hero keeps its original quick
+   handoff into the clip, and only slide-to-slide changes get the long
+   dissolve. .is-rotating is just a hook for the reduced-motion block. */
+
 /* The footage stays bright edge to edge. Only a soft pool of shade sits
    behind the headline block, plus the faintest lift at the very bottom so
    the search bar has something to sit against. */
@@ -1622,11 +1661,19 @@ html, body { overflow-x: clip; max-width: 100%; }
   .hero__inner { transform: none !important; opacity: 1 !important; }
   .hero__media video { display: none; }
   .hero__cue { display: none; }
+  /* The rotation is motion too. Collapse it to the base still: no slides, no
+     dissolve, no drift. JS bails before it starts, but CSS enforces it on its
+     own so the markup is safe with scripting off. */
+  .hero__slide { display: none !important; }
+  .hero__stage.is-playing > img { opacity: 1 !important; }
+  .hero__slide.is-current > img { animation: none !important; }
 }
 
 /* Data saver / metered connections: poster only. */
 @media (prefers-reduced-data: reduce) {
   .hero__media video { display: none; }
+  .hero__slide { display: none !important; }
+  .hero__stage.is-playing > img { opacity: 1 !important; }
 }
 
 

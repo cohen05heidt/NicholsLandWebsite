@@ -150,6 +150,231 @@ const NLI = (() => {
      video support, the hero falls back to the static poster image.
      ------------------------------------------------------------------------ */
 
+  /* --- hero background rotation -------------------------------------------
+     Cycles the hero through its slides — Land, Commercial, Timber — dissolving
+     between them and wrapping back to the first.
+
+     A slide advances on whichever signal it has: a clip advances when it
+     fires `ended`, a still advances on a timer. Slides are lazy — nothing
+     past the first is fetched until its turn is close — so adding backgrounds
+     costs nothing on first paint, which is the whole reason the hero can
+     afford three of them.
+
+     Everything degrades by subtraction. A slide whose media 404s is dropped
+     from the ring; if that leaves one slide it simply loops, which is exactly
+     the behaviour the hero had before any of this existed.
+     ---------------------------------------------------------------------- */
+
+  const HERO_HOLD_MS  = 6500;   // default dwell for a still
+  const HERO_FADE_MS  = 1200;   // must match .hero__slide transition in CSS
+  const HERO_ARM_LEAD = 2500;   // start fetching the next slide this early
+
+  function initHeroRotation(stage, firstVideo, playFirst) {
+    if (!stage || !stage.hasAttribute('data-hero-rotator')) return;
+
+    const slides = Array.prototype.slice.call(stage.querySelectorAll('[data-hero-slide]'));
+    if (slides.length < 2) return;   // nothing to rotate between
+
+    // Each slide is described once, up front, so the loop below never has to
+    // re-interrogate the DOM to find out what kind of thing it is holding.
+    const ring = slides.map((el) => ({
+      el,
+      video: el.querySelector('video'),
+      img:   el.querySelector('img'),
+      hold:  parseInt(el.getAttribute('data-hold'), 10) || HERO_HOLD_MS,
+      dead:  false
+    }));
+
+    let index   = 0;
+    let timer   = null;
+    let armed   = null;   // slide we've already started fetching
+    let stopped = false;
+
+    const clear = () => { if (timer) { clearTimeout(timer); timer = null; } };
+    const live  = () => ring.filter(s => !s.dead);
+    const at    = (i) => ring[i];
+
+    // Hand the stage over to the rotation only once slide 1 is actually up,
+    // so the base still keeps covering the gap until there is something to
+    // cover it with.
+    stage.classList.add('is-rotating');
+
+    /* --- loading ---------------------------------------------------------
+       A <video> in slide 2+ ships with no preload; we set it when its turn is
+       near. Calling load() after changing preload is what actually starts the
+       fetch in Safari, which ignores the attribute change on its own. */
+    const arm = (slot) => {
+      if (!slot || slot === armed || slot.dead) return;
+      armed = slot;
+      if (slot.video) {
+        slot.video.preload = 'auto';
+        try { slot.video.load(); } catch (e) { /* nothing to recover */ }
+      } else if (slot.img) {
+        // Promote it out of lazy so it is decoded before it is shown rather
+        // than fading in half-painted. Driven off the attribute, not the
+        // .loading property — the property is unreflected in older Safari and
+        // silently swallows the assignment.
+        if (slot.img.getAttribute('loading') === 'lazy') {
+          slot.img.setAttribute('loading', 'eager');
+        }
+        slot.img.setAttribute('fetchpriority', 'high');
+        // decode() resolves once the bitmap is ready, so the dissolve starts
+        // against a painted frame instead of an empty box.
+        if (typeof slot.img.decode === 'function') slot.img.decode().catch(() => {});
+      }
+    };
+
+    const kill = (slot) => {
+      slot.dead = true;
+      slot.el.classList.remove('is-current');
+      // One survivor means there is nothing to cut to — restore the plain
+      // looping clip the hero shipped with.
+      const rest = live();
+      if (rest.length === 1 && rest[0].video) rest[0].video.loop = true;
+      if (rest.length === 0) {
+        stopped = true;
+        stage.classList.remove('is-rotating', 'is-playing');
+      }
+    };
+
+    ring.forEach((slot) => {
+      if (!slot.video && !slot.img) { slot.dead = true; return; }
+
+      // A slide carrying both a clip and a still has somewhere to fall back
+      // to: drop the clip, keep the slide, and let it run as a still. Only a
+      // slide with nothing left to show is removed from the ring.
+      if (slot.video) {
+        slot.video.addEventListener('error', () => {
+          const wasCurrent = slot.el.classList.contains('is-current');
+          slot.video.remove();
+          slot.video = null;
+          if (!slot.img) {
+            kill(slot);
+            if (wasCurrent && !stopped) { clear(); advance(); }
+          } else if (wasCurrent) {
+            // The still underneath is already in place; just re-time the slide
+            // so it hands off on the still's schedule instead of waiting for
+            // an `ended` that can never arrive.
+            clear();
+            schedule();
+          }
+        });
+      }
+      if (slot.img) {
+        slot.img.addEventListener('error', () => {
+          const wasCurrent = slot.el.classList.contains('is-current');
+          if (slot.video) return;   // clip still carries this slide
+          kill(slot);
+          if (wasCurrent && !stopped) { clear(); advance(); }
+        });
+      }
+    });
+
+    /* --- the step -------------------------------------------------------- */
+    function advance() {
+      if (stopped) return;
+      const rest = live();
+      if (rest.length < 2) return;   // single survivor loops on its own
+
+      const from = at(index);
+      // Walk forward to the next slide that is still alive.
+      let next = index;
+      for (let n = 0; n < ring.length; n++) {
+        next = (next + 1) % ring.length;
+        if (!at(next).dead) break;
+      }
+      if (next === index) return;
+
+      const to = at(next);
+      index = next;
+
+      // Bring the incoming slide up first, then drop the outgoing one. Both
+      // are opaque mid-dissolve, which is what keeps the hero from flashing
+      // the page background between scenes.
+      arm(to);
+      if (to.video) {
+        to.video.currentTime = 0;
+        to.video.muted = true;
+        const p = to.video.play();
+        if (p && p.catch) p.catch(() => { /* covered by the still beneath */ });
+      } else if (to.img) {
+        // Restart the drift by forcing a reflow between removals.
+        to.img.style.animation = 'none';
+        void to.img.offsetWidth;
+        to.img.style.animation = '';
+      }
+
+      to.el.classList.add('is-current');
+      from.el.classList.remove('is-current');
+
+      // Park the outgoing clip once it is fully hidden. Rewinding here rather
+      // than on the way in means the next turn starts on a decoded frame.
+      if (from.video) {
+        setTimeout(() => {
+          if (from.el.classList.contains('is-current')) return;
+          try { from.video.pause(); from.video.currentTime = 0; } catch (e) {}
+        }, HERO_FADE_MS);
+      }
+
+      schedule();
+    }
+
+    /* --- when to step next ----------------------------------------------- */
+    function schedule() {
+      clear();
+      if (stopped) return;
+      const slot = at(index);
+      if (slot.dead) { advance(); return; }
+
+      // Look ahead so the next slide is buffered before it is needed.
+      let peek = index;
+      for (let n = 0; n < ring.length; n++) {
+        peek = (peek + 1) % ring.length;
+        if (!at(peek).dead) break;
+      }
+      const upcoming = at(peek);
+
+      if (slot.video) {
+        // A clip's own `ended` is the signal. Media duration is not reliable
+        // until metadata lands, so arm on a timer derived from it when we can
+        // and fall back to arming immediately when we can't.
+        const dur = slot.video.duration;
+        const lead = (isFinite(dur) && dur > 0)
+          ? Math.max(0, (dur - slot.video.currentTime) * 1000 - HERO_ARM_LEAD)
+          : 0;
+        timer = setTimeout(() => arm(upcoming), lead);
+      } else {
+        arm(upcoming);
+        timer = setTimeout(advance, slot.hold);
+      }
+    }
+
+    // Clips drive themselves off `ended`. `loop` is removed in markup for
+    // exactly this reason — a looping video never fires it.
+    ring.forEach((slot) => {
+      if (!slot.video) return;
+      slot.video.loop = false;
+      slot.video.addEventListener('ended', () => {
+        if (slot.el.classList.contains('is-current')) advance();
+      });
+    });
+
+    // A hidden tab should not burn through the rotation. Pause the clock and
+    // the current clip; pick both up on return.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { clear(); return; }
+      if (stopped) return;
+      const slot = at(index);
+      if (slot.video && slot.el.classList.contains('is-current')) {
+        const p = slot.video.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+      schedule();
+    });
+
+    schedule();
+  }
+
   function initHero() {
     const hero  = $('.hero');
     if (!hero) return;
@@ -214,6 +439,9 @@ const NLI = (() => {
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) video.pause(); else play();
       });
+
+      // The rotation owns everything past slide 1.
+      initHeroRotation(stage, video, play);
     } else if (video) {
       video.remove();
     }

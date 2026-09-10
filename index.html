@@ -8,7 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- ?v= is a cache buster. GitHub Pages serves these with
+     Cache-Control: max-age=600, so without it a fresh deploy leaves
+     returning visitors running new HTML against up-to-ten-minute-old
+     CSS and JS. The value is a hash of the file: it changes only when
+     the file does. Re-stamp with tools/stamp-assets.py after editing
+     either one. -->
+<link rel="stylesheet" href="assets/css/style.css?v=434168db">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=yes">
@@ -537,6 +543,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js?v=fa05a44e"></script>
 </body>
 </html>

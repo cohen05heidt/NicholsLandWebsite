@@ -63,10 +63,15 @@
   <!-- ================= HERO ================= -->
   <section class="hero" id="top">
     <div class="hero__media">
-      <!-- Three backgrounds cycle here: Land, Commercial, Timber. Each is a
+      <!-- Three backgrounds cycle here: Commercial, Timber, Land. Each is a
            .hero__slide. A slide is a clip if it carries <video>, otherwise it
            is a still and holds for data-hold ms. JS advances the rotation and
-           crossfades; markup order is play order.
+           crossfades; markup order is play order, so reordering these blocks
+           is all it takes to change the sequence.
+
+           Three things travel with slide one and must stay on whichever block
+           is first: .is-current, the eager preload + autoplay, and the base
+           still below (which is the floor the first clip fades up from).
 
            TODO before launch: pull every src below into assets/ and swap the
            paths. All of them are still on Higgsfield's CDN, so if those URLs
@@ -74,46 +79,36 @@
       <div class="hero__stage" data-hero-rotator>
         <!-- Held at low priority so it never competes with the clip for
              bandwidth. It exists purely as the floor: reduced motion, data
-             saver, blocked autoplay or a failed request all land here. -->
-        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260909_150846_9ebceabf-0ab2-4ef1-98e5-86da8336d643.png"
-             alt="Aerial view at golden hour of managed pine timberland and a farm field meeting a brick office building and warehouse on the edge of a Georgia town"
+             saver, blocked autoplay or a failed request all land here — so it
+             matches slide one, and moves if the running order changes. -->
+        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_153956_1c384593-5248-440d-b963-e72f70975c0e.png"
+             alt="Aerial view at golden hour of the Nichols Land office building in Athens, Georgia, with the Georgia state flag flying and the Athens skyline and Sanford Stadium in the distance"
              fetchpriority="low" decoding="async">
 
-        <!-- 1 — LAND. The original clip, unchanged. Only this one preloads on
-             arrival; the rest are fetched just before their turn so the first
-             paint costs exactly what it costs today.
+        <!-- 1 — COMMERCIAL. The office at golden hour, Georgia state flag on
+             the pole, Athens skyline and the stadium sitting in the treeline.
+             Only this one preloads on arrival; the rest are fetched just
+             before their turn, so first paint costs one clip, not three.
              No poster attribute on purpose: the image above already fills that
              role, and a poster would have the browser download a second large
              file at exactly the moment the video needs the bandwidth. -->
-        <div class="hero__slide is-current" data-hero-slide data-label="Land">
-          <video
-            preload="auto"
-            muted playsinline autoplay
-            disablepictureinpicture
-            aria-hidden="true" tabindex="-1">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_152153_6a5c3ca9-e3c1-4fba-8dc7-aaeace22c013.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <!-- 2 — COMMERCIAL. The office at golden hour, Georgia state flag on
-             the pole, Athens skyline and the stadium sitting in the treeline.
-             The <img> stays as this slide's own floor: if the clip 404s the
-             slide keeps its place in the rotation and runs as a still. -->
-        <div class="hero__slide" data-hero-slide data-label="Commercial" data-hold="6500">
+        <div class="hero__slide is-current" data-hero-slide data-label="Commercial" data-hold="6500">
           <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_153956_1c384593-5248-440d-b963-e72f70975c0e.png"
                alt="Aerial view at golden hour of the Nichols Land office building in Athens, Georgia, with the Georgia state flag flying and the Athens skyline and Sanford Stadium in the distance"
                loading="lazy" fetchpriority="low" decoding="async">
           <video
-            preload="none"
-            muted playsinline
+            preload="auto"
+            muted playsinline autoplay
             disablepictureinpicture
             aria-hidden="true" tabindex="-1">
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_154533_2d6d89b7-80b4-4006-a0cc-95133ce874be.mp4" type="video/mp4">
           </video>
         </div>
 
-        <!-- 3 — TIMBER. Managed pine in rows, clay road, hardwood creek
-             bottom, ridgelines. -->
+        <!-- 2 — TIMBER. Managed pine in rows, clay road, hardwood creek
+             bottom, ridgelines. The <img> is this slide's own floor: if the
+             clip 404s the slide keeps its place in the rotation and runs as
+             a still rather than dropping out. -->
         <div class="hero__slide" data-hero-slide data-label="Timber" data-hold="6500">
           <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_150022_c5dc38af-e302-4d79-9008-93078d29c062.png"
                alt="Aerial view at golden hour of managed North Georgia pine timberland with a red clay road and a hardwood creek bottom"
@@ -124,6 +119,20 @@
             disablepictureinpicture
             aria-hidden="true" tabindex="-1">
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_152223_46d686f9-5859-4b88-9861-3aad3195a8a5.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- 3 — LAND. The original clip, now closing the loop. -->
+        <div class="hero__slide" data-hero-slide data-label="Land" data-hold="6500">
+          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260909_150846_9ebceabf-0ab2-4ef1-98e5-86da8336d643.png"
+               alt="Aerial view at golden hour of managed pine timberland and a farm field meeting a brick office building and warehouse on the edge of a Georgia town"
+               loading="lazy" fetchpriority="low" decoding="async">
+          <video
+            preload="none"
+            muted playsinline
+            disablepictureinpicture
+            aria-hidden="true" tabindex="-1">
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_152153_6a5c3ca9-e3c1-4fba-8dc7-aaeace22c013.mp4" type="video/mp4">
           </video>
         </div>
       </div>

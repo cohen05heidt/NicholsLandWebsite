@@ -350,19 +350,39 @@
               <input id="c-phone" name="phone" type="tel" autocomplete="tel">
             </div>
             <div class="field">
-              <label for="c-subject">Subject *</label>
-              <select id="c-subject" name="subject" required>
-                <option value="">Select a subject</option>
-                <option>Buying Land</option>
-                <option>Selling Land</option>
-                <option>Farms &amp; Land</option>
-                <option>Commercial Sales</option>
-                <option>Commercial Leasing</option>
-                <option>Timberland Services</option>
-                <option>Property Management</option>
-                <option>General Inquiry</option>
-              </select>
-              <span class="err">Please choose a subject.</span>
+              <!-- A checkbox list behind a dropdown rather than a <select
+                   multiple>: the native multiple select needs ctrl/cmd-click
+                   to pick more than one, which almost nobody knows, and it
+                   renders as an ugly scrolling box that breaks the row. This
+                   keeps the closed control the same size and shape as every
+                   other field and makes multi-select obvious.
+
+                   The name is subject[] so the values arrive as a list — see
+                   the FormData handling in initForm(). -->
+              <span class="label" id="c-subject-label">Subject *</span>
+              <div class="multiselect" data-multiselect data-multiselect-required
+                   data-placeholder="Select subjects">
+                <button class="multiselect__toggle" type="button"
+                        id="c-subject"
+                        aria-expanded="false"
+                        aria-labelledby="c-subject-label c-subject-summary">
+                  <span class="multiselect__summary" id="c-subject-summary"
+                        data-multiselect-summary>Select subjects</span>
+                  <span class="multiselect__caret" aria-hidden="true"></span>
+                </button>
+                <div class="multiselect__panel" data-multiselect-panel hidden
+                     role="group" aria-labelledby="c-subject-label">
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Buying Land"><span>Buying Land</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Selling Land"><span>Selling Land</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Farms &amp; Land"><span>Farms &amp; Land</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Commercial Sales"><span>Commercial Sales</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Commercial Leasing"><span>Commercial Leasing</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Timberland Services"><span>Timberland Services</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="Property Management"><span>Property Management</span></label>
+                  <label class="multiselect__option"><input type="checkbox" name="subject[]" value="General Inquiry"><span>General Inquiry</span></label>
+                </div>
+              </div>
+              <span class="err">Please choose at least one subject.</span>
             </div>
             <div class="field">
               <label for="c-county">County of interest</label>

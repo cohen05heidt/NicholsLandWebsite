@@ -1361,6 +1361,93 @@ const NLI = (() => {
     if (pre) sel.value = pre;
   }
 
+  /* --- multi-select dropdown ----------------------------------------------
+     Turns a [data-multiselect] block into a dropdown of checkboxes: pick as
+     many as apply, the closed control summarises the choice.
+
+     Deliberately not a <select multiple> — that needs ctrl/cmd-click to take
+     a second option, which most people never discover, and it renders as a
+     tall scrolling box that breaks the form's grid.
+     ---------------------------------------------------------------------- */
+
+  function initMultiSelects() {
+    $$('[data-multiselect]').forEach((root) => {
+      const toggle  = $('.multiselect__toggle', root);
+      const panel   = $('[data-multiselect-panel]', root);
+      const summary = $('[data-multiselect-summary]', root);
+      if (!toggle || !panel || !summary) return;
+
+      const boxes = $$('input[type="checkbox"]', panel);
+      const placeholder = root.getAttribute('data-placeholder') || 'Select…';
+
+      // "Buying Land", then "Buying Land +2" — the first choice stays readable
+      // instead of collapsing to a bare count the moment a second is added.
+      const render = () => {
+        const on = boxes.filter(b => b.checked);
+        summary.textContent = on.length === 0
+          ? placeholder
+          : (on.length === 1 ? on[0].value : `${on[0].value}  +${on.length - 1}`);
+        summary.setAttribute('data-empty', String(on.length === 0));
+        // Clear the error the moment the reader satisfies it, rather than
+        // making them submit again to find out they fixed it.
+        if (on.length) root.closest('.field')?.classList.remove('is-invalid');
+      };
+
+      const open = () => {
+        panel.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+      };
+      const close = () => {
+        panel.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      };
+
+      toggle.addEventListener('click', () => {
+        panel.hidden ? open() : close();
+      });
+
+      boxes.forEach(b => b.addEventListener('change', render));
+
+      // Escape closes and returns focus to the control, which is where the
+      // reader expects to be after backing out.
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !panel.hidden) {
+          e.stopPropagation();
+          close();
+          toggle.focus();
+        }
+      });
+
+      // Clicking anywhere else closes it. Checked on pointerdown so the panel
+      // is gone before a click lands on whatever is underneath.
+      document.addEventListener('pointerdown', (e) => {
+        if (!panel.hidden && !root.contains(e.target)) close();
+      });
+
+      // Tabbing past the last checkbox should close it too, or the panel is
+      // left hanging open over the fields below.
+      root.addEventListener('focusout', () => {
+        setTimeout(() => {
+          if (!panel.hidden && !root.contains(document.activeElement)) close();
+        }, 0);
+      });
+
+      // Expose a tiny API so the form can validate and prefill without
+      // reaching into the markup itself.
+      root._multiselect = {
+        boxes,
+        selected: () => boxes.filter(b => b.checked).map(b => b.value),
+        check: (value) => {
+          const hit = boxes.find(b => b.value === value);
+          if (hit) { hit.checked = true; render(); }
+        },
+        render
+      };
+
+      render();
+    });
+  }
+
   /* --- contact form ------------------------------------------------------- */
 
   function initForm() {
@@ -1372,8 +1459,8 @@ const NLI = (() => {
     const msg = $('[name="message"]', form);
     if (prop && msg && !msg.value) {
       msg.value = `I'd like more information about ${prop}.`;
-      const subj = $('[name="subject"]', form);
-      if (subj) subj.value = 'Farms & Land';
+      const subj = $('[data-multiselect]', form);
+      if (subj && subj._multiselect) subj._multiselect.check('Farms & Land');
     }
 
     form.addEventListener('submit', (e) => {
@@ -1388,14 +1475,40 @@ const NLI = (() => {
         else { field?.classList.remove('is-invalid'); }
       });
 
-      if (!ok) { $('.is-invalid input, .is-invalid select, .is-invalid textarea')?.focus(); return; }
+      // A required multi-select needs at least one box ticked. It can't ride
+      // on [required] above: that attribute on a checkbox means *this* one
+      // must be checked, which would demand all eight.
+      $$('[data-multiselect-required]', form).forEach(root => {
+        const field = root.closest('.field');
+        const chosen = root._multiselect ? root._multiselect.selected().length : 0;
+        if (!chosen) { ok = false; field?.classList.add('is-invalid'); }
+        else { field?.classList.remove('is-invalid'); }
+      });
+
+      if (!ok) {
+        $('.is-invalid input, .is-invalid select, .is-invalid textarea, .is-invalid .multiselect__toggle')?.focus();
+        return;
+      }
 
       // No backend wired yet — show confirmation and log the payload.
-      const data = Object.fromEntries(new FormData(form).entries());
+      // Built by hand rather than Object.fromEntries: that keeps only the LAST
+      // value for a repeated name, so every subject but one would be dropped.
+      const fd = new FormData(form);
+      const data = {};
+      for (const key of new Set(fd.keys())) {
+        const all = fd.getAll(key);
+        // Trailing [] is the convention for a repeated field; strip it for
+        // readability and always hand those back as an array, even at length 1.
+        const clean = key.replace(/\[\]$/, '');
+        data[clean] = key.endsWith('[]') ? all : (all.length > 1 ? all : all[0]);
+      }
       console.info('[NLI] Inquiry ready to send:', data);
       const success = $('[data-form-success]');
       success?.classList.add('is-visible');
       form.reset();
+      // form.reset() restores the checkboxes but not the summary text that
+      // was derived from them.
+      $$('[data-multiselect]', form).forEach(r => r._multiselect && r._multiselect.render());
       if (success && typeof success.scrollIntoView === 'function') {
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -1421,6 +1534,9 @@ const NLI = (() => {
     safe('chrome', initChrome);
     safe('hero', initHero);
     safe('slideshows', initSlideshows);
+    // Must run before initForm: the form's prefill reaches for the API that
+    // initMultiSelects attaches to each dropdown.
+    safe('multiselects', initMultiSelects);
     safe('form', initForm);
     safe('county select', initCountySelect);
 

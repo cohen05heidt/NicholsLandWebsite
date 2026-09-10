@@ -15,7 +15,7 @@
      CSS and JS. The value is a hash of the file: it changes only when
      the file does. Re-stamp with tools/stamp-assets.py after editing
      either one. -->
-<link rel="stylesheet" href="assets/css/style.css?v=434168db">
+<link rel="stylesheet" href="assets/css/style.css?v=711f04ce">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=yes">
@@ -79,8 +79,12 @@
       <!-- GRID VIEW -->
       <div class="grid-cards" data-results></div>
 
-      <!-- MAP VIEW -->
+      <!-- MAP VIEW
+           The legend carries the same switches as the home page map and is
+           built by the same code — see createMapFilters() in app.js. -->
       <div class="map-view" data-map-view hidden>
+        <div class="landmap__legend map-view__legend" data-map-legend role="group"
+             aria-label="Show or hide land types on the map"></div>
         <div class="map-view__side">
           <div class="map-side__list" data-map-list></div>
         </div>
@@ -234,6 +238,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/app.js?v=fa05a44e"></script>
+<script src="assets/js/app.js?v=3da1d63a"></script>
 </body>
 </html>

@@ -1359,6 +1359,10 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .map-view {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
+  /* The legend spans both columns on its own row above the list and the map;
+     minmax(0,1fr) lets that second row shrink so the whole thing still fits
+     the fixed height rather than overflowing by the legend's height. */
+  grid-template-rows: auto minmax(0, 1fr);
   height: 72vh;
   height: 72dvh;
   min-height: 480px;
@@ -1366,6 +1370,12 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   background: var(--white);
 }
 .map-view[hidden] { display: none; }
+/* Same chips as the home page, so it reuses .landmap__legend for the styling
+   and only needs to be told where to sit. */
+.map-view__legend {
+  grid-column: 1 / -1;
+  background: var(--sheet);
+}
 .map-view__side { overflow-y: auto; border-right: 1px solid var(--line); background: var(--bone); }
 #map { height: 100%; width: 100%; background: var(--sand); z-index: 1; }
 .map-side__list { padding: 12px; display: grid; gap: 12px; }
@@ -1730,9 +1740,12 @@ body.has-overlay { overflow: hidden; }
   .tblock--footer > div { border-right-color: rgba(227,231,224,.2); border-bottom-color: rgba(227,231,224,.2); }
   .tblock dd { font-size: .92rem; }
   .form-grid { grid-template-columns: 1fr; }
-  .map-view { grid-template-columns: 1fr; height: auto; min-height: 0; }
-  #map { height: 56vh; height: 56dvh; }
-  .map-view__side { border-right: 0; border-top: 1px solid var(--line); max-height: 46vh; max-height: 46dvh; order: 2; }
+  /* Single column here, so the explicit rows would strand the map in a fixed
+     track — back to auto rows and let each part size to its own content. */
+  .map-view { grid-template-columns: 1fr; grid-template-rows: none; height: auto; min-height: 0; }
+  .map-view__legend { order: 1; }
+  #map { height: 56vh; height: 56dvh; order: 2; }
+  .map-view__side { border-right: 0; border-top: 1px solid var(--line); max-height: 46vh; max-height: 46dvh; order: 3; }
   .fact { border-right: 0; border-bottom: 1px solid var(--line); }
 
   /* A 16:8 frame on a phone leaves about 180px of actual map, and Google's own

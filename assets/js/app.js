@@ -736,6 +736,10 @@ const NLI = (() => {
 
      Off by default: switching them on pulls the map out to a multi-state view,
      which is the wrong first impression for someone looking for land to buy. */
+  // Bright red: sold pins have to be legible as a different kind of thing from
+  // every land type at a glance. Kept in step with --sold in style.css.
+  const ALL_TYPE_KEYS = new Set(LAND_TYPES.map(t => t.key));
+  const SOLD_COLOR = '#D42A1E';
   const MANAGED_COLOR = '#8A6BAF';
   const MANAGED_LOCATIONS = [
     { label: 'Knoxville, TN',     lat: 35.9606, lng: -83.9207 },
@@ -746,6 +750,83 @@ const NLI = (() => {
     { label: 'Eufaula, AL',       lat: 31.8913, lng: -85.1455 },
     { label: 'Jackson, AL',       lat: 31.5093, lng: -87.8944 }
   ];
+
+  /* --- shared map legend ---------------------------------------------------
+     Both maps — the one on the home page and the one behind the listings
+     page's Map view — offer the same switches, so they share one
+     implementation rather than two that drift apart. This owns the chip
+     markup, the on/off state and the guard that stops the map going blank;
+     each map supplies its own counts and its own draw().
+
+     Returns state() rather than exposing the sets directly, so a caller can
+     read the current filter but cannot quietly mutate it behind the chips.
+     ---------------------------------------------------------------------- */
+
+  function createMapFilters(legend, { typeCounts = {}, soldCount = 0, managedCount = 0, onChange }) {
+    const active = new Set(LAND_TYPES.map(t => t.key));
+    let showSold = false;
+    let showManaged = false;
+
+    legend.innerHTML = LAND_TYPES.map(t => `
+      <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
+        <span class="legend-chip__dot" style="background:${t.color}"></span>
+        <span class="legend-chip__label">${t.label}</span>
+        <span class="legend-chip__count">${typeCounts[t.key] || 0}</span>
+      </button>`).join('') +
+      (soldCount ? `
+      <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="false">
+        <span class="legend-chip__dot" style="background:${SOLD_COLOR}"></span>
+        <span class="legend-chip__label">Sold</span>
+        <span class="legend-chip__count">${soldCount}</span>
+      </button>` : '') +
+      (managedCount ? `
+      <button class="legend-chip legend-chip--managed" type="button" data-legend-managed aria-pressed="false">
+        <span class="legend-chip__dot" style="background:${MANAGED_COLOR}"></span>
+        <span class="legend-chip__label">Management</span>
+        <span class="legend-chip__count">${managedCount}</span>
+      </button>` : '') +
+      `<span class="legend-note" data-legend-note></span>`;
+
+    const soldBtn    = $('[data-legend-sold]', legend);
+    const managedBtn = $('[data-legend-managed]', legend);
+
+    // Keep every chip's pressed state in step with the sets that drive draw().
+    const syncChips = () => {
+      $$('[data-legend-type]', legend).forEach(b =>
+        b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
+      if (soldBtn)    soldBtn.setAttribute('aria-pressed', String(showSold));
+      if (managedBtn) managedBtn.setAttribute('aria-pressed', String(showManaged));
+    };
+
+    // The map must never end up completely blank. "Blank" means no land types
+    // AND no sold layer AND no managed layer — not merely no land types, which
+    // is what an earlier version checked. That older test made "sold only" and
+    // "managed only" impossible: switching off the last land type silently
+    // turned all four back on, throwing away the filter the reader had just
+    // built up chip by chip.
+    const somethingLeft = () => active.size > 0 || showSold || showManaged;
+    const restoreAllTypes = () => LAND_TYPES.forEach(t => active.add(t.key));
+    const settle = () => {
+      if (!somethingLeft()) restoreAllTypes();
+      syncChips();
+      onChange();
+    };
+
+    $$('[data-legend-type]', legend).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.legendType;
+        if (active.has(key)) active.delete(key); else active.add(key);
+        settle();
+      });
+    });
+    if (soldBtn)    soldBtn.addEventListener('click',    () => { showSold = !showSold; settle(); });
+    if (managedBtn) managedBtn.addEventListener('click', () => { showManaged = !showManaged; settle(); });
+
+    return {
+      note: $('[data-legend-note]', legend),
+      state: () => ({ active, showSold, showManaged })
+    };
+  }
 
   function initLandMap(props) {
     const canvas = $('[data-land-map]');
@@ -758,9 +839,6 @@ const NLI = (() => {
     // same map behind their own switch, off by default, so the first thing a
     // buyer sees is still what they can actually buy.
     const soldList = mapped.filter(p => p.status === 'Sold');
-    // Bright red: sold pins have to be legible as a different kind of thing
-    // from every land type at a glance. Kept in step with --sold in style.css.
-    const SOLD_COLOR = '#D42A1E';
 
     // No mapping library (blocked, offline, CDN down) — say so and offer the
     // listings page rather than leaving a grey rectangle on the front page.
@@ -776,15 +854,15 @@ const NLI = (() => {
       return;
     }
 
-    const active = new Set(LAND_TYPES.map(t => t.key));
-    let showSold = false;
-    let showManaged = false;
     // A tract is usually two or three types at once, so the pin takes the
     // colour of its own first-listed type — the primary one. Filter down to a
     // single type and every visible pin recolours to that type, so the legend
     // and the map always agree about what a colour means.
-    const colorFor = (p) => {
-      const on = p.types.filter(t => active.has(t));
+    // Takes the active set as an argument rather than closing over it: the
+    // filter state now lives in createMapFilters, and reaching for a stale
+    // outer binding here is exactly how this broke once already.
+    const colorFor = (p, activeSet) => {
+      const on = p.types.filter(t => activeSet.has(t));
       const key = (on.length ? on : p.types)[0];
       return (LAND_TYPES.find(t => t.key === key) || LAND_TYPES[0]).color;
     };
@@ -811,7 +889,7 @@ const NLI = (() => {
     }
 
     const markers = listings.map(p => {
-      const m = L.marker([p.lat, p.lng], { icon: pin(colorFor(p)), title: p.title });
+      const m = L.marker([p.lat, p.lng], { icon: pin(colorFor(p, ALL_TYPE_KEYS)), title: p.title });
       m.bindPopup(`
         <div class="map-pop">
           <img src="${esc(p.images[0])}" alt="${esc(p.title)}">
@@ -851,34 +929,23 @@ const NLI = (() => {
       return { p: loc, m };
     });
 
-    legend.innerHTML = LAND_TYPES.map(t => `
-      <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
-        <span class="legend-chip__dot" style="background:${t.color}"></span>
-        <span class="legend-chip__label">${t.label}</span>
-        <span class="legend-chip__count">${listings.filter(p => p.types.includes(t.key)).length}</span>
-      </button>`).join('') +
-      (soldList.length ? `
-      <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="false">
-        <span class="legend-chip__dot" style="background:${SOLD_COLOR}"></span>
-        <span class="legend-chip__label">Sold</span>
-        <span class="legend-chip__count">${soldList.length}</span>
-      </button>` : '') +
-      (MANAGED_LOCATIONS.length ? `
-      <button class="legend-chip legend-chip--managed" type="button" data-legend-managed aria-pressed="false">
-        <span class="legend-chip__dot" style="background:${MANAGED_COLOR}"></span>
-        <span class="legend-chip__label">Management</span>
-        <span class="legend-chip__count">${MANAGED_LOCATIONS.length}</span>
-      </button>` : '') +
-      `<span class="legend-note" data-legend-note></span>`;
-
-    const note = $('[data-legend-note]', legend);
+    const managedCount = MANAGED_LOCATIONS.length;
+    const filters = createMapFilters(legend, {
+      typeCounts: Object.fromEntries(LAND_TYPES.map(t =>
+        [t.key, listings.filter(p => p.types.includes(t.key)).length])),
+      soldCount: soldList.length,
+      managedCount,
+      onChange: () => draw()
+    });
+    const note = filters.note;
 
     function draw() {
+      const { active, showSold, showManaged } = filters.state();
       const shown = [];
       let forSaleShown = 0;
       markers.forEach(({ p, m }) => {
         const on = p.types.some(t => active.has(t));
-        if (on) { m.setIcon(pin(colorFor(p))); m.addTo(map); shown.push(p); forSaleShown++; }
+        if (on) { m.setIcon(pin(colorFor(p, active))); m.addTo(map); shown.push(p); forSaleShown++; }
         else { map.removeLayer(m); }
       });
       soldMarkers.forEach(({ p, m }) => {
@@ -903,57 +970,8 @@ const NLI = (() => {
           : `${forSaleShown} of ${listings.length} tracts`
       ];
       if (showSold)    parts.push(`${soldList.length} sold`);
-      if (showManaged) parts.push(`${MANAGED_LOCATIONS.length} managed`);
+      if (showManaged) parts.push(`${managedCount} managed`);
       note.textContent = parts.join(' · ');
-    }
-
-    // Keep every chip's pressed state in step with the sets that drive draw().
-    const syncChips = () => {
-      $$('[data-legend-type]', legend).forEach(b =>
-        b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
-      if (soldBtn)    soldBtn.setAttribute('aria-pressed', String(showSold));
-      if (managedBtn) managedBtn.setAttribute('aria-pressed', String(showManaged));
-    };
-
-    // The map must never end up completely blank. "Blank" means no land types
-    // AND no sold layer AND no managed layer — not merely no land types, which
-    // is what the old guard checked. That older test made "sold only" and
-    // "managed only" impossible: switching off the last land type silently
-    // turned all four back on, throwing away the filter the reader had just
-    // built up chip by chip.
-    const somethingLeft = () => active.size > 0 || showSold || showManaged;
-    const restoreAllTypes = () => LAND_TYPES.forEach(t => active.add(t.key));
-
-    $$('[data-legend-type]', legend).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.legendType;
-        if (active.has(key)) active.delete(key);
-        else active.add(key);
-        // Only step in once the last thing on the map has been switched off.
-        if (!somethingLeft()) restoreAllTypes();
-        syncChips();
-        draw();
-      });
-    });
-
-    const soldBtn = $('[data-legend-sold]', legend);
-    if (soldBtn) {
-      soldBtn.addEventListener('click', () => {
-        showSold = !showSold;
-        if (!somethingLeft()) restoreAllTypes();
-        syncChips();
-        draw();
-      });
-    }
-
-    const managedBtn = $('[data-legend-managed]', legend);
-    if (managedBtn) {
-      managedBtn.addEventListener('click', () => {
-        showManaged = !showManaged;
-        if (!somethingLeft()) restoreAllTypes();
-        syncChips();
-        draw();
-      });
     }
 
     draw();
@@ -1030,19 +1048,39 @@ const NLI = (() => {
 
     let visible = [];
     let map = null, markers = {}, mapReady = false;
+    // Sold and managed pins live outside `markers`, which is keyed by listing
+    // id and used for the side-list hover wiring.
+    let extraMarkers = [];
+    let mapFilters = null;
 
     const gridEl = els.grid;
     const mapWrap = $('[data-map-view]');
     const listEl = $('[data-map-list]');
+    const legendEl = $('[data-map-legend]');
 
-    const pin = (active) => L.divIcon({
+    // Sold tracts are excluded from the grid, so the map layer reads them from
+    // the full set rather than from what the page is currently listing.
+    const soldList = props.filter(p => p.status === 'Sold' && p.lat != null && p.lng != null);
+
+    // Colour matches the home map's key, so a hue means the same thing on both.
+    // `active` is the hover/selected state, which grows the pin and switches it
+    // to the gold accent rather than changing what the colour means.
+    const pin = (isActive, color) => L.divIcon({
       className: '',
-      html: `<div style="width:${active ? 32 : 24}px;height:${active ? 32 : 24}px;border-radius:50%;
-             background:${active ? '#B98A3C' : '#1F3527'};border:2px solid #F7F4EC;
+      html: `<div style="width:${isActive ? 32 : 24}px;height:${isActive ? 32 : 24}px;border-radius:50%;
+             background:${isActive ? '#B98A3C' : (color || '#1F3527')};border:2px solid #F7F4EC;
              box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>`,
-      iconSize: [active ? 32 : 24, active ? 32 : 24],
-      iconAnchor: [active ? 16 : 12, active ? 16 : 12]
+      iconSize: [isActive ? 32 : 24, isActive ? 32 : 24],
+      iconAnchor: [isActive ? 16 : 12, isActive ? 16 : 12]
     });
+
+    // Same rule as the home map: a tract carries several types, so the pin
+    // takes its first type that is currently switched on.
+    const colorFor = (p, activeSet) => {
+      const on = p.types.filter(t => activeSet.has(t));
+      const key = (on.length ? on : p.types)[0];
+      return (LAND_TYPES.find(t => t.key === key) || LAND_TYPES[0]).color;
+    };
 
     function ensureMap() {
       if (mapReady || !window.L || !$('#map')) return;
@@ -1068,14 +1106,28 @@ const NLI = (() => {
       $('.results-bar')?.remove();
     }
 
+    /* The legend narrows whatever the page filters already produced. Two
+       stages, deliberately: `visible` is the grid's set, and the chips filter
+       that down again, so grid and map never disagree about what is listed —
+       the map just shows fewer pins.
+
+       Sold and managed are layers of their own, drawn from the full data
+       rather than from `visible`, exactly as on the home page. */
     function syncMap(list) {
       if (!mapReady) return;
+      const { active, showSold, showManaged } = mapFilters
+        ? mapFilters.state()
+        : { active: new Set(LAND_TYPES.map(t => t.key)), showSold: false, showManaged: false };
 
       Object.values(markers).forEach(m => map.removeLayer(m));
       markers = {};
+      extraMarkers.forEach(m => map.removeLayer(m));
+      extraMarkers = [];
 
-      list.forEach(p => {
-        const m = L.marker([p.lat, p.lng], { icon: pin(false), title: p.title }).addTo(map);
+      const shown = list.filter(p => p.types.some(t => active.has(t)));
+
+      shown.forEach(p => {
+        const m = L.marker([p.lat, p.lng], { icon: pin(false, colorFor(p, active)), title: p.title }).addTo(map);
         m.bindPopup(`
           <div class="map-pop">
             <img src="${esc(p.images[0])}" alt="${esc(p.title)}">
@@ -1089,10 +1141,55 @@ const NLI = (() => {
         markers[p.id] = m;
       });
 
-      if (list.length) map.fitBounds(list.map(p => [p.lat, p.lng]), { padding: [50, 50] });
+      const bounds = shown.map(p => [p.lat, p.lng]);
 
-      listEl.innerHTML = list.length
-        ? list.map(p => `
+      if (showSold) {
+        soldList.forEach(p => {
+          const m = L.marker([p.lat, p.lng], { icon: pin(false, SOLD_COLOR), title: p.title + ' (sold)' }).addTo(map);
+          m.bindPopup(`
+            <div class="map-pop${p.images[0] ? '' : ' map-pop--plain'}">
+              ${p.images[0] ? `<img src="${esc(p.images[0])}" alt="${esc(p.title)}">` : ''}
+              <div class="map-pop__body">
+                <h4>${esc(p.title)}</h4>
+                <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
+                <p style="font-weight:600;color:${SOLD_COLOR}">Sold${p.listed ? ' · ' + p.listed.slice(0, 4) : ''}</p>
+              </div>
+            </div>`);
+          extraMarkers.push(m);
+          bounds.push([p.lat, p.lng]);
+        });
+      }
+
+      if (showManaged) {
+        MANAGED_LOCATIONS.forEach(loc => {
+          const m = L.marker([loc.lat, loc.lng], { icon: pin(false, MANAGED_COLOR), title: loc.label + ' (managed)' }).addTo(map);
+          m.bindPopup(`
+            <div class="map-pop map-pop--plain">
+              <div class="map-pop__body">
+                <h4>${esc(loc.label)}</h4>
+                <p style="font-weight:600;color:${MANAGED_COLOR}">Asset under management</p>
+              </div>
+            </div>`);
+          extraMarkers.push(m);
+          bounds.push([loc.lat, loc.lng]);
+        });
+      }
+
+      if (bounds.length) map.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+
+      if (mapFilters) {
+        const parts = [shown.length === list.length
+          ? `${list.length} ${list.length === 1 ? 'tract' : 'tracts'}`
+          : `${shown.length} of ${list.length} tracts`];
+        if (showSold)    parts.push(`${soldList.length} sold`);
+        if (showManaged) parts.push(`${MANAGED_LOCATIONS.length} managed`);
+        mapFilters.note.textContent = parts.join(' · ');
+      }
+
+      // The side list follows the pins: showing a card for a tract whose pin
+      // has been filtered off would be its own small lie.
+      listEl.innerHTML = shown.length
+        ? shown.map(p => `
           <button class="mcard" type="button" data-map-card="${esc(p.id)}">
             <img src="${esc(p.images[0])}" alt="${esc(p.title)}" loading="lazy">
             <div>
@@ -1101,19 +1198,20 @@ const NLI = (() => {
               <div class="price">${esc(p.priceLabel)}</div>
             </div>
           </button>`).join('')
-        : `<p class="muted" style="padding:20px">No properties to show.</p>`;
+        : `<p class="muted" style="padding:20px">No properties match those filters.</p>`;
 
       $$('[data-map-card]', listEl).forEach(card => {
         const id = card.dataset.mapCard;
+        const base = () => colorFor(shown.find(x => x.id === id), active);
         card.addEventListener('click', () => {
-          const p = list.find(x => x.id === id);
+          const p = shown.find(x => x.id === id);
           map.flyTo([p.lat, p.lng], 13, { duration: .8 });
           markers[id].openPopup();
           $$('.mcard', listEl).forEach(c => c.classList.remove('is-active'));
           card.classList.add('is-active');
         });
-        card.addEventListener('mouseenter', () => markers[id]?.setIcon(pin(true)));
-        card.addEventListener('mouseleave', () => markers[id]?.setIcon(pin(false)));
+        card.addEventListener('mouseenter', () => markers[id]?.setIcon(pin(true, base())));
+        card.addEventListener('mouseleave', () => markers[id]?.setIcon(pin(false, base())));
       });
     }
 
@@ -1125,6 +1223,18 @@ const NLI = (() => {
 
       if (isMap) {
         ensureMap();
+        // Built on first open rather than at boot: the legend's counts come
+        // from the listings the page is actually showing, and the map view
+        // may never be opened at all.
+        if (mapReady && legendEl && !mapFilters) {
+          mapFilters = createMapFilters(legendEl, {
+            typeCounts: Object.fromEntries(LAND_TYPES.map(t =>
+              [t.key, visible.filter(p => p.types.includes(t.key)).length])),
+            soldCount: soldList.length,
+            managedCount: MANAGED_LOCATIONS.length,
+            onChange: () => syncMap(visible)
+          });
+        }
         if (!mapReady) {
           // Say what happened rather than showing an empty rectangle.
           mapWrap.innerHTML = `<div class="empty-state" style="padding:60px 24px">

@@ -19,13 +19,12 @@
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=yes">
 <link rel="icon" href="https://nicholsland.net/wp-content/uploads/2020/09/NLI-favicon.ico">
-<!-- Warm up the video host so the hero clip's connection is already open when
-     the parser reaches it. There is deliberately no <link rel="preload"
-     as="video"> here: "video" is not a valid `as` value, so browsers ignored
-     the hint entirely and logged a console warning for it. The clip's own
-     preload="auto" is what actually starts the fetch. -->
+<!-- The hero clips and stills are served from this site now, not a third
+     party CDN, so there is no external host to warm up. There is deliberately
+     no <link rel="preload" as="video"> either: "video" is not a valid `as`
+     value, so browsers ignored the hint and logged a warning for it. The first
+     clip's own preload="auto" is what actually starts the fetch. -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
 </head>
 <body data-page="home">
 
@@ -73,15 +72,17 @@
            is first: .is-current, the eager preload + autoplay, and the base
            still below (which is the floor the first clip fades up from).
 
-           TODO before launch: pull every src below into assets/ and swap the
-           paths. All of them are still on Higgsfield's CDN, so if those URLs
-           are ever rotated the hero goes blank. -->
+           Every clip and still below is served from this site. Stills are
+           WebP at 1920px rather than the 2688px PNGs they were generated as;
+           clips are re-encoded at a sane web bitrate. That took the hero from
+           61MB to about 10MB, and removed the dependency on a third party
+           CDN staying up. -->
       <div class="hero__stage" data-hero-rotator>
         <!-- Held at low priority so it never competes with the clip for
              bandwidth. It exists purely as the floor: reduced motion, data
              saver, blocked autoplay or a failed request all land here — so it
              matches slide one, and moves if the running order changes. -->
-        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_153956_1c384593-5248-440d-b963-e72f70975c0e.png"
+        <img src="assets/img/hero/hero-commercial.webp"
              alt="Aerial view at golden hour of the Nichols Land office building in Athens, Georgia, with the Georgia state flag flying and the Athens skyline and Sanford Stadium in the distance"
              fetchpriority="low" decoding="async">
 
@@ -93,7 +94,7 @@
              role, and a poster would have the browser download a second large
              file at exactly the moment the video needs the bandwidth. -->
         <div class="hero__slide is-current" data-hero-slide data-label="Commercial" data-hold="6500">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_153956_1c384593-5248-440d-b963-e72f70975c0e.png"
+          <img src="assets/img/hero/hero-commercial.webp"
                alt="Aerial view at golden hour of the Nichols Land office building in Athens, Georgia, with the Georgia state flag flying and the Athens skyline and Sanford Stadium in the distance"
                loading="lazy" fetchpriority="low" decoding="async">
           <video
@@ -101,7 +102,7 @@
             muted playsinline autoplay
             disablepictureinpicture
             aria-hidden="true" tabindex="-1">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_154533_2d6d89b7-80b4-4006-a0cc-95133ce874be.mp4" type="video/mp4">
+            <source src="assets/video/hero-commercial.mp4" type="video/mp4">
           </video>
         </div>
 
@@ -110,7 +111,7 @@
              clip 404s the slide keeps its place in the rotation and runs as
              a still rather than dropping out. -->
         <div class="hero__slide" data-hero-slide data-label="Timber" data-hold="6500">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_150022_c5dc38af-e302-4d79-9008-93078d29c062.png"
+          <img src="assets/img/hero/hero-timber.webp"
                alt="Aerial view at golden hour of managed North Georgia pine timberland with a red clay road and a hardwood creek bottom"
                loading="lazy" fetchpriority="low" decoding="async">
           <video
@@ -118,7 +119,7 @@
             muted playsinline
             disablepictureinpicture
             aria-hidden="true" tabindex="-1">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_152223_46d686f9-5859-4b88-9861-3aad3195a8a5.mp4" type="video/mp4">
+            <source src="assets/video/hero-timber.mp4" type="video/mp4">
           </video>
         </div>
 
@@ -127,7 +128,7 @@
              daylight rather than the golden hour of the two slides before it,
              so the rotation deliberately changes time of day on this beat. -->
         <div class="hero__slide" data-hero-slide data-label="Land" data-hold="6500">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_171150_be2c42f2-1976-46c1-a217-4f23d907224b.png"
+          <img src="assets/img/hero/hero-land.webp"
                alt="Aerial view on a clear afternoon of a Georgia hayfield with round bales along the treeline, and a small town with a water tower and church steeple set among the trees beyond"
                loading="lazy" fetchpriority="low" decoding="async">
           <video
@@ -135,7 +136,7 @@
             muted playsinline
             disablepictureinpicture
             aria-hidden="true" tabindex="-1">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_171627_d9bdb4f1-77ee-4b5e-9d78-e0683c9e6829.mp4" type="video/mp4">
+            <source src="assets/video/hero-land.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -560,7 +561,10 @@
          the drafting facts of the firm itself. -->
     <dl class="tblock tblock--footer">
       <div><dt>Broker</dt><dd>Carl R. Nichols</dd></div>
-      <div><dt>Licence</dt><dd>Georgia</dd></div>
+      <!-- The licence row was removed at the client's direction. Worth a
+           second look with whoever handles compliance: many states require a
+           broker to disclose licensure on advertising, and this footer sits on
+           the same page as a map showing managed assets in four states. -->
       <div><dt>Established</dt><dd>1976</dd></div>
       <div><dt>Office</dt><dd>Athens, GA</dd></div>
     </dl>

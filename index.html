@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nichols Land &amp; Investment Co. — Farms, Timberland &amp; Commercial Real Estate in Georgia</title>
-<meta name="description" content="Since 1976, Nichols Land &amp; Investment Co. has helped buyers and sellers across Georgia with farms, timberland, recreational land and commercial real estate. Based in Athens, serving Oglethorpe, Elbert, Walton, Putnam and surrounding counties.">
+<title>Nichols Land &amp; Investment Co. — Farms, Timberland &amp; Commercial Real Estate</title>
+<meta name="description" content="Since 1976, Nichols Land &amp; Investment Co. has helped buyers and sellers with farms, timberland, recreational land and commercial real estate — from acquisition through ownership to disposition.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -129,7 +129,7 @@
         <p class="hero__sub hero__sub--lead">…from acquisition throughout ownership to disposition — whether a homesite, commercial building or a thousand-acre timber investment.</p>
         <div class="hero__actions">
           <a class="btn btn--gold" href="#featured">View land for sale</a>
-          <a class="btn btn--ghost-light" href="#commercial">View commercial assets for sale</a>
+          <a class="btn btn--ghost-light" href="#commercial">View Commercial Properties for Sale/Lease</a>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <h2 class="h1">Commercial assets for sale</h2>
+          <h2 class="h1">Commercial assets for sale/lease</h2>
         </div>
       </div>
       <div class="grid-cards grid-cards--pair">
@@ -235,9 +235,24 @@
           <h2 class="h1">Experience, expertise &amp; guidance</h2>
           <p class="lede section-head__sub">Eight service lines cover a property from acquisition through ownership to disposition — for a 10-acre homesite, commercial building or a thousand-acre timber investment.</p>
         </div>
-        <figure class="services-intro__fig">
-          <img src="assets/img/photos/forester-hardwood-timber.jpg"
+        <!-- Four photographs on a slow rotation rather than one still. The
+             first is eager and the rest lazy: the section sits well below the
+             fold, and only the leading frame is needed the moment it scrolls
+             into view. JS handles the crossfade and stops the timer whenever
+             the figure is off screen or the tab is hidden. -->
+        <figure class="services-intro__fig" data-slideshow data-interval="4500">
+          <img class="is-current"
+               src="assets/img/photos/forester-hardwood-timber.jpg"
                alt="A Nichols forester in an orange vest walking a mature hardwood stand in leaf"
+               width="1400" height="867" loading="lazy" decoding="async">
+          <img src="assets/img/photos/hayfield-round-bales.jpg"
+               alt="Round hay bales lined along the edge of a cut hayfield under a blue summer sky"
+               width="1400" height="867" loading="lazy" decoding="async">
+          <img src="assets/img/photos/thinned-pine-stand.jpg"
+               alt="A thinned pine stand with grass between the rows and young pines coming up"
+               width="1400" height="867" loading="lazy" decoding="async">
+          <img src="assets/img/photos/creek-pasture-ridge.jpg"
+               alt="A creek winding through open pasture with wooded ridges beyond"
                width="1400" height="867" loading="lazy" decoding="async">
         </figure>
       </div>
@@ -449,7 +464,7 @@
       <div class="footer-brand">
         <div class="brand-fallback" style="color:var(--bone);margin-bottom:16px">
           Nichols Land &amp; Investment Co.
-          <small>Est. 1976 · Georgia</small>
+          <small>Est. 1976</small>
         </div>
         <p style="max-width:34ch">A full-service land and commercial real estate company specializing in timberland, rural land, recreational tracts and all classes of commercial property.</p>
         <div class="social" style="margin-top:20px">

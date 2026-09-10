@@ -375,6 +375,79 @@ const NLI = (() => {
     schedule();
   }
 
+  /* --- photo slideshows ----------------------------------------------------
+     Any figure marked [data-slideshow] crossfades through its own <img>
+     children. Independent of the hero rotator above: that one has to juggle
+     clips, buffering and autoplay policy, while this is only ever pictures.
+
+     The timer runs only while the figure is actually on screen and the tab is
+     visible, so a slideshow far down the page costs nothing until someone
+     scrolls to it.
+     ---------------------------------------------------------------------- */
+
+  function initSlideshows() {
+    const mq = (q) => (typeof window.matchMedia === 'function' ? window.matchMedia(q).matches : false);
+    if (mq('(prefers-reduced-motion: reduce)')) return;   // CSS shows frame one
+
+    $$('[data-slideshow]').forEach((fig) => {
+      const frames = Array.prototype.slice.call(fig.querySelectorAll(':scope > img'));
+      if (frames.length < 2) return;
+
+      const wait = parseInt(fig.getAttribute('data-interval'), 10) || 4500;
+      let index = 0, timer = null, onScreen = true;
+
+      // Only now do the frames all become absolute — before this the first one
+      // was holding the box open in normal flow.
+      fig.classList.add('is-live');
+      frames.forEach((f, i) => f.classList.toggle('is-current', i === 0));
+
+      const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+      const step  = () => {
+        const next = (index + 1) % frames.length;
+        // Decode before showing so a frame never fades in half-painted. The
+        // catch matters: a missing file must not stall the whole rotation.
+        const show = () => {
+          frames[index].classList.remove('is-current');
+          frames[next].classList.add('is-current');
+          index = next;
+        };
+        if (typeof frames[next].decode === 'function') frames[next].decode().then(show, show);
+        else show();
+      };
+      const start = () => { if (!timer && onScreen) timer = setInterval(step, wait); };
+
+      // A frame that 404s is dropped rather than showing a broken image. If it
+      // was the one on screen, something else has to take the baton in the same
+      // breath — otherwise nothing carries .is-current and the figure goes
+      // blank, which is worse than the broken image we were avoiding.
+      frames.forEach((f) => f.addEventListener('error', () => {
+        const at = frames.indexOf(f);
+        if (at === -1) return;
+        const wasCurrent = f.classList.contains('is-current');
+        frames.splice(at, 1);
+        f.remove();
+        if (!frames.length) { stop(); fig.classList.remove('is-live'); return; }
+        if (index >= frames.length) index = 0;
+        else if (at < index) index--;          // keep pointing at the same frame
+        if (wasCurrent) frames[index].classList.add('is-current');
+        if (frames.length < 2) stop();         // nothing left to rotate between
+      }));
+
+      if (typeof IntersectionObserver === 'function') {
+        new IntersectionObserver((entries) => {
+          onScreen = entries[0].isIntersecting;
+          if (onScreen) start(); else stop();
+        }, { rootMargin: '120px' }).observe(fig);
+      } else {
+        start();
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop(); else start();
+      });
+    });
+  }
+
   function initHero() {
     const hero  = $('.hero');
     if (!hero) return;
@@ -655,6 +728,25 @@ const NLI = (() => {
     { key: 'Investment',   label: 'Investment',   color: '#3E5C6B' }
   ];
 
+  /* Managed locations are not listings. They are places where Nichols has
+     managed assets, and they exist on the map to show how far the work
+     reaches — several states past the tracts currently for sale. They carry
+     no acreage, price or detail page, so they are a separate layer with its
+     own switch rather than another land type.
+
+     Off by default: switching them on pulls the map out to a multi-state view,
+     which is the wrong first impression for someone looking for land to buy. */
+  const MANAGED_COLOR = '#8A6BAF';
+  const MANAGED_LOCATIONS = [
+    { label: 'Knoxville, TN',     lat: 35.9606, lng: -83.9207 },
+    { label: 'Greenwood, SC',     lat: 34.1954, lng: -82.1618 },
+    { label: 'Richmond Hill, GA', lat: 31.9382, lng: -81.3037 },
+    { label: 'Fargo, GA',         lat: 30.6816, lng: -82.5651 },
+    { label: 'Lake City, FL',     lat: 30.1897, lng: -82.6393 },
+    { label: 'Eufaula, AL',       lat: 31.8913, lng: -85.1455 },
+    { label: 'Jackson, AL',       lat: 31.5093, lng: -87.8944 }
+  ];
+
   function initLandMap(props) {
     const canvas = $('[data-land-map]');
     const legend = $('[data-map-legend]');
@@ -686,6 +778,7 @@ const NLI = (() => {
 
     const active = new Set(LAND_TYPES.map(t => t.key));
     let showSold = false;
+    let showManaged = false;
     // A tract is usually two or three types at once, so the pin takes the
     // colour of its own first-listed type — the primary one. Filter down to a
     // single type and every visible pin recolours to that type, so the legend
@@ -746,6 +839,18 @@ const NLI = (() => {
       return { p, m };
     });
 
+    const managedMarkers = MANAGED_LOCATIONS.map(loc => {
+      const m = L.marker([loc.lat, loc.lng], { icon: pin(MANAGED_COLOR), title: loc.label + ' (managed)' });
+      m.bindPopup(`
+        <div class="map-pop map-pop--plain">
+          <div class="map-pop__body">
+            <h4>${esc(loc.label)}</h4>
+            <p style="font-weight:600;color:${MANAGED_COLOR}">Asset under management</p>
+          </div>
+        </div>`);
+      return { p: loc, m };
+    });
+
     legend.innerHTML = LAND_TYPES.map(t => `
       <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
         <span class="legend-chip__dot" style="background:${t.color}"></span>
@@ -758,45 +863,75 @@ const NLI = (() => {
         <span class="legend-chip__label">Sold</span>
         <span class="legend-chip__count">${soldList.length}</span>
       </button>` : '') +
+      (MANAGED_LOCATIONS.length ? `
+      <button class="legend-chip legend-chip--managed" type="button" data-legend-managed aria-pressed="false">
+        <span class="legend-chip__dot" style="background:${MANAGED_COLOR}"></span>
+        <span class="legend-chip__label">Management</span>
+        <span class="legend-chip__count">${MANAGED_LOCATIONS.length}</span>
+      </button>` : '') +
       `<span class="legend-note" data-legend-note></span>`;
 
     const note = $('[data-legend-note]', legend);
 
     function draw() {
       const shown = [];
+      let forSaleShown = 0;
       markers.forEach(({ p, m }) => {
         const on = p.types.some(t => active.has(t));
-        if (on) { m.setIcon(pin(colorFor(p))); m.addTo(map); shown.push(p); }
+        if (on) { m.setIcon(pin(colorFor(p))); m.addTo(map); shown.push(p); forSaleShown++; }
         else { map.removeLayer(m); }
       });
       soldMarkers.forEach(({ p, m }) => {
         if (showSold) { m.addTo(map); shown.push(p); }
         else { map.removeLayer(m); }
       });
+      managedMarkers.forEach(({ p, m }) => {
+        if (showManaged) { m.addTo(map); shown.push(p); }
+        else { map.removeLayer(m); }
+      });
       if (shown.length) {
+        // maxZoom only bites when the pins are tightly clustered; the managed
+        // layer spans four states, so fitBounds pulls right out on its own.
         map.fitBounds(shown.map(p => [p.lat, p.lng]), { padding: [45, 45], maxZoom: 11 });
       }
-      const forSaleShown = shown.length - (showSold ? soldMarkers.length : 0);
-      const base = forSaleShown === listings.length
-        ? `${listings.length} tracts`
-        : `${forSaleShown} of ${listings.length} tracts`;
-      note.textContent = showSold ? `${base} · ${soldList.length} sold` : base;
+      // Counted as it goes rather than derived by subtraction — with three
+      // independent layers, inferring one total from another is how the
+      // number quietly goes wrong.
+      const parts = [
+        forSaleShown === listings.length
+          ? `${listings.length} tracts`
+          : `${forSaleShown} of ${listings.length} tracts`
+      ];
+      if (showSold)    parts.push(`${soldList.length} sold`);
+      if (showManaged) parts.push(`${MANAGED_LOCATIONS.length} managed`);
+      note.textContent = parts.join(' · ');
     }
+
+    // Keep every chip's pressed state in step with the sets that drive draw().
+    const syncChips = () => {
+      $$('[data-legend-type]', legend).forEach(b =>
+        b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
+      if (soldBtn)    soldBtn.setAttribute('aria-pressed', String(showSold));
+      if (managedBtn) managedBtn.setAttribute('aria-pressed', String(showManaged));
+    };
+
+    // The map must never end up completely blank. "Blank" means no land types
+    // AND no sold layer AND no managed layer — not merely no land types, which
+    // is what the old guard checked. That older test made "sold only" and
+    // "managed only" impossible: switching off the last land type silently
+    // turned all four back on, throwing away the filter the reader had just
+    // built up chip by chip.
+    const somethingLeft = () => active.size > 0 || showSold || showManaged;
+    const restoreAllTypes = () => LAND_TYPES.forEach(t => active.add(t.key));
 
     $$('[data-legend-type]', legend).forEach(btn => {
       btn.addEventListener('click', () => {
         const key = btn.dataset.legendType;
-        // Never let the reader switch every type off and stare at an empty
-        // map — the last one standing turns the rest back on instead.
-        if (active.has(key) && active.size === 1) {
-          LAND_TYPES.forEach(t => active.add(t.key));
-        } else if (active.has(key)) {
-          active.delete(key);
-        } else {
-          active.add(key);
-        }
-        $$('[data-legend-type]', legend).forEach(b =>
-          b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
+        if (active.has(key)) active.delete(key);
+        else active.add(key);
+        // Only step in once the last thing on the map has been switched off.
+        if (!somethingLeft()) restoreAllTypes();
+        syncChips();
         draw();
       });
     });
@@ -805,7 +940,18 @@ const NLI = (() => {
     if (soldBtn) {
       soldBtn.addEventListener('click', () => {
         showSold = !showSold;
-        soldBtn.setAttribute('aria-pressed', String(showSold));
+        if (!somethingLeft()) restoreAllTypes();
+        syncChips();
+        draw();
+      });
+    }
+
+    const managedBtn = $('[data-legend-managed]', legend);
+    if (managedBtn) {
+      managedBtn.addEventListener('click', () => {
+        showManaged = !showManaged;
+        if (!somethingLeft()) restoreAllTypes();
+        syncChips();
         draw();
       });
     }
@@ -1274,6 +1420,7 @@ const NLI = (() => {
     };
     safe('chrome', initChrome);
     safe('hero', initHero);
+    safe('slideshows', initSlideshows);
     safe('form', initForm);
     safe('county select', initCountySelect);
 

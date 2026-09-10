@@ -14,18 +14,18 @@
      CSS and JS. The value is a hash of the file: it changes only when
      the file does. Re-stamp with tools/stamp-assets.py after editing
      either one. -->
-<link rel="stylesheet" href="assets/css/style.css?v=434168db">
+<link rel="stylesheet" href="assets/css/style.css?v=86bc2abe">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=yes">
 <link rel="icon" href="https://nicholsland.net/wp-content/uploads/2020/09/NLI-favicon.ico">
-<!-- Warm up the video host and start the hero clip before the parser reaches it.
-     No crossorigin on either hint: the <video> fetch is not CORS, and mixing
-     the two would open a second connection and download the clip twice. -->
+<!-- Warm up the video host so the hero clip's connection is already open when
+     the parser reaches it. There is deliberately no <link rel="preload"
+     as="video"> here: "video" is not a valid `as` value, so browsers ignored
+     the hint entirely and logged a console warning for it. The clip's own
+     preload="auto" is what actually starts the fetch. -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
-<link rel="preload" as="video" type="video/mp4" fetchpriority="high"
-      href="https://d8j0ntlcm91z4.cloudfront.net/user_3EuelKZDdvefddUQb2spkYtDJCW/hf_20260910_152153_6a5c3ca9-e3c1-4fba-8dc7-aaeace22c013.mp4">
 </head>
 <body data-page="home">
 
@@ -339,8 +339,25 @@
           <div class="form-success" data-form-success>
             Thank you — your message has been received. A member of our team will be in touch shortly.
           </div>
+          <div class="form-error" data-form-error hidden>
+            That didn't send. Your email program should have opened with the
+            details — if it didn't, please call the office on
+            <a href="tel:7063533900">706‑353‑3900</a> or email
+            <a href="mailto:info@nicholsland.net">info@nicholsland.net</a>.
+          </div>
 
-          <form class="form-grid" data-contact-form novalidate style="margin-top:20px">
+          <!-- data-endpoint is where inquiries are POSTed. Paste a form-handler
+               URL here (Formspree, Basin, Netlify Forms, or your own script)
+               and submissions go straight there.
+
+               While it is empty — and if a POST ever fails — the form falls
+               back to opening the visitor's email client with everything
+               filled in, addressed to data-fallback-email. That is worse than
+               a real endpoint, but it means an inquiry is never accepted on
+               screen and then quietly dropped, which is what happened before. -->
+          <form class="form-grid" data-contact-form novalidate style="margin-top:20px"
+                data-endpoint=""
+                data-fallback-email="info@nicholsland.net">
             <div class="field">
               <label for="c-name">Name *</label>
               <input id="c-name" name="name" type="text" required autocomplete="name">
@@ -543,6 +560,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/app.js?v=fa05a44e"></script>
+<script src="assets/js/app.js?v=f4bfa3e7"></script>
 </body>
 </html>

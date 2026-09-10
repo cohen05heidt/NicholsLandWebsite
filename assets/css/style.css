@@ -1177,6 +1177,20 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .form-success.is-visible { display: block; }
 
+/* Shown only when a submission could not be delivered, so it must not look
+   like the success note in a different colour — it carries a phone number
+   and an address the reader may actually need to act on. */
+.form-error {
+  background: #FBEDEA;
+  border: 1px solid #D8A79C;
+  color: #7A2E22;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  font-size: .92rem;
+}
+.form-error[hidden] { display: none; }
+.form-error a { text-decoration: underline; color: inherit; font-weight: 700; }
+
 /* --- listings page -------------------------------------------------------- */
 .page-head { background: var(--forest-deep); color: var(--bone); padding: 74px 0 58px; }
 .page-head .lede { color: rgba(247,244,236,.74); }

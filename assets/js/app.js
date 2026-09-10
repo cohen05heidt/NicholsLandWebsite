@@ -1490,7 +1490,6 @@ const NLI = (() => {
         return;
       }
 
-      // No backend wired yet — show confirmation and log the payload.
       // Built by hand rather than Object.fromEntries: that keeps only the LAST
       // value for a repeated name, so every subject but one would be dropped.
       const fd = new FormData(form);
@@ -1502,16 +1501,77 @@ const NLI = (() => {
         const clean = key.replace(/\[\]$/, '');
         data[clean] = key.endsWith('[]') ? all : (all.length > 1 ? all : all[0]);
       }
-      console.info('[NLI] Inquiry ready to send:', data);
-      const success = $('[data-form-success]');
-      success?.classList.add('is-visible');
-      form.reset();
-      // form.reset() restores the checkboxes but not the summary text that
-      // was derived from them.
-      $$('[data-multiselect]', form).forEach(r => r._multiselect && r._multiselect.render());
-      if (success && typeof success.scrollIntoView === 'function') {
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const success  = $('[data-form-success]');
+      const errorBox = $('[data-form-error]');
+      const submit   = $('button[type="submit"]', form);
+      const endpoint = (form.getAttribute('data-endpoint') || '').trim();
+      const fallback = (form.getAttribute('data-fallback-email') || '').trim();
+
+      const label = {
+        name: 'Name', email: 'Email', phone: 'Phone', subject: 'Subject',
+        county: 'County of interest', acreage: 'Acreage range', message: 'Message'
+      };
+      const asText = () => Object.keys(data)
+        .filter(k => k !== 'consent' && data[k] && String(data[k]).length)
+        .map(k => `${label[k] || k}: ${Array.isArray(data[k]) ? data[k].join(', ') : data[k]}`)
+        .join('\n');
+
+      // Last resort so an inquiry is never accepted on screen and then lost:
+      // hand it to the visitor's own mail client, already filled in.
+      const openMailFallback = () => {
+        if (!fallback) return false;
+        const subjects = Array.isArray(data.subject) ? data.subject.join(', ') : (data.subject || 'Website inquiry');
+        const href = `mailto:${fallback}`
+          + `?subject=${encodeURIComponent('Website inquiry — ' + subjects)}`
+          + `&body=${encodeURIComponent(asText())}`;
+        // Length-capped: very long mailto URLs are silently dropped by some
+        // clients, and a truncated email beats no email.
+        window.location.href = href.slice(0, 1800);
+        return true;
+      };
+
+      const finish = () => {
+        success?.classList.add('is-visible');
+        if (errorBox) errorBox.hidden = true;
+        form.reset();
+        // form.reset() restores the checkboxes but not the summary text that
+        // was derived from them.
+        $$('[data-multiselect]', form).forEach(r => r._multiselect && r._multiselect.render());
+        if (success && typeof success.scrollIntoView === 'function') {
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      const failed = () => {
+        const opened = openMailFallback();
+        if (errorBox) errorBox.hidden = false;
+        if (!opened && errorBox && typeof errorBox.scrollIntoView === 'function') {
+          errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      if (!endpoint) {
+        // No handler configured yet — go straight to the mail client rather
+        // than showing a confirmation for something nobody will receive.
+        console.info('[NLI] No data-endpoint set; handing off to the mail client:', data);
+        if (openMailFallback()) finish();
+        else if (errorBox) errorBox.hidden = false;
+        return;
       }
+
+      if (submit) { submit.disabled = true; submit.dataset.label = submit.textContent; submit.textContent = 'Sending…'; }
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: fd
+      })
+        .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); finish(); })
+        .catch(err => { console.error('[NLI] Inquiry failed to send:', err); failed(); })
+        .finally(() => {
+          if (submit) { submit.disabled = false; submit.textContent = submit.dataset.label || 'Send Message'; }
+        });
     });
   }
 

@@ -1,20 +1,24 @@
-# Rebuilds data/properties.json whenever a listing changes.
+# Rebuilds data/properties.json and data/commercial.json whenever a listing
+# changes.
 #
-# The CMS at /admin writes one file per tract into data/properties/. The site
-# reads a single array, so something has to join them back up — this does, on
-# every save, about half a minute before Pages redeploys.
+# The CMS at /admin writes one file per tract into data/properties/ and one per
+# building into data/commercial/. The site reads a single array for each, so
+# something has to join them back up — this does, on every save, about half a
+# minute before Pages redeploys.
 #
-# It only watches data/properties/**, so the commit it pushes to
-# data/properties.json cannot trigger another run.
+# It only watches the source folders, so the commit it pushes to the two built
+# files cannot trigger another run.
 
-name: Build properties.json
+name: Build listing data
 
 on:
   push:
     branches: [main]
     paths:
       - 'data/properties/**'
+      - 'data/commercial/**'
       - 'tools/build-properties.mjs'
+      - 'tools/build-commercial.mjs'
   workflow_dispatch:
 
 permissions:
@@ -34,19 +38,22 @@ jobs:
         with:
           node-version: '20'
 
-      # Fails loudly on a malformed listing rather than publishing a site with
-      # a tract silently missing from it.
+      # Both fail loudly on a malformed listing rather than publishing a site
+      # with a tract or a building silently missing from it.
       - name: Rebuild data/properties.json
         run: node tools/build-properties.mjs
 
-      - name: Commit if the built file changed
+      - name: Rebuild data/commercial.json
+        run: node tools/build-commercial.mjs
+
+      - name: Commit if either built file changed
         run: |
-          if git diff --quiet -- data/properties.json; then
-            echo "No change to data/properties.json."
+          if git diff --quiet -- data/properties.json data/commercial.json; then
+            echo "No change to the built listing data."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/properties.json
-          git commit -m "Rebuild properties.json from listings"
+          git add data/properties.json data/commercial.json
+          git commit -m "Rebuild listing data from sources"
           git push

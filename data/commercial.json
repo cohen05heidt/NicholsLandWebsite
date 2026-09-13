@@ -1,0 +1,44 @@
+[
+  {
+    "id": "745-gaines-school-road",
+    "title": "Fully Leased Office Building",
+    "status": "For Sale",
+    "price": 850000,
+    "priceLabel": "$850,000",
+    "address": "745 Gaines School Road, Athens, GA 30605",
+    "facts": [
+      {
+        "label": "Type",
+        "value": "Office"
+      },
+      {
+        "label": "Tenancy",
+        "value": "Long-Term Credit Tenant"
+      }
+    ],
+    "image": "assets/img/comm-745-gaines.jpg",
+    "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia",
+    "order": 1
+  },
+  {
+    "id": "710-gaines-school-road",
+    "title": "East Side Office/Retail with Great Visibility",
+    "status": "For Sale",
+    "price": 350000,
+    "priceLabel": "$350,000",
+    "address": "710 Gaines School Road, Athens, GA 30605",
+    "facts": [
+      {
+        "label": "Type",
+        "value": "Office / Retail"
+      },
+      {
+        "label": "Size",
+        "value": "1,302 SF"
+      }
+    ],
+    "image": "assets/img/comm-710-gaines.jpg",
+    "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia",
+    "order": 2
+  }
+]

@@ -190,54 +190,25 @@
     </div>
   </section>
 
-  <!-- ================= COMMERCIAL ================= -->
-  <!-- Two hand-authored cards rather than a data-driven grid: the commercial
-       book is small and slow-moving, so a listing feed would be more machinery
-       than the content justifies. Edit the markup directly to change them. -->
-  <section class="section" id="commercial">
+  <!-- Rendered from data/commercial.json, the same way the land listings are.
+       These were two hand-authored cards until it became clear what that
+       actually meant: whoever manages listings could add, edit and delete
+       every tract on the site through the admin, and could not touch these
+       two buildings at all without a developer and a commit. Two listings is
+       not enough content to justify a feed, but it is enough to justify not
+       having a corner of the site that only one person can maintain.
+
+       The section removes itself when there is nothing to show — including
+       when every building has been sold or deleted — rather than leaving a
+       heading over an empty strip. -->
+  <section class="section" id="commercial" data-commercial-section hidden>
     <div class="wrap">
       <div class="section-head">
         <div>
           <h2 class="h1">Commercial assets for sale/lease</h2>
         </div>
       </div>
-      <div class="grid-cards grid-cards--pair">
-
-        <article class="pcard reveal">
-          <div class="pcard__media">
-            <img src="assets/img/comm-745-gaines.jpg" alt="Fully leased office building at 745 Gaines School Road, Athens, Georgia" loading="lazy" decoding="async">
-            <div class="pcard__tags"><span class="tag">For Sale</span></div>
-            <div class="pcard__price">$850,000</div>
-          </div>
-          <div class="pcard__body">
-            <h3 class="pcard__title">Fully Leased Office Building</h3>
-            <p class="pcard__loc">745 Gaines School Road, Athens, GA 30605</p>
-            <div class="pcard__meta">
-              <span>Type<b>Office</b></span>
-              <span>Tenancy<b>Long-Term Credit Tenant</b></span>
-            </div>
-            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
-          </div>
-        </article>
-
-        <article class="pcard reveal">
-          <div class="pcard__media">
-            <img src="assets/img/comm-710-gaines.jpg" alt="Office and retail building at 710 Gaines School Road, Athens, Georgia" loading="lazy" decoding="async">
-            <div class="pcard__tags"><span class="tag">For Sale</span></div>
-            <div class="pcard__price">$350,000</div>
-          </div>
-          <div class="pcard__body">
-            <h3 class="pcard__title">East Side Office/Retail with Great Visibility</h3>
-            <p class="pcard__loc">710 Gaines School Road, Athens, GA 30605</p>
-            <div class="pcard__meta">
-              <span>Type<b>Office / Retail</b></span>
-              <span>Size<b>1,302 SF</b></span>
-            </div>
-            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
-          </div>
-        </article>
-
-      </div>
+      <div class="grid-cards grid-cards--pair" data-commercial-grid></div>
     </div>
   </section>
 
@@ -359,18 +330,51 @@
             <a href="mailto:info@nicholsland.net">info@nicholsland.net</a>.
           </div>
 
-          <!-- data-endpoint is where inquiries are POSTed. Paste a form-handler
-               URL here (Formspree, Basin, Netlify Forms, or your own script)
-               and submissions go straight there.
+          <!-- ┌──────────────────────────────────────────────────────────────┐
+               │ data-endpoint is the ONE value to fill in to switch the form  │
+               │ on. Paste the Cloudflare Worker URL from step 2 of            │
+               │ worker/contact-form/README.md — it looks like                 │
+               │   https://nichols-contact-form.SOMETHING.workers.dev          │
+               └──────────────────────────────────────────────────────────────┘
 
-               While it is empty — and if a POST ever fails — the form falls
-               back to opening the visitor's email client with everything
-               filled in, addressed to data-fallback-email. That is worse than
-               a real endpoint, but it means an inquiry is never accepted on
-               screen and then quietly dropped, which is what happened before. -->
+               The Worker is what talks to Resend, because it is the only place
+               in this project that can hold an API key. The key must never
+               appear in this file or in app.js: everything the browser
+               downloads is public, and a leaked key lets a stranger send mail
+               as Nichols Land.
+
+               While data-endpoint is empty — and if a POST ever fails — the
+               form falls back to opening the visitor's email client with
+               everything filled in, addressed to data-fallback-email. That is
+               worse than a real endpoint, but it means an inquiry is never
+               accepted on screen and then quietly dropped. -->
           <form class="form-grid" data-contact-form novalidate style="margin-top:20px"
                 data-endpoint=""
-                data-fallback-email="info@nicholsland.net">
+                data-fallback-email="gwilliams@nicholsland.net">
+
+            <!-- Two bot traps, invisible to anyone using the page.
+
+                 "website" is a honeypot: it is hidden from sight and from
+                 screen readers, and no person can type in it, so anything that
+                 arrives with it filled in was a script. The Worker drops those
+                 silently rather than erroring, because a bot told it failed
+                 just tries again in a different shape.
+
+                 "t" is stamped with the time the page loaded. A form completed
+                 in under three seconds was not completed by a human reading
+                 it. Both checks live in the Worker; neither one can lock a
+                 real visitor out, which is why they are worth having at all.
+
+                 aria-hidden plus tabindex="-1" keeps this out of the keyboard
+                 order and out of screen readers. display:none alone would do
+                 the same, but some bots specifically skip display:none fields. -->
+            <div aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+              <label for="c-website">Website</label>
+              <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="t" data-form-timestamp value="">
+
             <div class="field">
               <label for="c-name">Name *</label>
               <input id="c-name" name="name" type="text" required autocomplete="name">

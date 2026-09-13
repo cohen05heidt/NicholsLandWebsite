@@ -1558,11 +1558,80 @@ const NLI = (() => {
     });
   }
 
+  /* --- commercial listings ------------------------------------------------ */
+
+  /**
+   * Renders the commercial cards from data/commercial.json.
+   *
+   * These were hand-written markup until it became clear what that cost:
+   * every land tract on the site could be added, edited or removed through
+   * the admin, and these two buildings were the one corner that still needed
+   * a developer. Same data shape, same admin, same people.
+   *
+   * Sold buildings are dropped rather than shown struck through, matching how
+   * a sold tract leaves the listings grid. If nothing is left to show — all
+   * sold, or all deleted — the whole section stays hidden instead of leaving
+   * a heading stranded over an empty strip.
+   */
+  async function initCommercial() {
+    const section = $('[data-commercial-section]');
+    const grid = $('[data-commercial-grid]');
+    if (!section || !grid) return;
+
+    let list;
+    try {
+      list = await loadJSON(ROOT + 'data/commercial.json');
+    } catch (err) {
+      // A missing or broken commercial file must not take down the rest of
+      // the home page, and an empty section is a better failure than a
+      // half-drawn one.
+      console.error('[NLI] Commercial listings could not load:', err);
+      return;
+    }
+
+    const live = (Array.isArray(list) ? list : []).filter(c => c.status !== 'Sold');
+    if (!live.length) return;
+
+    grid.innerHTML = live.map(c => `
+        <article class="pcard reveal">
+          <div class="pcard__media">
+            <img src="${esc(c.image)}" alt="${esc(c.alt || c.title)}" loading="lazy" decoding="async">
+            <div class="pcard__tags"><span class="tag">${esc(c.status)}</span></div>
+            <div class="pcard__price">${esc(c.priceLabel)}</div>
+          </div>
+          <div class="pcard__body">
+            <h3 class="pcard__title">${esc(c.title)}</h3>
+            <p class="pcard__loc">${esc(c.address)}</p>
+            <div class="pcard__meta">
+              ${(c.facts || []).map(f =>
+                `<span>${esc(f.label)}<b>${esc(f.value)}</b></span>`).join('\n              ')}
+            </div>
+            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
+          </div>
+        </article>`).join('\n');
+
+    section.hidden = false;
+    // The reveal observer in initChrome ran before this data arrived, so these
+    // cards were never handed to it. Without this they sit at opacity 0 and
+    // the section looks empty. bindCardActions re-observes any .reveal it has
+    // not already seen.
+    bindCardActions(grid);
+  }
+
   /* --- contact form ------------------------------------------------------- */
 
   function initForm() {
     const form = $('[data-contact-form]');
     if (!form) return;
+
+    // Stamp the moment the form became available to fill in. The Worker
+    // compares this against its own clock and drops anything completed in
+    // under three seconds — which no person reading the fields can do, and
+    // most scripted submissions do. Set here rather than in the HTML because
+    // GitHub Pages caches the HTML: a value baked into the markup would be the
+    // time the page was *built*, which is useless.
+    const stamp = $('[data-form-timestamp]', form);
+    if (stamp) stamp.value = String(Date.now());
 
     // Prefill property from ?property=
     const prop = new URLSearchParams(window.location.search).get('property');
@@ -1620,10 +1689,13 @@ const NLI = (() => {
 
       const label = {
         name: 'Name', email: 'Email', phone: 'Phone', subject: 'Subject',
-        county: 'County of interest', acreage: 'Acreage range', message: 'Message'
+        county: 'County of interest', acres: 'Acreage range', message: 'Message'
       };
+      // consent is a yes/no the recipient can assume from the fact the form
+      // sent at all; website and t are the two bot traps and are not content.
+      const noise = new Set(['consent', 'website', 't']);
       const asText = () => Object.keys(data)
-        .filter(k => k !== 'consent' && data[k] && String(data[k]).length)
+        .filter(k => !noise.has(k) && data[k] && String(data[k]).length)
         .map(k => `${label[k] || k}: ${Array.isArray(data[k]) ? data[k].join(', ') : data[k]}`)
         .join('\n');
 
@@ -1648,14 +1720,27 @@ const NLI = (() => {
         // form.reset() restores the checkboxes but not the summary text that
         // was derived from them.
         $$('[data-multiselect]', form).forEach(r => r._multiselect && r._multiselect.render());
+        // It also blanks the timestamp back to its empty markup default, which
+        // would disarm the too-fast check for a second inquiry in one visit.
+        if (stamp) stamp.value = String(Date.now());
         if (success && typeof success.scrollIntoView === 'function') {
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       };
 
+      // Kept because a validation message overwrites the box's contents below;
+      // without this, one rejected submission would leave the "call the
+      // office" wording gone for the rest of the visit.
+      if (errorBox && errorBox.dataset.defaultHtml === undefined) {
+        errorBox.dataset.defaultHtml = errorBox.innerHTML;
+      }
+
       const failed = () => {
         const opened = openMailFallback();
-        if (errorBox) errorBox.hidden = false;
+        if (errorBox) {
+          errorBox.innerHTML = errorBox.dataset.defaultHtml;
+          errorBox.hidden = false;
+        }
         if (!opened && errorBox && typeof errorBox.scrollIntoView === 'function') {
           errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -1672,13 +1757,39 @@ const NLI = (() => {
 
       if (submit) { submit.disabled = true; submit.dataset.label = submit.textContent; submit.textContent = 'Sending…'; }
 
+      // Sent as FormData on purpose. Multipart is one of the three content
+      // types the browser will post cross-origin without a preflight OPTIONS
+      // request, so the inquiry goes in a single round trip and the Worker
+      // needs no preflight handling for the happy path.
       fetch(endpoint, {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: fd
       })
-        .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); finish(); })
-        .catch(err => { console.error('[NLI] Inquiry failed to send:', err); failed(); })
+        .then(async res => {
+          // The Worker answers JSON either way. Read it before deciding: a 400
+          // carries a message worth showing the visitor ("that message is too
+          // long"), where a bare "it failed" would leave them guessing.
+          const body = await res.json().catch(() => ({}));
+          if (!res.ok || body.ok === false) {
+            const err = new Error(body.error || 'HTTP ' + res.status);
+            err.visitorMessage = res.status === 400 ? body.error : '';
+            throw err;
+          }
+          finish();
+        })
+        .catch(err => {
+          console.error('[NLI] Inquiry failed to send:', err);
+          // A 400 is the visitor's input, not a broken endpoint — telling them
+          // to go and find their email program would be the wrong advice.
+          if (err.visitorMessage) {
+            const field = $('[name="message"]', form)?.closest('.field');
+            if (errorBox) { errorBox.textContent = err.visitorMessage; errorBox.hidden = false; }
+            (field || errorBox)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
+          failed();
+        })
         .finally(() => {
           if (submit) { submit.disabled = false; submit.textContent = submit.dataset.label || 'Send Message'; }
         });
@@ -1709,6 +1820,10 @@ const NLI = (() => {
     safe('multiselects', initMultiSelects);
     safe('form', initForm);
     safe('county select', initCountySelect);
+    // Async and deliberately not awaited: the commercial book is below the
+    // fold, and nothing else on the page depends on it. Its own catch keeps a
+    // missing data file from surfacing as an unhandled rejection.
+    safe('commercial', () => { initCommercial(); });
 
     const page = document.body.dataset.page;
     // Two pages, two runners.

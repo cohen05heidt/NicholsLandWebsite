@@ -7,28 +7,27 @@
 # Two fields are deliberately absent from this form: acresLabel and priceLabel.
 # They are derived from the acreage and price numbers at build time, so a
 # listing can never show "60 acres" next to a label reading "12.9± Acres".
-
 backend:
   name: github
   repo: cohen05heidt/NicholsLandWebsite
   branch: main
-  # Until the OAuth client is deployed, sign in with "Sign In with Token" using
-  # a fine-grained personal access token that has Contents: read & write on this
-  # repository. Once the authenticator is up, uncomment the line below and
-  # everyone gets an ordinary "Sign in with GitHub" button instead.
-  # base_url: https://YOUR-AUTHENTICATOR.workers.dev
-
+  # The authenticator that makes the "Sign in with GitHub" button work. It is
+  # a Cloudflare Worker holding the OAuth client secret, because a static site
+  # has nowhere to keep one. Deployed from cohen05heidt/sveltia-cms-auth; its
+  # settings live in the Cloudflare dashboard, not here. See admin/SETUP.md.
+  base_url: https://sveltia-cms-auth.cohen-heidt13.workers.dev
 # Photos and PDFs uploaded through the CMS land here. The public path has no
 # leading slash on purpose — the site is served from /NicholsLandWebsite/, and
 # an absolute path would break every image on it.
 media_folder: assets/img/properties
-public_folder: assets/img/properties
 
+public_folder: assets/img/properties
 # Saving writes straight to main, which is what makes a listing go live without
 # anyone having to approve anything.
 publish_mode: simple
 
 collections:
+
   - name: properties
     label: Properties
     label_singular: Property
@@ -46,7 +45,17 @@ collections:
     view_groups:
       - label: Status
         field: status
+    # One-click answers to the three questions actually asked of this screen:
+    # what's live, what's pending, what has closed. Without these, finding the
+    # tract you need to mark Sold means scrolling forty listings.
+    view_filters:
+      - { label: For sale, field: status, pattern: For Sale }
+      - { label: Under contract, field: status, pattern: Under Contract }
+      - { label: Sold, field: status, pattern: Sold }
+      - { label: On the home page, field: featured, pattern: true }
+
     fields:
+
       - name: title
         label: Tract name
         widget: string
@@ -57,7 +66,10 @@ collections:
         widget: select
         default: For Sale
         options: [For Sale, Under Contract, Sold]
-        hint: Sold tracts stay in the system but drop off the map and the listings grid.
+        hint: >-
+          Marking a tract Sold is all it takes — it keeps its page and its
+          photos, stops showing a price, and drops off the map and the "for
+          sale" grid. Nothing else needs doing, and it can be set back.
 
       - name: featured
         label: Feature on the home page
@@ -160,3 +172,88 @@ collections:
         label_singular: Photo
         field: { name: image, label: Photo, widget: image }
         hint: The first photo is the one used on cards, the map popup and the listing header.
+
+  # The commercial book. Small and slow-moving, which was the original argument
+  # for hand-writing these two cards into index.html — until it meant the one
+  # part of the site nobody here could change without a developer. Same form,
+  # same save, same minute-to-live as a tract.
+  - name: commercial
+    label: Commercial
+    label_singular: Commercial listing
+    description: >-
+      Buildings for sale or lease, shown in the Commercial section of the home
+      page. Marking one Sold removes it from the site; delete it and it is gone
+      entirely. If every listing here is sold or deleted, the whole section
+      disappears rather than leaving an empty heading.
+    folder: data/commercial
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: '{{title}}'
+    summary: '{{title}} — {{address}}'
+    sortable_fields: [order, title, price]
+    view_filters:
+      - { label: For sale, field: status, pattern: For Sale }
+      - { label: For lease, field: status, pattern: For Lease }
+      - { label: Sold, field: status, pattern: Sold }
+
+    fields:
+
+      - name: title
+        label: Headline
+        widget: string
+        hint: 'What the card is called, e.g. "Fully Leased Office Building".'
+
+      - name: status
+        label: Status
+        widget: select
+        default: For Sale
+        options: [For Sale, For Lease, For Sale/Lease, Under Contract, Sold]
+        hint: Sold listings come off the site. Everything else shows on the card as written.
+
+      - name: price
+        label: Price
+        widget: number
+        value_type: int
+        required: false
+        min: 0
+        hint: 'Numbers only, no $ or commas. Leave blank to show "Call for Price".'
+
+      - name: address
+        label: Address
+        widget: string
+        hint: 'Street, city, state and ZIP — shown under the headline.'
+
+      - name: image
+        label: Photo
+        widget: image
+        hint: One photo per listing. Landscape works best.
+
+      - name: alt
+        label: Photo description
+        widget: string
+        required: false
+        hint: >-
+          Describes the photo for anyone using a screen reader, and shows if the
+          image fails to load. Leave blank and the headline is used.
+
+      - name: facts
+        label: Details
+        widget: list
+        required: false
+        label_singular: Detail
+        summary: '{{fields.label}}: {{fields.value}}'
+        hint: >-
+          The small print on the card — two fits best. Type / Office, Size /
+          1,302 SF, Tenancy / Long-Term Credit Tenant.
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: value, label: Value, widget: string }
+
+      - name: order
+        label: Position
+        widget: number
+        value_type: int
+        default: 1
+        hint: Lower numbers show first. Ties fall back to alphabetical.

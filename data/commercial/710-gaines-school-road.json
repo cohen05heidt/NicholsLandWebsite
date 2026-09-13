@@ -1,0 +1,13 @@
+{
+  "title": "East Side Office/Retail with Great Visibility",
+  "status": "For Sale",
+  "order": 2,
+  "price": 350000,
+  "address": "710 Gaines School Road, Athens, GA 30605",
+  "facts": [
+    { "label": "Type", "value": "Office / Retail" },
+    { "label": "Size", "value": "1,302 SF" }
+  ],
+  "image": "assets/img/comm-710-gaines.jpg",
+  "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia"
+}

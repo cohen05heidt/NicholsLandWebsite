@@ -1,0 +1,30 @@
+# Deploying from a computer instead of pasting into the dashboard:
+#
+#   cd worker/contact-form
+#   npx wrangler login
+#   npx wrangler secret put RESEND_API_KEY     # paste the key when prompted
+#   npx wrangler deploy
+#
+# The key is deliberately NOT in this file. `wrangler secret put` stores it on
+# Cloudflare; anything written under [vars] below is committed to a public
+# repository and is therefore public.
+
+name = "nichols-contact-form"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+TO_EMAIL = "gwilliams@nicholsland.net"
+
+# Until a domain is verified in Resend this must stay as onboarding@resend.dev,
+# which can only deliver to the address that owns the Resend account. Once
+# nichols land's domain is verified, change this to something like
+# "Nichols Land Website <website@nicholsland.net>" and redeploy.
+FROM_EMAIL = "Nichols Land Website <onboarding@resend.dev>"
+
+# Only these origins may post to the Worker. Add the live domain here when the
+# site moves off github.io — an origin that isn't listed gets a 403.
+ALLOWED_ORIGINS = "https://cohen05heidt.github.io,http://localhost:8000,http://127.0.0.1:8000"
+
+# Optional: extra recipients, comma-separated.
+# CC_EMAIL = ""

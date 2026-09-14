@@ -1,108 +1,112 @@
-# Adding and removing land listings
+# Running the listings
 
-Everything about the tracts on the website is managed from one page:
+The page you work from:
 
 **<https://cohen05heidt.github.io/NicholsLandWebsite/admin/>**
 
-Bookmark it. Sign in with GitHub when it asks.
+Bookmark it. It is the only address you need.
 
-Changes go live on the public site roughly a minute after you save. There is no
-publish button and nobody to notify — saving *is* publishing.
-
----
-
-## Adding a tract
-
-Click **New Property** and fill in the form. Every field has a short note under
-it in the form itself; this is the same information with a bit more context.
-
-**Tract name** — the headline on the listing, e.g. *Jabez Poyner Road Tract*.
-
-**Status** — For Sale, Under Contract, or Sold. Marking a tract **Sold** takes
-it off the map and out of the listings grid but keeps the record, so you don't
-lose the history or the photos.
-
-**Feature on the home page** — puts the tract in the carousel at the top of the
-home page. Fine to have several; they rotate.
-
-**Acreage** — just the number. Type `73.59`, not `73.59± acres`. The website
-adds the "± Acres" itself, which is what stops the acreage and its label ever
-disagreeing.
-
-**Price** — numbers only. Type `208000`, not `$208,000`. **Leave it blank** and
-the listing shows *Call for Price*.
-
-**City / town** and **County** — include the word County, e.g. *Oglethorpe
-County*.
-
-**Land type** — pick every type that applies. The first one you pick decides the
-pin colour on the home page map.
-
-**Date listed** — drives the "Recently Listed" row on the home page, newest
-first.
-
-**Latitude / Longitude** — how the tract gets a pin on the map. To find them:
-open Google Maps, right-click the tract, and click the numbers at the top of the
-menu that appears — that copies both. Paste the first number into Latitude and
-the second into Longitude. Keep the minus sign on the longitude; every tract in
-Georgia has one.
-
-**Pin is approximate** — leave this on unless you're placing the pin on a
-surveyed corner. It shows a note telling buyers to contact you for exact
-boundaries.
-
-**Summary** — one or two sentences. It's the first thing a buyer reads.
-
-**Property overview** — the bulleted list on the listing. Click *Add* for each
-point. Road frontage, timber, water, utilities, restrictions — whatever matters
-on that tract.
-
-**Directions** — optional. Leave it blank and the Directions heading doesn't
-appear at all.
-
-**Maps, plats & documents** — upload PDFs here: aerials, topos, plats. Give each
-one a name buyers will understand, like *Aerial Map* or *Tract Plat*.
-
-**Photos** — upload as many as you like, straight from the camera or the MLS
-export. No resizing needed. **The first photo is the important one** — it's what
-shows on the listing card, in the map popup, and at the top of the listing page.
-Drag it to the front if it isn't already.
-
-Then click **Save**.
+Save something there and it is on the website about a minute later. There is no
+publish button and nobody to tell. **Saving is publishing.**
 
 ---
 
-## Changing a tract
+## First time only
 
-Click it in the list, change what you need, and save. Same one-minute wait.
+1. **Accept the invitation.** Check your email for a message from GitHub
+   inviting you to Nichols Land, and click the button in it. Without this one
+   click, nothing else works.
+2. **Open the page and sign in.** Click **Sign in with GitHub**. That is the
+   whole sign-in.
 
-Dropping a price or marking something Under Contract takes about fifteen
-seconds.
-
----
-
-## Removing a tract
-
-Open it and choose **Delete**.
-
-Prefer setting the status to **Sold** if the tract actually sold — it keeps the
-record and the photos, and the tract still disappears from the map and the
-listings. Delete is better for a listing created by mistake or one you'll never
-reference again.
-
-Either way it can be restored later; nothing is truly gone.
+You will not have to do either again on that computer.
 
 ---
 
-## If something looks wrong
+## Two lists
 
-**The change hasn't appeared after a few minutes.** Refresh with Ctrl+Shift+R
-(Cmd+Shift+R on a Mac) — your browser may be showing you a saved copy.
+On the left there are two:
 
-**A tract vanished that shouldn't have.** Check its Status isn't set to Sold,
-and that it has a latitude and longitude if you're looking for it on the map.
+- **Properties** — the land. Every farm, timber tract, recreational tract and
+  homesite, whether for sale, under contract or sold.
+- **Commercial** — the buildings shown further down the home page. Fewer boxes
+  to fill in (no acreage, no map pin), but it works exactly the same way.
 
-**Something is broken and you don't know why.** Nothing you can do in this form
-can take the website down — if a listing is malformed, the site keeps serving
-the previous good version of the listings rather than publishing the problem.
-Send a note about what you were doing and it can be traced and undone.
+Add with **New**, edit by clicking a row, remove with **Delete**. The filters
+above each list jump straight to what is for sale, under contract or sold.
+
+---
+
+## The three things you will ever do
+
+**Change a price.** Click the tract, type the new number in Price, click Save.
+About fifteen seconds.
+
+**Mark one sold.** Click the tract, change Status to Sold, click Save. It comes
+off the map and off the for-sale list but keeps its page and its photographs,
+and it can be set back to For Sale at any time.
+
+**Add a new tract.** Click New, work down the form, click Save. Every box has a
+line underneath telling you what goes in it — read those and you do not need
+this page. The four rules below are the only things the form does not tell you.
+
+---
+
+## Four rules
+
+**1. Numbers only in Acreage and Price.** Type `73.59`, not `73.59 acres`. Type
+`208000`, not `$208,000`. The website adds the acres and the dollar sign itself,
+which is what stops a figure and its label ever disagreeing.
+
+**2. Leave Price empty for "Call for Price".** An empty price box is how the
+listing says call us. Nothing else to do.
+
+**3. Keep the minus sign on Longitude.** Right-click the tract in Google Maps
+and click the numbers at the top of the menu — that copies both. First number
+into Latitude, second into Longitude. The second one starts with a minus. Leave
+it off and the pin lands on the other side of the world.
+
+**4. The first photo is the one people see.** It runs on the listing card, in
+the map popup, and across the top of the listing page. Put your best one first.
+Upload them straight off the camera or the MLS export — no resizing needed.
+
+---
+
+## Sold or Delete?
+
+Use **Sold** for anything that actually sold. It keeps the record and the
+photographs, and the tract still disappears from the map and the listings.
+
+Use **Delete** for a listing created by mistake.
+
+Either way it can be restored later. Nothing is truly gone.
+
+---
+
+## You cannot break this
+
+Nothing you type into that form can take the website down. If a listing comes
+out wrong, the site keeps showing the last good version of the listings instead
+of publishing the mistake.
+
+Every version of every listing is kept, so anything done by accident can be put
+back — including a tract that was deleted.
+
+---
+
+## If a change does not show up
+
+Wait a minute, then hold **Ctrl + Shift + R** (**Cmd + Shift + R** on a Mac).
+Your browser is showing a saved copy of the page and that forces a fresh one.
+
+If a tract has vanished that should not have, check its status is not set to
+Sold, and that it has a latitude and longitude if you are looking for it on the
+map.
+
+Still wrong? Send a note saying which tract and what you changed. Nothing is
+lost, and it can be traced and undone.
+
+---
+
+*A web version of this guide, formatted to read on a phone, can be shared with
+anyone who needs it. Ask Cohen for the link.*

@@ -41,6 +41,27 @@ const locationLabel = (city, county, state) =>
   [city, county, state].filter(Boolean).join(', ');
 
 const REQUIRED = ['title', 'acres', 'status', 'county', 'lat', 'lng'];
+
+/** Every tract on this site is in Georgia, which is a tight enough box to
+ *  catch the mistake that actually happens: pasting the longitude from Google
+ *  Maps without its minus sign, which silently moves the pin to China. A pin
+ *  in the wrong hemisphere is not a cosmetic error — it is the map telling a
+ *  buyer something false — so it stops the build rather than publishing. */
+const GEORGIA = { lat: [30.2, 35.1], lng: [-85.8, -80.7] };
+
+/** A figure typed with its units ("64.2 acres", "$315,000") reaches here as a
+ *  string, and Number() turns it into NaN, which formats as "$NaN" and goes
+ *  live looking like a broken website. The form's number boxes should stop it
+ *  first; this is the floor under that. */
+const asNumber = (value, field, file, problems) => {
+  const n = Number(value);
+  if (!Number.isFinite(n)) {
+    problems.push(`${file}: ${field} must be a plain number — got ${JSON.stringify(value)}. ` +
+                  `Type 64.2, not "64.2 acres"; 315000, not "$315,000".`);
+    return null;
+  }
+  return n;
+};
 // A live listing must say where it is. Sold records are archival and the old
 // site often recorded only the county, so town is not demanded of them.
 const REQUIRED_FOR_SALE = ['city'];
@@ -70,11 +91,28 @@ for (const file of files) {
 
   const price = raw.price === '' ? null : (raw.price ?? null);
 
+  const before = problems.length;
+  const acres = asNumber(raw.acres, 'acreage', file, problems);
+  const lat = asNumber(raw.lat, 'latitude', file, problems);
+  const lng = asNumber(raw.lng, 'longitude', file, problems);
+  if (price !== null) asNumber(price, 'price', file, problems);
+
+  if (lat !== null && (lat < GEORGIA.lat[0] || lat > GEORGIA.lat[1])) {
+    problems.push(`${file}: latitude ${lat} is outside Georgia. Expected roughly ` +
+                  `${GEORGIA.lat[0]} to ${GEORGIA.lat[1]}.`);
+  }
+  if (lng !== null && (lng < GEORGIA.lng[0] || lng > GEORGIA.lng[1])) {
+    problems.push(`${file}: longitude ${lng} is outside Georgia. Expected roughly ` +
+                  `${GEORGIA.lng[0]} to ${GEORGIA.lng[1]} — ` +
+                  (lng > 0 ? 'it is missing its minus sign.' : 'check the number.'));
+  }
+  if (problems.length > before) continue;
+
   properties.push({
     id,
     title: raw.title,
-    acres: Number(raw.acres),
-    acresLabel: acresLabel(raw.acres),
+    acres,
+    acresLabel: acresLabel(acres),
     price,
     priceLabel: priceLabel(price, raw.status),
     status: raw.status,
@@ -86,8 +124,8 @@ for (const file of files) {
     types: raw.types ?? [],
     // The CMS writes an ISO timestamp; the site only ever shows the date.
     listed: String(raw.listed ?? '').slice(0, 10),
-    lat: Number(raw.lat),
-    lng: Number(raw.lng),
+    lat,
+    lng,
     coordsApprox: raw.coordsApprox !== false,
     summary: raw.summary ?? '',
     bullets: raw.bullets ?? [],

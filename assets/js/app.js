@@ -629,6 +629,21 @@ const NLI = (() => {
     return '<span class="tag">For Sale</span>';
   }
 
+  /* A listing saved before its photographs are uploaded used to render
+     <img src="">, which the browser draws as a broken-image icon — the one
+     failure on this site a visitor would read as "this company is careless".
+     A tract with no photo now gets a plain tinted panel saying so, which is
+     honest and looks deliberate. Inline SVG rather than a file so it cannot
+     itself 404. */
+  const PHOTO_PENDING =
+    'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">' +
+      '<rect width="400" height="300" fill="#D6DCD2"/>' +
+      '<text x="200" y="154" text-anchor="middle" fill="#5A6257"' +
+      ' font-family="Georgia,serif" font-size="17">Photographs coming soon</text></svg>');
+
+  const photoFor = (p) => (p.images && p.images[0]) ? p.images[0] : PHOTO_PENDING;
+
   function propertyCard(p) {
     // Always points at the listings page + hash. From index.html that's a
     // normal navigation; from properties.html it's a fragment change that
@@ -638,7 +653,7 @@ const NLI = (() => {
       <article class="pcard reveal">
         <div class="pcard__media">
           <a href="${href}" aria-label="${esc(p.title)}">
-            <img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc(p.county)}" loading="lazy" decoding="async">
+            <img src="${esc(photoFor(p))}" alt="${esc(p.title)}, ${esc(p.county)}" loading="lazy" decoding="async">
           </a>
           <div class="pcard__tags">
             ${statusTag(p)}
@@ -892,7 +907,7 @@ const NLI = (() => {
       const m = L.marker([p.lat, p.lng], { icon: pin(colorFor(p, ALL_TYPE_KEYS)), title: p.title });
       m.bindPopup(`
         <div class="map-pop">
-          <img src="${esc(p.images[0])}" alt="${esc(p.title)}">
+          <img src="${esc(photoFor(p))}" alt="${esc(p.title)}">
           <div class="map-pop__body">
             <h4>${esc(p.title)}</h4>
             <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
@@ -907,7 +922,7 @@ const NLI = (() => {
       const m = L.marker([p.lat, p.lng], { icon: pin(SOLD_COLOR), title: p.title + ' (sold)' });
       m.bindPopup(`
         <div class="map-pop">
-          ${p.images[0] ? `<img src="${esc(p.images[0])}" alt="${esc(p.title)}">` : ''}
+          ${p.images[0] ? `<img src="${esc(photoFor(p))}" alt="${esc(p.title)}">` : ''}
           <div class="map-pop__body">
             <h4>${esc(p.title)}</h4>
             <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
@@ -1130,7 +1145,7 @@ const NLI = (() => {
         const m = L.marker([p.lat, p.lng], { icon: pin(false, colorFor(p, active)), title: p.title }).addTo(map);
         m.bindPopup(`
           <div class="map-pop">
-            <img src="${esc(p.images[0])}" alt="${esc(p.title)}">
+            <img src="${esc(photoFor(p))}" alt="${esc(p.title)}">
             <div class="map-pop__body">
               <h4>${esc(p.title)}</h4>
               <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
@@ -1148,7 +1163,7 @@ const NLI = (() => {
           const m = L.marker([p.lat, p.lng], { icon: pin(false, SOLD_COLOR), title: p.title + ' (sold)' }).addTo(map);
           m.bindPopup(`
             <div class="map-pop${p.images[0] ? '' : ' map-pop--plain'}">
-              ${p.images[0] ? `<img src="${esc(p.images[0])}" alt="${esc(p.title)}">` : ''}
+              ${p.images[0] ? `<img src="${esc(photoFor(p))}" alt="${esc(p.title)}">` : ''}
               <div class="map-pop__body">
                 <h4>${esc(p.title)}</h4>
                 <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
@@ -1191,7 +1206,7 @@ const NLI = (() => {
       listEl.innerHTML = shown.length
         ? shown.map(p => `
           <button class="mcard" type="button" data-map-card="${esc(p.id)}">
-            <img src="${esc(p.images[0])}" alt="${esc(p.title)}" loading="lazy">
+            <img src="${esc(photoFor(p))}" alt="${esc(p.title)}" loading="lazy">
             <div>
               <h4>${esc(p.title)}</h4>
               <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
@@ -1354,7 +1369,7 @@ const NLI = (() => {
   }
 
   function renderDetail(p) {
-    $('[data-hero-img]').src = p.images[0];
+    $('[data-hero-img]').src = photoFor(p);
     $('[data-hero-img]').alt = `${p.title}, ${p.county}`;
     setText('[data-title]', p.title);
     setText('[data-loc]', p.locationLabel);

@@ -84,6 +84,12 @@ const NLI = (() => {
   function initScrollProgress() {
     const bar = $('[data-progress] i');
     if (!bar) return;
+
+    /* Where scroll-driven animations exist, style.css drives this bar and the
+       compositor does the work. Returning here leaves no scroll listener on
+       the page at all for it. */
+    if (window.CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()')) return;
+
     let ticking = false;
 
     const update = () => {
@@ -122,11 +128,20 @@ const NLI = (() => {
 
     let ticking = false;
 
+    /* Measured once here and again on resize, never during a scroll. */
+    const measure = () => targets.forEach(t => { t.top = t.el.offsetTop; });
+    measure();
+
     const update = () => {
       ticking = false;
       const line = window.scrollY + window.innerHeight * 0.32;
       let active = null;
-      targets.forEach(t => { if (t.el.offsetTop <= line) active = t; });
+      /* offsets are cached rather than read here. Reading offsetTop inside the
+         scroll handler forces the browser to flush layout on every frame, for
+         every section - which is the most expensive thing this file was doing
+         while the page moved. They only change on resize, so that is when they
+         are recomputed. */
+      targets.forEach(t => { if (t.top <= line) active = t; });
 
       // Bottom of page always lights the last section, even if it's short.
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
@@ -140,7 +155,10 @@ const NLI = (() => {
     window.addEventListener('scroll', () => {
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
+    window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
+    /* Images and the listings grid land after this runs and move everything
+       below them, so take the measurements again once the page has settled. */
+    window.addEventListener('load', () => { measure(); update(); }, { once: true });
     update();
   }
 
@@ -452,7 +470,6 @@ const NLI = (() => {
     const hero  = $('.hero');
     if (!hero) return;
     const stage = $('.hero__stage', hero);
-    const inner = $('.hero__inner', hero);
     const video = $('video', hero);
     if (!stage) return;
 
@@ -460,11 +477,17 @@ const NLI = (() => {
     // throwing, since CSS still enforces the reduced-motion rules either way.
     const mq = (q) => (typeof window.matchMedia === 'function' ? window.matchMedia(q).matches : false);
     const reduced  = mq('(prefers-reduced-motion: reduce)');
-    const coarse   = mq('(pointer: coarse)');
     const saveData = navigator.connection && navigator.connection.saveData;
 
+    /* A phone on a slow or metered connection has no business downloading a
+       background clip it will decode badly anyway. The stills underneath are
+       the same photographs the clips were cut from, so nothing is lost but
+       the movement. */
+    const conn = navigator.connection || {};
+    const slowLink = /(^|-)2g$/.test(conn.effectiveType || '');
+
     /* --- video: only load it when it's worth loading --------------------- */
-    if (video && !reduced && !saveData) {
+    if (video && !reduced && !saveData && !slowLink) {
       // Reveal on the first decoded frame (loadeddata / readyState 2) rather
       // than waiting for canplay — that's the difference between the clip
       // appearing straight away and the still sitting there for a beat.
@@ -519,91 +542,26 @@ const NLI = (() => {
       video.remove();
     }
 
-    if (reduced) return;
+    /* --- parallax ---------------------------------------------------------
+       There used to be a scroll-and-tilt effect here, driven from JavaScript:
+       a scroll listener and a device-orientation listener both feeding a
+       requestAnimationFrame that wrote a transform onto the stage every frame.
 
-    /* --- motion state ---------------------------------------------------- */
-    // target = where we want to be, current = where we are. Lerping between
-    // the two is what makes the tilt feel weighted instead of twitchy.
-    let scrollY   = 0;
-    let targetX   = 0, targetY   = 0;   // -1 .. 1 from pointer / gyro
-    let currentX  = 0, currentY  = 0;
-    let ticking   = false;
-    let inView    = true;
+       It stuttered, and it could not be optimised into not stuttering.
+       Scrolling on a phone runs on the compositor thread; a transform written
+       from JavaScript lands a frame or two behind it, so the hero plate
+       visibly lags the page it is supposed to be moving with. The transform
+       also carried a scale(), which forces a layer holding a playing 1080p
+       video to re-rasterise every frame, and the gyro listener fired at
+       roughly 60Hz whether or not anybody was scrolling.
 
-    const TILT   = coarse ? 10 : 18;    // px of travel at full deflection
-    const EASE   = 0.075;               // lower = heavier
-    const DEPTH  = 0.28;                // parallax rate vs scroll
-
-    const onScroll = () => { scrollY = window.scrollY || window.pageYOffset; request(); };
-
-    function onPointer(e) {
-      const w = window.innerWidth, h = window.innerHeight;
-      targetX = (e.clientX / w) * 2 - 1;
-      targetY = (e.clientY / h) * 2 - 1;
-      request();
-    }
-
-    function onTilt(e) {
-      // gamma = left/right (-90..90), beta = front/back (-180..180)
-      if (e.gamma == null || e.beta == null) return;
-      targetX = Math.max(-1, Math.min(1, e.gamma / 32));
-      targetY = Math.max(-1, Math.min(1, (e.beta - 45) / 32));
-      request();
-    }
-
-    function request() {
-      if (!ticking) { ticking = true; requestAnimationFrame(frame); }
-    }
-
-    function frame() {
-      ticking = false;
-
-      currentX += (targetX - currentX) * EASE;
-      currentY += (targetY - currentY) * EASE;
-
-      const h = hero.offsetHeight || 1;
-      const progress = Math.min(1, Math.max(0, scrollY / h));
-
-      // Plate drifts down slower than the page and creeps in slightly.
-      const drift = scrollY * DEPTH;
-      const scale = 1 + progress * 0.08;
-      const tiltX = -currentX * TILT;
-      const tiltY = -currentY * TILT;
-
-      stage.style.transform =
-        `translate3d(${tiltX.toFixed(2)}px, ${(drift + tiltY).toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-
-      if (inner) {
-        // Copy rises faster and fades out before the plate does.
-        inner.style.transform = `translate3d(0, ${(scrollY * -0.12).toFixed(2)}px, 0)`;
-        inner.style.opacity = String(Math.max(0, 1 - progress * 1.35));
-      }
-
-      // Keep animating while the tilt is still settling.
-      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) request();
-    }
-
-    // Only listen while the hero is actually on screen.
-    const io = new IntersectionObserver(([e]) => {
-      inView = e.isIntersecting;
-      if (inView) {
-        window.addEventListener('scroll', onScroll, { passive: true });
-        if (coarse) window.addEventListener('deviceorientation', onTilt, true);
-        else window.addEventListener('pointermove', onPointer, { passive: true });
-        request();
-      } else {
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('deviceorientation', onTilt, true);
-        window.removeEventListener('pointermove', onPointer);
-      }
-    }, { threshold: 0 });
-    io.observe(hero);
-
-    // Recentre the tilt when the cursor leaves the window.
-    document.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; request(); });
-    window.addEventListener('resize', request, { passive: true });
-
-    onScroll();
+       The same drift is now a CSS scroll-driven animation in style.css, which
+       the compositor runs on its own with no main-thread work at all. Where
+       the browser does not support that, the hero simply sits still - which is
+       the one presentation guaranteed never to stutter. The cursor tilt is
+       gone rather than ported: it was eighteen pixels of mouse-follow, and it
+       was the single largest source of continuous main-thread work on the
+       page. */
   }
 
   /* --- shortlist (in-memory only) ----------------------------------------- */

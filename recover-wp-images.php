@@ -60,7 +60,18 @@ foreach ($props as $p) {
     $path = $parts['path'] ?? '';
     if (!preg_match('#^/wp-content/uploads/[0-9]{4}/[0-9]{2}/[A-Za-z0-9._%()-]+$#', $path)) continue;
     $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION)) ?: 'jpg';
-    $wanted[$path] = $wanted[$path] ?? sprintf('%s-%02d.%s', $slug, $i + 1, $ext);
+    if (isset($wanted[$path])) continue;   // same file used by two listings
+
+    /* Two different tracts are both titled "Poplar Street Tract" - one 2.5
+       acres, one 28 - so slug+index alone is not unique, and the second
+       listing's photographs silently overwrote the first's. Keep counting up
+       until the name is free: readable, and unique by construction. */
+    $n = $i + 1;
+    do {
+      $name = sprintf('%s-%02d.%s', $slug, $n, $ext);
+      $n++;
+    } while (in_array($name, $wanted, true));
+    $wanted[$path] = $name;
   }
 }
 

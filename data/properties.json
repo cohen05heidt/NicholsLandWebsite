@@ -1,5 +1,35 @@
 [
   {
+    "id": "test-for-function",
+    "title": "test for function",
+    "acres": 10,
+    "acresLabel": "10± Acres",
+    "price": 100000,
+    "priceLabel": "$100,000",
+    "status": "For Sale",
+    "featured": true,
+    "county": "Clarke County",
+    "state": "GA",
+    "city": "Athens",
+    "locationLabel": "Athens, Clarke County, GA",
+    "types": [
+      "Timber"
+    ],
+    "listed": "2026-09-14",
+    "lat": 33.456743,
+    "lng": 34.56545,
+    "coordsApprox": false,
+    "summary": "testing function",
+    "bullets": [
+      "test"
+    ],
+    "directions": "",
+    "docs": [],
+    "images": [
+      "/assets/img/properties/ferrell-carter-16.webp"
+    ]
+  },
+  {
     "id": "jabez-poyner-road",
     "title": "Jabez Poyner Road Tract",
     "acres": 73.59,

@@ -152,17 +152,32 @@ collections:
         label: Property overview
         widget: list
         required: false
-        # Without label_singular the button reads "Add Property overview",
-        # which sounds like it adds a second overview rather than one line to
-        # this one. The summary puts each point's own text on its collapsed
-        # row, so a ten-point list is readable without opening all ten.
-        label_singular: Point
+        # "Point" meant nothing to the person filling this in. "Selling point"
+        # is what a land broker would call it out loud, and the hint teaches by
+        # example rather than by description — three real lines off a real
+        # listing land better than any amount of explaining what a bullet is.
+        # The summary puts each line's own text on its collapsed row, so a long
+        # list can be read without opening every entry.
+        label_singular: Selling point
         summary: '{{fields.point}}'
-        field: { name: point, label: Point, widget: string }
+        field:
+          name: point
+          label: Selling point
+          widget: string
+          hint: 'One short line, e.g. "1,200± feet of paved road frontage".'
         hint: >-
-          The bulleted list a buyer reads on the listing page — road frontage,
-          timber, water, utilities, restrictions. One point per line. Leave it
-          empty and the whole Property Overview section is hidden.
+          The bullet list a buyer reads under "Property Overview" on the
+          listing. Add one line for each thing worth knowing about the tract —
+          road frontage, timber, water, power, restrictions, access.
+
+
+          For example, the three lines on Brewer's Bridge read: "Approximately
+          70± acres of 9-year-old planted pines", "1,200± feet of paved road
+          frontage on Brewer's Bridge Road", "Approximately 2,800 feet of
+          scenic creek frontage".
+
+
+          Leave it empty and the whole Property Overview section is hidden.
 
       - name: directions
         label: Directions
@@ -271,14 +286,26 @@ collections:
         label: Details
         widget: list
         required: false
+        # "Label" and "Value" are what a developer calls these two boxes. The
+        # person filling them in is typing a heading and the thing underneath
+        # it, so that is what they are called now.
         label_singular: Detail
         summary: '{{fields.label}}: {{fields.value}}'
         hint: >-
-          The small print on the card — two fits best. Type / Office, Size /
-          1,302 SF, Tenancy / Long-Term Credit Tenant.
+          The small print across the bottom of the card. Two fits best.
+
+
+          On 710 Gaines School Road they read "Type — Office / Retail" and
+          "Size — 1,302 SF".
         fields:
-          - { name: label, label: Label, widget: string }
-          - { name: value, label: Value, widget: string }
+          - name: label
+            label: Heading
+            widget: string
+            hint: 'The short word above, e.g. Type, Size, Tenancy, Zoning.'
+          - name: value
+            label: What it says
+            widget: string
+            hint: 'The answer, e.g. Office / Retail, 1,302 SF, Long-Term Credit Tenant.'
 
       - name: order
         label: Position

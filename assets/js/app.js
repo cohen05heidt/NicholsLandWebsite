@@ -1420,7 +1420,13 @@ const NLI = (() => {
       <div class="fact"><span>Status</span><b style="font-size:1rem">${esc(p.status)}</b></div>`;
 
     setText('[data-summary]', p.summary);
-    $('[data-bullets]').innerHTML = p.bullets.map(b => `<li>${esc(b)}</li>`).join('');
+    // Hidden entirely when empty, the same way Directions is. A tract can be
+    // listed before anyone has written its overview, and a managed asset never
+    // gets one at all — neither should leave a heading stranded over nothing.
+    const bullets = Array.isArray(p.bullets) ? p.bullets.filter(Boolean) : [];
+    const bulletsWrap = $('[data-bullets-wrap]');
+    $('[data-bullets]').innerHTML = bullets.map(b => `<li>${esc(b)}</li>`).join('');
+    if (bulletsWrap) bulletsWrap.style.display = bullets.length ? '' : 'none';
 
     const dirWrap = $('[data-directions-wrap]');
     if (p.directions) { $('[data-directions]').textContent = p.directions; }

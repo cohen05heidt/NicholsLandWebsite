@@ -151,8 +151,18 @@ collections:
       - name: bullets
         label: Property overview
         widget: list
+        required: false
+        # Without label_singular the button reads "Add Property overview",
+        # which sounds like it adds a second overview rather than one line to
+        # this one. The summary puts each point's own text on its collapsed
+        # row, so a ten-point list is readable without opening all ten.
+        label_singular: Point
+        summary: '{{fields.point}}'
         field: { name: point, label: Point, widget: string }
-        hint: The bulleted list on the listing page. One point per line.
+        hint: >-
+          The bulleted list a buyer reads on the listing page — road frontage,
+          timber, water, utilities, restrictions. One point per line. Leave it
+          empty and the whole Property Overview section is hidden.
 
       - name: directions
         label: Directions

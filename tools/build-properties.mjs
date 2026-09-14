@@ -49,6 +49,12 @@ const REQUIRED = ['title', 'acres', 'status', 'county', 'lat', 'lng'];
  *  buyer something false — so it stops the build rather than publishing. */
 const GEORGIA = { lat: [30.2, 35.1], lng: [-85.8, -80.7] };
 
+/** Managed assets are not listings and are not all in Georgia — the existing
+ *  ones run from Knoxville to Lake City. They get a wider box, which still
+ *  catches the mistake that matters (a longitude that lost its minus sign and
+ *  landed in the eastern hemisphere). */
+const SOUTHEAST = { lat: [24.0, 39.5], lng: [-92.0, -75.0] };
+
 /** A figure typed with its units ("64.2 acres", "$315,000") reaches here as a
  *  string, and Number() turns it into NaN, which formats as "$NaN" and goes
  *  live looking like a broken website. The form's number boxes should stop it
@@ -97,13 +103,17 @@ for (const file of files) {
   const lng = asNumber(raw.lng, 'longitude', file, problems);
   if (price !== null) asNumber(price, 'price', file, problems);
 
-  if (lat !== null && (lat < GEORGIA.lat[0] || lat > GEORGIA.lat[1])) {
-    problems.push(`${file}: latitude ${lat} is outside Georgia. Expected roughly ` +
-                  `${GEORGIA.lat[0]} to ${GEORGIA.lat[1]}.`);
+  const managed = (raw.types ?? []).includes('Management');
+  const box = managed ? SOUTHEAST : GEORGIA;
+  const where = managed ? 'the Southeast' : 'Georgia';
+
+  if (lat !== null && (lat < box.lat[0] || lat > box.lat[1])) {
+    problems.push(`${file}: latitude ${lat} is outside ${where}. Expected roughly ` +
+                  `${box.lat[0]} to ${box.lat[1]}.`);
   }
-  if (lng !== null && (lng < GEORGIA.lng[0] || lng > GEORGIA.lng[1])) {
-    problems.push(`${file}: longitude ${lng} is outside Georgia. Expected roughly ` +
-                  `${GEORGIA.lng[0]} to ${GEORGIA.lng[1]} — ` +
+  if (lng !== null && (lng < box.lng[0] || lng > box.lng[1])) {
+    problems.push(`${file}: longitude ${lng} is outside ${where}. Expected roughly ` +
+                  `${box.lng[0]} to ${box.lng[1]} — ` +
                   (lng > 0 ? 'it is missing its minus sign.' : 'check the number.'));
   }
   if (problems.length > before) continue;

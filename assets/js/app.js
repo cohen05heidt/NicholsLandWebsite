@@ -699,7 +699,7 @@ const NLI = (() => {
     // Featured listings come first; if fewer than eight are flagged, the
     // newest unflagged tracts backfill so the grid never renders short.
     const FEATURED_COUNT = 8;
-    const live = props.filter(p => p.status !== 'Sold');
+    const live = forSale(props).filter(p => p.status !== 'Sold');
     const byNewest = (a, b) => new Date(b.listed) - new Date(a.listed);
     const flagged = live.filter(p => p.featured).sort(byNewest);
     const backfill = live.filter(p => !p.featured).sort(byNewest);
@@ -749,11 +749,27 @@ const NLI = (() => {
      no acreage, price or detail page, so they are a separate layer with its
      own switch rather than another land type.
 
-     Off by default: switching them on pulls the map out to a multi-state view,
-     which is the wrong first impression for someone looking for land to buy. */
+     Shown by default, alongside the sold layer, so the map opens saying what
+     the company actually does rather than only what is on the market today.
+     Their spread is the reason draw() frames the opening view on the tracts
+     for sale rather than on every pin: switching these on used to pull the
+     map out to a four-state view and shrink Georgia to a cluster. The pins
+     are all there from the first paint; you just have to zoom out to see how
+     far they reach, which is the right order to learn it in. */
   // Bright red: sold pins have to be legible as a different kind of thing from
   // every land type at a glance. Kept in step with --sold in style.css.
   const ALL_TYPE_KEYS = new Set(LAND_TYPES.map(t => t.key));
+
+  /* "Management" is a land type you can pick in the admin, but it does not
+     behave like the other four. A tract tagged with it is an asset Nichols
+     manages, not one for sale: it earns a pin on the managed layer and
+     nothing else — no card in the grid, no price, no listing page, no place
+     in the featured row. Hence one predicate, used everywhere a list of
+     sellable land is built, rather than a filter remembered in nine places
+     and forgotten in the tenth. */
+  const MANAGED_TYPE = 'Management';
+  const isManaged = (p) => Array.isArray(p.types) && p.types.includes(MANAGED_TYPE);
+  const forSale = (list) => list.filter(p => !isManaged(p));
   const SOLD_COLOR = '#D42A1E';
   const MANAGED_COLOR = '#8A6BAF';
   const MANAGED_LOCATIONS = [
@@ -764,6 +780,14 @@ const NLI = (() => {
     { label: 'Lake City, FL',     lat: 30.1897, lng: -82.6393 },
     { label: 'Eufaula, AL',       lat: 31.8913, lng: -85.1455 },
     { label: 'Jackson, AL',       lat: 31.5093, lng: -87.8944 }
+  ];
+
+  /* Those seven fixed cities plus anything tagged Management in the admin, in
+     one list so both maps draw the same layer from the same source. */
+  const MANAGED_PLACES = (props = []) => [
+    ...MANAGED_LOCATIONS,
+    ...props.filter(p => isManaged(p) && p.lat != null && p.lng != null)
+            .map(p => ({ label: p.title, lat: p.lat, lng: p.lng }))
   ];
 
   /* --- shared map legend ---------------------------------------------------
@@ -779,8 +803,8 @@ const NLI = (() => {
 
   function createMapFilters(legend, { typeCounts = {}, soldCount = 0, managedCount = 0, onChange }) {
     const active = new Set(LAND_TYPES.map(t => t.key));
-    let showSold = false;
-    let showManaged = false;
+    let showSold = true;
+    let showManaged = true;
 
     legend.innerHTML = LAND_TYPES.map(t => `
       <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
@@ -789,13 +813,13 @@ const NLI = (() => {
         <span class="legend-chip__count">${typeCounts[t.key] || 0}</span>
       </button>`).join('') +
       (soldCount ? `
-      <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="false">
+      <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="true">
         <span class="legend-chip__dot" style="background:${SOLD_COLOR}"></span>
         <span class="legend-chip__label">Sold</span>
         <span class="legend-chip__count">${soldCount}</span>
       </button>` : '') +
       (managedCount ? `
-      <button class="legend-chip legend-chip--managed" type="button" data-legend-managed aria-pressed="false">
+      <button class="legend-chip legend-chip--managed" type="button" data-legend-managed aria-pressed="true">
         <span class="legend-chip__dot" style="background:${MANAGED_COLOR}"></span>
         <span class="legend-chip__label">Management</span>
         <span class="legend-chip__count">${managedCount}</span>
@@ -849,11 +873,11 @@ const NLI = (() => {
     if (!canvas || !legend) return;
 
     const mapped   = props.filter(p => p.lat != null && p.lng != null);
-    const listings = mapped.filter(p => p.status !== 'Sold');
+    const listings = forSale(mapped).filter(p => p.status !== 'Sold');
     // Sold tracts are the track record, not the inventory. They ride on the
     // same map behind their own switch, off by default, so the first thing a
     // buyer sees is still what they can actually buy.
-    const soldList = mapped.filter(p => p.status === 'Sold');
+    const soldList = forSale(mapped).filter(p => p.status === 'Sold');
 
     // No mapping library (blocked, offline, CDN down) — say so and offer the
     // listings page rather than leaving a grey rectangle on the front page.
@@ -932,7 +956,8 @@ const NLI = (() => {
       return { p, m };
     });
 
-    const managedMarkers = MANAGED_LOCATIONS.map(loc => {
+    const managedPlaces = MANAGED_PLACES(mapped);
+    const managedMarkers = managedPlaces.map(loc => {
       const m = L.marker([loc.lat, loc.lng], { icon: pin(MANAGED_COLOR), title: loc.label + ' (managed)' });
       m.bindPopup(`
         <div class="map-pop map-pop--plain">
@@ -944,7 +969,7 @@ const NLI = (() => {
       return { p: loc, m };
     });
 
-    const managedCount = MANAGED_LOCATIONS.length;
+    const managedCount = managedPlaces.length;
     const filters = createMapFilters(legend, {
       typeCounts: Object.fromEntries(LAND_TYPES.map(t =>
         [t.key, listings.filter(p => p.types.includes(t.key)).length])),
@@ -971,10 +996,16 @@ const NLI = (() => {
         if (showManaged) { m.addTo(map); shown.push(p); }
         else { map.removeLayer(m); }
       });
-      if (shown.length) {
-        // maxZoom only bites when the pins are tightly clustered; the managed
-        // layer spans four states, so fitBounds pulls right out on its own.
-        map.fitBounds(shown.map(p => [p.lat, p.lng]), { padding: [45, 45], maxZoom: 11 });
+      // Framed on the land for sale, not on every pin that happens to be
+      // drawn. Sold and managed pins are still on the map from the first
+      // paint — they are simply not allowed to decide where it opens, or a
+      // single managed asset in Tennessee would set the zoom for a page whose
+      // job is selling tracts in Georgia. Falls back to everything shown when
+      // no tract is for sale, so the map is never framed on nothing.
+      const framing = (forSaleShown ? shown.slice(0, forSaleShown) : shown)
+        .map(p => [p.lat, p.lng]);
+      if (framing.length) {
+        map.fitBounds(framing, { padding: [45, 45], maxZoom: 11 });
       }
       // Counted as it goes rather than derived by subtraction — with three
       // independent layers, inferring one total from another is how the
@@ -1014,7 +1045,7 @@ const NLI = (() => {
     };
 
     function apply() {
-      let out = props.filter(p => p.status !== 'Sold');
+      let out = forSale(props).filter(p => p.status !== 'Sold');
       const type = els.type?.value, county = els.county?.value;
       const min = Number(els.min?.value || 0), max = Number(els.max?.value || 0);
       const acres = els.acres?.value || '';
@@ -1075,7 +1106,7 @@ const NLI = (() => {
 
     // Sold tracts are excluded from the grid, so the map layer reads them from
     // the full set rather than from what the page is currently listing.
-    const soldList = props.filter(p => p.status === 'Sold' && p.lat != null && p.lng != null);
+    const soldList = forSale(props).filter(p => p.status === 'Sold' && p.lat != null && p.lng != null);
 
     // Colour matches the home map's key, so a hue means the same thing on both.
     // `active` is the hover/selected state, which grows the pin and switches it
@@ -1132,7 +1163,7 @@ const NLI = (() => {
       if (!mapReady) return;
       const { active, showSold, showManaged } = mapFilters
         ? mapFilters.state()
-        : { active: new Set(LAND_TYPES.map(t => t.key)), showSold: false, showManaged: false };
+        : { active: new Set(LAND_TYPES.map(t => t.key)), showSold: true, showManaged: true };
 
       Object.values(markers).forEach(m => map.removeLayer(m));
       markers = {};
@@ -1156,7 +1187,11 @@ const NLI = (() => {
         markers[p.id] = m;
       });
 
-      const bounds = shown.map(p => [p.lat, p.lng]);
+      // Kept separate from the sold and managed pins below: those are drawn,
+      // but they do not get to decide where the map opens. See the note on
+      // MANAGED_LOCATIONS.
+      const forSaleBounds = shown.map(p => [p.lat, p.lng]);
+      const bounds = [...forSaleBounds];
 
       if (showSold) {
         soldList.forEach(p => {
@@ -1176,7 +1211,7 @@ const NLI = (() => {
       }
 
       if (showManaged) {
-        MANAGED_LOCATIONS.forEach(loc => {
+        MANAGED_PLACES(props).forEach(loc => {
           const m = L.marker([loc.lat, loc.lng], { icon: pin(false, MANAGED_COLOR), title: loc.label + ' (managed)' }).addTo(map);
           m.bindPopup(`
             <div class="map-pop map-pop--plain">
@@ -1190,14 +1225,15 @@ const NLI = (() => {
         });
       }
 
-      if (bounds.length) map.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+      const framing = forSaleBounds.length ? forSaleBounds : bounds;
+      if (framing.length) map.fitBounds(framing, { padding: [50, 50], maxZoom: 13 });
 
       if (mapFilters) {
         const parts = [shown.length === list.length
           ? `${list.length} ${list.length === 1 ? 'tract' : 'tracts'}`
           : `${shown.length} of ${list.length} tracts`];
         if (showSold)    parts.push(`${soldList.length} sold`);
-        if (showManaged) parts.push(`${MANAGED_LOCATIONS.length} managed`);
+        if (showManaged) parts.push(`${MANAGED_PLACES(props).length} managed`);
         mapFilters.note.textContent = parts.join(' · ');
       }
 
@@ -1246,7 +1282,7 @@ const NLI = (() => {
             typeCounts: Object.fromEntries(LAND_TYPES.map(t =>
               [t.key, visible.filter(p => p.types.includes(t.key)).length])),
             soldCount: soldList.length,
-            managedCount: MANAGED_LOCATIONS.length,
+            managedCount: MANAGED_PLACES(props).length,
             onChange: () => syncMap(visible)
           });
         }
@@ -1404,7 +1440,7 @@ const NLI = (() => {
 
     // Similar properties — these link by hash, so they swap the panel in place.
     const similar = state.properties
-      .filter(x => x.id !== p.id && x.status !== 'Sold' && x.types.some(t => p.types.includes(t)))
+      .filter(x => x.id !== p.id && x.status !== 'Sold' && !isManaged(x) && x.types.some(t => p.types.includes(t)))
       .slice(0, 3);
     const simWrap = $('[data-similar]');
     if (simWrap) {
@@ -1465,7 +1501,7 @@ const NLI = (() => {
     try {
       const props = await getProperties();
       active = [...new Set(props
-        .filter(p => p.status !== 'Sold')
+        .filter(p => p.status !== 'Sold' && !isManaged(p))
         .map(p => p.county.replace(/ County$/, '')))]
         .filter(c => counties.includes(c))
         .sort();

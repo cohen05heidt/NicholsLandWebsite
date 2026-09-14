@@ -111,8 +111,12 @@ collections:
         widget: select
         multiple: true
         min: 1
-        options: [Timber, Recreational, Homesite, Investment]
-        hint: Pick every type that fits. The first one sets the pin colour on the home map.
+        options: [Timber, Recreational, Homesite, Investment, Management]
+        hint: >-
+          Pick every type that fits. The first one sets the pin colour on the
+          home map. Management is the exception — a tract marked Management
+          shows only as a purple pin on the map, with no price, no card in the
+          listings and no page of its own.
 
       - name: listed
         label: Date listed
@@ -172,6 +176,21 @@ collections:
         label_singular: Photo
         field: { name: image, label: Photo, widget: image }
         hint: The first photo is the one used on cards, the map popup and the listing header.
+
+      # Exists because the Jeff Davis photographs are AI-enlarged from the only
+      # size land.com publishes, and that fact has to survive someone opening
+      # the listing and saving it. A field the CMS does not know about is
+      # dropped on save, which would have quietly deleted the disclosure.
+      # Visible rather than hidden on purpose: the person publishing a listing
+      # is exactly the person who should be able to see a note like this.
+      - name: photoNote
+        label: Note about the photos
+        widget: text
+        required: false
+        hint: >-
+          Almost always blank. Fill it in only when the photographs need a
+          caveat — enlarged, borrowed, or taken in a different season. Clear it
+          when the real photographs go up.
 
   # The commercial book. Small and slow-moving, which was the original argument
   # for hand-writing these two cards into index.html — until it meant the one

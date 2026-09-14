@@ -1,0 +1,26 @@
+{
+  "title": "test for function",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 10,
+  "price": 100000,
+  "city": "Athens",
+  "county": "Clarke County",
+  "state": "GA",
+  "types": [
+    "Timber"
+  ],
+  "listed": "2026-09-14",
+  "lat": 33.456743,
+  "lng": 34.56545,
+  "coordsApprox": false,
+  "summary": "testing function",
+  "bullets": [
+    "test"
+  ],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "/assets/img/properties/ferrell-carter-16.webp"
+  ]
+}

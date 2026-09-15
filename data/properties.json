@@ -1,33 +1,5 @@
 [
   {
-    "id": "zz-claude-test-tract-delete-me",
-    "title": "ZZ Claude Test Tract (delete me)",
-    "acres": 12,
-    "acresLabel": "12± Acres",
-    "price": 150000,
-    "priceLabel": "Sold",
-    "status": "Sold",
-    "featured": true,
-    "county": "Clarke County",
-    "state": "GA",
-    "city": "Athens",
-    "locationLabel": "Athens, Clarke County, GA",
-    "types": [
-      "Timber"
-    ],
-    "listed": "2026-09-15",
-    "lat": null,
-    "lng": null,
-    "coordsApprox": true,
-    "summary": "Automated test listing with a deliberately wrong pin. It will be deleted in a few minutes.",
-    "bullets": [],
-    "directions": "",
-    "docs": [],
-    "images": [
-      "/assets/img/properties/499-faust-farm-road-02.webp"
-    ]
-  },
-  {
     "id": "jabez-poyner-road",
     "title": "Jabez Poyner Road Tract",
     "acres": 73.59,

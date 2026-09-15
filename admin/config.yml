@@ -16,9 +16,9 @@ backend:
   # has nowhere to keep one. Deployed from cohen05heidt/sveltia-cms-auth; its
   # settings live in the Cloudflare dashboard, not here. See admin/SETUP.md.
   base_url: https://sveltia-cms-auth.cohen-heidt13.workers.dev
-# Photos and PDFs uploaded through the CMS land here. The public path has no
-# leading slash on purpose — the site is served from /NicholsLandWebsite/, and
-# an absolute path would break every image on it.
+# Photos and PDFs uploaded through the CMS land here. The site is served from
+# the root of nicholsland.net, so relative (older listings) and /-prefixed
+# (anything uploaded through this screen) paths both resolve.
 media_folder: assets/img/properties
 
 public_folder: assets/img/properties
@@ -130,13 +130,15 @@ collections:
         label: Latitude
         widget: number
         value_type: float
-        hint: 'Right-click the tract in Google Maps and copy the first number, e.g. 33.9505.'
+        # A wrong number here no longer holds the listing back: the build
+        # publishes it without a map pin and flags it on the GitHub Actions run.
+        hint: 'Right-click the tract in Google Maps and copy the first number, e.g. 33.9505. Georgia is between 30 and 35.'
 
       - name: lng
         label: Longitude
         widget: number
         value_type: float
-        hint: 'The second number from Google Maps, e.g. -83.0512. Keep the minus sign.'
+        hint: 'The second number from Google Maps, e.g. -83.0512. It must start with a minus sign — Georgia is between -85.8 and -80.7. A wrong number still publishes the listing, just without a map pin.'
 
       - name: coordsApprox
         label: Pin is approximate

@@ -40,7 +40,7 @@ const priceLabel = (price, status) => {
 const locationLabel = (city, county, state) =>
   [city, county, state].filter(Boolean).join(', ');
 
-const REQUIRED = ['title', 'acres', 'status', 'county', 'lat', 'lng'];
+const REQUIRED = ['title', 'acres', 'status', 'county'];
 
 /** Every tract on this site is in Georgia, which is a tight enough box to
  *  catch the mistake that actually happens: pasting the longitude from Google
@@ -77,6 +77,7 @@ if (!files.length) throw new Error(`No listings found in ${SRC}/`);
 
 const properties = [];
 const problems = [];
+const warnings = [];
 
 for (const file of files) {
   const id = path.basename(file, '.json');
@@ -99,23 +100,39 @@ for (const file of files) {
 
   const before = problems.length;
   const acres = asNumber(raw.acres, 'acreage', file, problems);
-  const lat = asNumber(raw.lat, 'latitude', file, problems);
-  const lng = asNumber(raw.lng, 'longitude', file, problems);
+  const coordNotes = [];
+  const lat = asNumber(raw.lat, 'latitude', file, coordNotes);
+  const lng = asNumber(raw.lng, 'longitude', file, coordNotes);
+  if (coordNotes.length) warnings.push(...coordNotes.map((n) => n + ' Published without a map pin.'));
   if (price !== null) asNumber(price, 'price', file, problems);
 
   const managed = (raw.types ?? []).includes('Management');
   const box = managed ? SOUTHEAST : GEORGIA;
   const where = managed ? 'the Southeast' : 'Georgia';
 
+  // A pin outside the box is dropped, not the listing. The tract still gets
+  // its card, its page and its photos; it just has no map pin until the
+  // numbers are corrected. Refusing to build here used to hold back every
+  // other change on the site too, with nothing on the admin screen to say why.
+  let pinLat = lat;
+  let pinLng = lng;
+  const pinIssues = [];
   if (lat !== null && (lat < box.lat[0] || lat > box.lat[1])) {
-    problems.push(`${file}: latitude ${lat} is outside ${where}. Expected roughly ` +
-                  `${box.lat[0]} to ${box.lat[1]}.`);
+    pinIssues.push(`latitude ${lat} is outside ${where} (expected ${box.lat[0]} to ${box.lat[1]})`);
   }
   if (lng !== null && (lng < box.lng[0] || lng > box.lng[1])) {
-    problems.push(`${file}: longitude ${lng} is outside ${where}. Expected roughly ` +
-                  `${box.lng[0]} to ${box.lng[1]} — ` +
-                  (lng > 0 ? 'it is missing its minus sign.' : 'check the number.'));
+    pinIssues.push(`longitude ${lng} is outside ${where} (expected ${box.lng[0]} to ${box.lng[1]}` +
+                   (lng > 0 ? ' — it is missing its minus sign)' : ')'));
   }
+  if (lat === null || lng === null || pinIssues.length) {
+    pinLat = null;
+    pinLng = null;
+    if (pinIssues.length) {
+      warnings.push(`${file}: published without a map pin — ${pinIssues.join('; ')}.`);
+    }
+  }
+  // Only a figure that cannot be shown at all (acreage, price) holds a
+  // listing back.
   if (problems.length > before) continue;
 
   properties.push({
@@ -134,8 +151,8 @@ for (const file of files) {
     types: raw.types ?? [],
     // The CMS writes an ISO timestamp; the site only ever shows the date.
     listed: String(raw.listed ?? '').slice(0, 10),
-    lat,
-    lng,
+    lat: pinLat,
+    lng: pinLng,
     coordsApprox: raw.coordsApprox !== false,
     summary: raw.summary ?? '',
     bullets: raw.bullets ?? [],
@@ -144,6 +161,9 @@ for (const file of files) {
     images: (raw.images ?? []).filter(Boolean)
   });
 }
+
+// Shown as yellow annotations on the GitHub Actions run.
+for (const w of warnings) console.log(`::warning::${w}`);
 
 // A listing with a broken file must not silently vanish from the site.
 if (problems.length) {

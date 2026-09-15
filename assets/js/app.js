@@ -1130,7 +1130,9 @@ const NLI = (() => {
 
       const shown = list.filter(p => p.types.some(t => active.has(t)));
 
-      shown.forEach(p => {
+      // A listing without a usable pin keeps its card in the list below; it
+      // just has nothing to draw here.
+      shown.filter(p => p.lat != null && p.lng != null).forEach(p => {
         const m = L.marker([p.lat, p.lng], { icon: pin(false, colorFor(p, active)), title: p.title }).addTo(map);
         m.bindPopup(`
           <div class="map-pop">
@@ -1148,7 +1150,7 @@ const NLI = (() => {
       // Kept separate from the sold and managed pins below: those are drawn,
       // but they do not get to decide where the map opens. See the note on
       // MANAGED_LOCATIONS.
-      const forSaleBounds = shown.map(p => [p.lat, p.lng]);
+      const forSaleBounds = shown.filter(p => p.lat != null && p.lng != null).map(p => [p.lat, p.lng]);
       const bounds = [...forSaleBounds];
 
       if (showSold) {
@@ -1214,8 +1216,10 @@ const NLI = (() => {
         const base = () => colorFor(shown.find(x => x.id === id), active);
         card.addEventListener('click', () => {
           const p = shown.find(x => x.id === id);
-          map.flyTo([p.lat, p.lng], 13, { duration: .8 });
-          markers[id].openPopup();
+          if (markers[id]) {
+            map.flyTo([p.lat, p.lng], 13, { duration: .8 });
+            markers[id].openPopup();
+          }
           $$('.mcard', listEl).forEach(c => c.classList.remove('is-active'));
           card.classList.add('is-active');
         });
@@ -1306,7 +1310,9 @@ const NLI = (() => {
       $('.detail__close', overlay)?.focus();
 
       // Detail mini-map has to be built after the panel is visible.
-      if (window.L && $('#detail-map')) {
+      const hasPin = p.lat != null && p.lng != null;
+      if ($('#detail-map') && !hasPin) $('#detail-map').hidden = true;
+      if (window.L && $('#detail-map') && hasPin) {
         $('#detail-map').innerHTML = '';
         detailMap = L.map('detail-map', { scrollWheelZoom: false, zoomControl: true })
           .setView([p.lat, p.lng], 12);

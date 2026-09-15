@@ -7,7 +7,7 @@
     "price": null,
     "priceLabel": "Call for Price",
     "status": "For Sale",
-    "featured": false,
+    "featured": true,
     "county": "Clarke County",
     "state": "GA",
     "city": "Athens",

@@ -201,8 +201,11 @@ collections:
         label: Photos
         widget: list
         label_singular: Photo
+        # Optional so a tract can go up the day it is listed, before anyone has
+        # been out to photograph it. The site shows a "photos coming" tile.
+        required: false
         field: { name: image, label: Photo, widget: image }
-        hint: The first photo is the one used on cards, the map popup and the listing header.
+        hint: The first photo is the one used on cards, the map popup and the listing header. Can be left empty until photos are ready.
 
       # Exists because the Jeff Davis photographs are AI-enlarged from the only
       # size land.com publishes, and that fact has to survive someone opening

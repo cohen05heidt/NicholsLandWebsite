@@ -1,0 +1,26 @@
+{
+  "title": "TESTING TRACT",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 50,
+  "price": 100000,
+  "city": "Athens",
+  "county": "Clarke",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Homesite"
+  ],
+  "listed": "2026-09-15",
+  "lat": 34,
+  "lng": 34,
+  "coordsApprox": false,
+  "summary": "testing testing",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "/assets/img/properties/2821-cole-springs-tract-01.webp"
+  ],
+  "photoNote": ""
+}

@@ -40,5 +40,22 @@
     "image": "assets/img/comm-710-gaines.jpg",
     "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia",
     "order": 2
+  },
+  {
+    "id": "zz-claude-test-building-delete-me",
+    "title": "ZZ Claude Test Building (delete me)",
+    "status": "For Sale/Lease",
+    "price": 425000,
+    "priceLabel": "$425,000",
+    "address": "1 Test Street, Athens, GA 30601",
+    "facts": [
+      {
+        "label": "Size",
+        "value": "2,000 SF"
+      }
+    ],
+    "image": "/assets/img/properties/1568-lexington-carlton-road-tract-01.webp",
+    "alt": "ZZ Claude Test Building (delete me)",
+    "order": 9
   }
 ]

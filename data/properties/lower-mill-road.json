@@ -35,19 +35,19 @@
   "docs": [
     {
       "label": "Aerial Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Aerial-Map.pdf"
+      "url": "/assets/docs/Lower-Mill-Road-Aerial-Map.pdf"
     },
     {
       "label": "Location Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Location-Map.pdf"
+      "url": "/assets/docs/Lower-Mill-Road-Location-Map.pdf"
     },
     {
       "label": "Plat",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Plat.pdf"
+      "url": "/assets/docs/Lower-Mill-Road-Plat.pdf"
     },
     {
       "label": "Topo Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/07/Lower-Mill-Road-Topo-Map.pdf"
+      "url": "/assets/docs/Lower-Mill-Road-Topo-Map.pdf"
     }
   ],
   "images": [

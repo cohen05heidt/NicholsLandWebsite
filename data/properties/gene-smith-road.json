@@ -33,15 +33,15 @@
   "docs": [
     {
       "label": "Aerial Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Aerial-Map.pdf"
+      "url": "/assets/docs/Gene-Smith-Road-Aerial-Map.pdf"
     },
     {
       "label": "Location Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Location-Map.pdf"
+      "url": "/assets/docs/Gene-Smith-Road-Location-Map.pdf"
     },
     {
       "label": "Topo Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/06/Gene-Smith-Road-Topo-Map.pdf"
+      "url": "/assets/docs/Gene-Smith-Road-Topo-Map.pdf"
     }
   ],
   "images": [

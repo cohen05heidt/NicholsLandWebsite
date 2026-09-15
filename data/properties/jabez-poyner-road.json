@@ -28,19 +28,19 @@
   "docs": [
     {
       "label": "Aerial Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Aerial-Map.pdf"
+      "url": "/assets/docs/Jabez-Poyner-Aerial-Map.pdf"
     },
     {
       "label": "Location Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Location-Map.pdf"
+      "url": "/assets/docs/Jabez-Poyner-Location-Map.pdf"
     },
     {
       "label": "Topo Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Topo-Map.pdf"
+      "url": "/assets/docs/Jabez-Poyner-Topo-Map.pdf"
     },
     {
       "label": "Tract Plat",
-      "url": "https://nicholsland.net/wp-content/uploads/2026/08/Jabez-Poyner-Tract-Plat.pdf"
+      "url": "/assets/docs/Jabez-Poyner-Tract-Plat.pdf"
     }
   ],
   "images": [

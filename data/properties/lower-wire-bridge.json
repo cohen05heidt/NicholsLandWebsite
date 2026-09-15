@@ -30,19 +30,19 @@
   "docs": [
     {
       "label": "Aerial Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadAerial.pdf"
+      "url": "/assets/docs/LowerWireBridgeRoadAerial.pdf"
     },
     {
       "label": "Topo Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadTopo.pdf"
+      "url": "/assets/docs/LowerWireBridgeRoadTopo.pdf"
     },
     {
       "label": "Location Map",
-      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWireBridgeRoadLocation.pdf"
+      "url": "/assets/docs/LowerWireBridgeRoadLocation.pdf"
     },
     {
       "label": "Plat",
-      "url": "https://nicholsland.net/wp-content/uploads/2025/10/LowerWirebridgePlat.pdf"
+      "url": "/assets/docs/LowerWirebridgePlat.pdf"
     }
   ],
   "images": [

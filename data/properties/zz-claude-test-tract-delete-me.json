@@ -1,9 +1,9 @@
 {
   "title": "ZZ Claude Test Tract (delete me)",
-  "status": "For Sale",
+  "status": "Sold",
   "featured": true,
   "acres": 12,
-  "price": null,
+  "price": 150000,
   "city": "Athens",
   "county": "Clarke County",
   "state": "GA",

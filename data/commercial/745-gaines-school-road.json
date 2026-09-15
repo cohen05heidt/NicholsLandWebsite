@@ -8,6 +8,6 @@
     { "label": "Type", "value": "Office" },
     { "label": "Tenancy", "value": "Long-Term Credit Tenant" }
   ],
-  "image": "assets/img/comm-745-gaines.jpg",
+  "image": "/assets/img/comm-745-gaines.jpg",
   "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia"
 }

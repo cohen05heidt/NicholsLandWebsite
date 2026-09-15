@@ -75,7 +75,7 @@ collections:
         label: Feature on the home page
         widget: boolean
         default: false
-        hint: Featured tracts appear in the carousel at the top of the home page.
+        hint: Featured tracts appear in the grid at the top of the home page, newest first. Every featured tract is shown; Sold tracts never are.
 
       - name: acres
         label: Acreage
@@ -235,6 +235,12 @@ collections:
       entirely. If every listing here is sold or deleted, the whole section
       disappears rather than leaving an empty heading.
     folder: data/commercial
+    # The two original building photos live in assets/img/, not in the
+    # properties folder, so the admin could not find them to show a preview.
+    # Pointing this collection at assets/img/ (and storing /-prefixed paths)
+    # lets it; new uploads here land alongside them.
+    media_folder: /assets/img
+    public_folder: /assets/img
     format: json
     extension: json
     create: true

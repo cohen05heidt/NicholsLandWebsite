@@ -581,6 +581,11 @@ const NLI = (() => {
 
   /* --- property card ------------------------------------------------------ */
 
+  /* A sold tract can stay flagged in the admin (nobody remembers to untick
+     it), but "Featured" beside "Sold" reads as a mistake on the site. */
+  const featuredTag = (p) => (p.featured && p.status !== 'Sold')
+    ? '<span class="tag tag--gold">Featured</span>' : '';
+
   function statusTag(p) {
     if (p.status === 'Under Contract') return '<span class="tag tag--contract">Under Contract</span>';
     if (p.status === 'Sold') return '<span class="tag tag--sold">Sold</span>';
@@ -615,7 +620,7 @@ const NLI = (() => {
           </a>
           <div class="pcard__tags">
             ${statusTag(p)}
-            ${p.featured ? '<span class="tag tag--gold">Featured</span>' : ''}
+            ${featuredTag(p)}
           </div>
           <button class="pcard__save" type="button" aria-pressed="${state.saved.has(p.id)}"
                   aria-label="Save ${esc(p.title)}" data-save="${esc(p.id)}">
@@ -661,7 +666,10 @@ const NLI = (() => {
     const byNewest = (a, b) => new Date(b.listed) - new Date(a.listed);
     const flagged = live.filter(p => p.featured).sort(byNewest);
     const backfill = live.filter(p => !p.featured).sort(byNewest);
-    const featured = [...flagged, ...backfill].slice(0, FEATURED_COUNT);
+    // Every tract the admin flags is shown — a flag that silently does
+    // nothing is worse than a grid one row longer. Eight is the floor, not
+    // the ceiling.
+    const featured = [...flagged, ...backfill].slice(0, Math.max(FEATURED_COUNT, flagged.length));
 
     const track = $('[data-featured]');
     if (track) {
@@ -1374,7 +1382,7 @@ const NLI = (() => {
     setText('[data-title]', p.title);
     setText('[data-loc]', p.locationLabel);
 
-    $('[data-tags]').innerHTML = statusTag(p) + (p.featured ? '<span class="tag tag--gold">Featured</span>' : '');
+    $('[data-tags]').innerHTML = statusTag(p) + featuredTag(p);
 
     $('[data-facts]').innerHTML = `
       <div class="fact"><span>Price</span><b>${esc(p.priceLabel)}</b></div>

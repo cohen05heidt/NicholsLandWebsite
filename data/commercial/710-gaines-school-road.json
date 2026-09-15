@@ -8,6 +8,6 @@
     { "label": "Type", "value": "Office / Retail" },
     { "label": "Size", "value": "1,302 SF" }
   ],
-  "image": "assets/img/comm-710-gaines.jpg",
+  "image": "/assets/img/comm-710-gaines.jpg",
   "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia"
 }

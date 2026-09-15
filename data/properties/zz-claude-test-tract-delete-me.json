@@ -1,0 +1,25 @@
+{
+  "title": "ZZ Claude Test Tract (delete me)",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 12,
+  "price": null,
+  "city": "Athens",
+  "county": "Clarke County",
+  "state": "GA",
+  "types": [
+    "Timber"
+  ],
+  "listed": "2026-09-15",
+  "lat": 34,
+  "lng": 34,
+  "coordsApprox": true,
+  "summary": "Automated test listing with a deliberately wrong pin. It will be deleted in a few minutes.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "/assets/img/properties/499-faust-farm-road-02.webp"
+  ],
+  "photoNote": ""
+}

@@ -1,33 +1,5 @@
 [
   {
-    "id": "testing-tract-delete",
-    "title": "testing tract (delete)",
-    "acres": 50,
-    "acresLabel": "50± Acres",
-    "price": 100000,
-    "priceLabel": "$100,000",
-    "status": "Under Contract",
-    "featured": true,
-    "county": "Clarke",
-    "state": "GA",
-    "city": "Athens",
-    "locationLabel": "Athens, Clarke, GA",
-    "types": [
-      "Homesite"
-    ],
-    "listed": "2026-09-15",
-    "lat": null,
-    "lng": null,
-    "coordsApprox": true,
-    "summary": "testing tract. delete after",
-    "bullets": [],
-    "directions": "",
-    "docs": [],
-    "images": [
-      "/assets/img/properties/499-faust-farm-road-02.webp"
-    ]
-  },
-  {
     "id": "jabez-poyner-road",
     "title": "Jabez Poyner Road Tract",
     "acres": 73.59,

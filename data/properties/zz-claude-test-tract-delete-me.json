@@ -1,7 +1,7 @@
 {
   "title": "ZZ Claude Test Tract (delete me)",
   "status": "For Sale",
-  "featured": false,
+  "featured": true,
   "acres": 12,
   "price": null,
   "city": "Athens",

@@ -19,6 +19,7 @@ on:
       - 'data/commercial/**'
       - 'tools/build-properties.mjs'
       - 'tools/build-commercial.mjs'
+      - 'tools/convert-heic.py'
   workflow_dispatch:
 
 permissions:
@@ -38,6 +39,18 @@ jobs:
         with:
           node-version: '20'
 
+      # iPhones save photos as HEIC, which no desktop browser can show and the
+      # admin cannot convert yet. Any that were uploaded become WebP here, and
+      # the listings that name them are repointed, before anything is built.
+      - name: Convert iPhone (HEIC) photos
+        run: |
+          if ! ls assets/img/properties | grep -qiE '[.](heic|heif)$'; then
+            echo "No HEIC photos to convert."
+            exit 0
+          fi
+          python3 -m pip install --quiet --break-system-packages pillow pillow-heif
+          python3 tools/convert-heic.py
+
       # Both fail loudly on a malformed listing rather than publishing a site
       # with a tract or a building silently missing from it.
       - name: Rebuild data/properties.json
@@ -46,14 +59,16 @@ jobs:
       - name: Rebuild data/commercial.json
         run: node tools/build-commercial.mjs
 
-      - name: Commit if either built file changed
+      - name: Commit anything the build changed
         run: |
-          if git diff --quiet -- data/properties.json data/commercial.json; then
+          git add -A data/properties.json data/commercial.json data/properties data/commercial assets/img/properties
+          if git diff --cached --quiet; then
             echo "No change to the built listing data."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/properties.json data/commercial.json
           git commit -m "Rebuild listing data from sources"
+          # Someone may have saved again while this ran.
+          git pull --rebase --quiet origin main
           git push

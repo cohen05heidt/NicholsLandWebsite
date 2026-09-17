@@ -28,6 +28,12 @@
       "url": "/assets/img/properties/Tillman Creek map.pdf"
     }
   ],
-  "images": [],
+  "images": [
+    "/assets/img/properties/IMG_4203.HEIC",
+    "/assets/img/properties/IMG_4200.HEIC",
+    "/assets/img/properties/IMG_4225.HEIC",
+    "/assets/img/properties/IMG_4217.HEIC",
+    "/assets/img/properties/IMG_4209.HEIC"
+  ],
   "photoNote": ""
 }

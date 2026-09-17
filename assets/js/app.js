@@ -1881,6 +1881,45 @@ const NLI = (() => {
   // one), DOMContentLoaded will never fire again — boot immediately instead.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
+
+  /* A link from properties.html arrives here as index.html#contact, and the
+     browser makes that jump while the page is still short: the featured grid,
+     the map and the commercial cards have not rendered yet. Everything below
+     then pushes the target down and the visitor is left parked in the middle
+     of the map, which is what every "Request Information" button looked like
+     it was doing. So aim at the target again after each burst of layout, and
+     stop as soon as the page settles or the visitor scrolls for themselves. */
+  function honourHash() {
+    const id = decodeURIComponent((location.hash || '').slice(1));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return; // a tract id on properties.html — the overlay's job
+
+    let cancelled = false;
+    const cancel = () => { cancelled = true; };
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((type) =>
+      window.addEventListener(type, cancel, { once: true, passive: true }));
+
+    let lastHeight = -1;
+    let tries = 0;
+    const aim = () => {
+      if (cancelled || tries > 30) return;
+      tries += 1;
+      const header = $('.site-header');
+      const offset = (header && header.offsetHeight ? header.offsetHeight : 0) + 12;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo(0, Math.max(0, Math.round(top)));
+      const height = document.body.scrollHeight;
+      if (height !== lastHeight) {
+        lastHeight = height;
+        setTimeout(aim, 120);
+      }
+    };
+    aim();
+  }
+
+  window.addEventListener('load', honourHash);
+  window.addEventListener('hashchange', honourHash);
   } else {
     init();
   }

@@ -30,6 +30,10 @@
   const nativeFetch = window.fetch.bind(window);
   // Base64 inflates a file by a third; keep well under GitHub's cut-off.
   const INLINE_LIMIT = 6 * 1024 * 1024;
+  // GitHub turns away a single file somewhere between 40 and 47 MB (measured
+  // 17 Sep 2026). Photos never get near it: the admin shrinks them first.
+  const FILE_LIMIT = 40 * 1024 * 1024;
+  const mb = (bytes) => Math.round(bytes / 1024 / 1024);
 
   const graphqlError = (message) =>
     new Response(JSON.stringify({ errors: [{ message }] }), {
@@ -60,6 +64,15 @@
     const additions = input.fileChanges?.additions || [];
     const deletions = input.fileChanges?.deletions || [];
     const head = input.expectedHeadOid;
+
+    for (const file of additions) {
+      const bytes = Math.floor((file.contents || '').length * 3 / 4);
+      if (bytes > FILE_LIMIT) {
+        const name = file.path.split('/').pop();
+        throw new Error(`${name} is ${mb(bytes)} MB, and the website can hold files up to ${mb(FILE_LIMIT)} MB. `
+          + 'Save a smaller copy (in Adobe Acrobat: File > Reduce File Size; on a Mac: Preview > Export > Reduce File Size) and upload that instead');
+      }
+    }
 
     const parent = await api(`/git/commits/${head}`);
     const tree = [];
@@ -113,7 +126,7 @@
           return await commitViaRest(init, payload);
         } catch (err) {
           console.error('[upload-helper] large save failed', err);
-          return graphqlError(`The upload could not be saved: ${err.message}. Please try again.`);
+          return graphqlError(`The upload could not be saved. ${err.message}.`);
         }
       }
     } catch (err) {

@@ -485,7 +485,13 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 }
 .hero__stage {
   position: absolute;
-  inset: -8% -6%;
+  /* Only the vertical oversize earns its keep: the parallax below moves the
+     stage straight down, and nothing moves it sideways since the old tilt
+     came out. The -6% either side was making the stage 2134px wide on a
+     1920px screen, which stretched a 1080p clip 11% past its own
+     resolution - the whole reason the video looked grainy on a desktop. At 0
+     the clip maps pixel for pixel. */
+  inset: -8% 0;
   transform: translate3d(0, 0, 0);
 }
 

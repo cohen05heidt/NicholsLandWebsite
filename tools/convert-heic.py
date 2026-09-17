@@ -13,7 +13,6 @@ Run:    python3 tools/convert-heic.py
 import json
 import pathlib
 import re
-import subprocess
 
 from PIL import Image, ImageOps
 from pillow_heif import register_heif_opener
@@ -39,11 +38,17 @@ for src in sorted(PHOTOS.iterdir()):
     while dst.exists():
         dst = PHOTOS / f"{base}-{n}.webp"
         n += 1
-    with Image.open(src) as im:
-        im = ImageOps.exif_transpose(im)
-        im.thumbnail((LONGEST_SIDE, LONGEST_SIDE))
-        im.convert("RGB").save(dst, "WEBP", quality=85)
-    subprocess.run(["git", "rm", "--quiet", "--", str(src)], check=True)
+    # One unreadable file must not stop every other listing from publishing.
+    try:
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im)
+            im.thumbnail((LONGEST_SIDE, LONGEST_SIDE))
+            im.convert("RGB").save(dst, "WEBP", quality=85)
+    except Exception as err:  # noqa: BLE001
+        dst.unlink(missing_ok=True)
+        print(f"::warning::Could not convert {src.name} ({err}). Re-upload it as a JPEG.")
+        continue
+    src.unlink()
     renames[src.name] = dst.name
     print(f"{src.name} -> {dst.name}")
 

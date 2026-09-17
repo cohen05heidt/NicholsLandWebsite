@@ -1882,47 +1882,58 @@ const NLI = (() => {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 
+  } else {
+    init();
+  }
+
   /* A link from properties.html arrives here as index.html#contact, and the
-     browser makes that jump while the page is still short: the featured grid,
-     the map and the commercial cards have not rendered yet. Everything below
-     then pushes the target down and the visitor is left parked in the middle
-     of the map, which is what every "Request Information" button looked like
-     it was doing. So aim at the target again after each burst of layout, and
-     stop as soon as the page settles or the visitor scrolls for themselves. */
+     browser makes that jump while the page is still one screen tall: the
+     featured grid, the map and the commercial cards have not rendered yet, so
+     the scroll is clamped to the top and the visitor ends up parked in the
+     middle of the map once everything appears. That is what every "Request
+     Information" button looked like it was doing.
+
+     So keep re-aiming at the target on every frame until it actually sits
+     under the header and stays there. Stops the moment the visitor scrolls,
+     and gives up after six seconds rather than fighting the page forever.
+     'instant' matters: the stylesheet asks for smooth scrolling, and a
+     smooth scroll restarted every frame never arrives. */
   function honourHash() {
     const id = decodeURIComponent((location.hash || '').slice(1));
     if (!id) return;
     const target = document.getElementById(id);
-    if (!target) return; // a tract id on properties.html — the overlay's job
+    if (!target) return; // a tract id on properties.html - the overlay's job
 
     let cancelled = false;
     const cancel = () => { cancelled = true; };
     ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((type) =>
       window.addEventListener(type, cancel, { once: true, passive: true }));
 
-    let lastHeight = -1;
-    let tries = 0;
-    const aim = () => {
-      if (cancelled || tries > 30) return;
-      tries += 1;
+    const started = performance.now();
+    let settledFor = 0;
+    let lastFrame = started;
+    const aim = (now) => {
+      if (cancelled || now - started > 6000) return;
       const header = $('.site-header');
       const offset = (header && header.offsetHeight ? header.offsetHeight : 0) + 12;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo(0, Math.max(0, Math.round(top)));
-      const height = document.body.scrollHeight;
-      if (height !== lastHeight) {
-        lastHeight = height;
-        setTimeout(aim, 120);
+      const wanted = Math.max(0, Math.round(target.getBoundingClientRect().top + window.scrollY - offset));
+      if (Math.abs(window.scrollY - wanted) > 2) {
+        window.scrollTo({ top: wanted, behavior: 'instant' });
+        settledFor = 0;
+      } else {
+        settledFor += now - lastFrame;
       }
+      lastFrame = now;
+      // Half a second of the target staying put means the page has finished
+      // growing underneath it.
+      if (settledFor < 500) requestAnimationFrame(aim);
     };
-    aim();
+    requestAnimationFrame(aim);
   }
 
   window.addEventListener('load', honourHash);
+  document.addEventListener('DOMContentLoaded', honourHash);
   window.addEventListener('hashchange', honourHash);
-  } else {
-    init();
-  }
 
   return { state, getProperties };
 })();

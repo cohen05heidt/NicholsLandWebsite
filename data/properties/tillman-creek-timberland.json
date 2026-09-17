@@ -1,0 +1,37 @@
+{
+  "title": "Tillman Creek Timberland",
+  "status": "For Sale",
+  "featured": true,
+  "acres": 188,
+  "price": 706875,
+  "city": "Lumber City",
+  "county": "Wheeler",
+  "state": "GA",
+  "types": [
+    "Timber",
+    "Recreational",
+    "Investment"
+  ],
+  "listed": "2026-09-17",
+  "lat": 31.975015,
+  "lng": -82.648074,
+  "coordsApprox": true,
+  "summary": "Tillman Creek Timberland is a great mix of cover types offering a diversity of wildlife habitat from bottomlands/bays to Longleaf sand hills. Highway 19 frontage and only a few miles from Lumber City. 5 miles from the confluence of the Oconee and Ocmulgee Rivers, this is a rare corridor for all types of wildlife. Contact Garrett Williams for details 706-296-5365",
+  "bullets": [
+    "Mature timber",
+    "Highway frontage"
+  ],
+  "directions": "",
+  "docs": [
+    {
+      "label": "Aerial map",
+      "url": "/assets/img/properties/Tillman Creek map.pdf"
+    }
+  ],
+  "images": [
+    "/assets/img/properties/IMG_4200.HEIC",
+    "/assets/img/properties/IMG_4203.HEIC",
+    "/assets/img/properties/IMG_4200.HEIC"
+  ],
+  "photoNote": ""
+}

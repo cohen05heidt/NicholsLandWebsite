@@ -31,36 +31,6 @@
     "images": []
   },
   {
-    "id": "zz-photo-upload-test-delete-me",
-    "title": "ZZ Photo Upload Test (delete me)",
-    "acres": 10,
-    "acresLabel": "10± Acres",
-    "price": null,
-    "priceLabel": "Call for Price",
-    "status": "For Sale",
-    "featured": false,
-    "county": "Clarke County",
-    "state": "GA",
-    "city": "Athens",
-    "locationLabel": "Athens, Clarke County, GA",
-    "types": [
-      "Timber"
-    ],
-    "listed": "2026-09-17",
-    "lat": 33.95,
-    "lng": -83.37,
-    "coordsApprox": true,
-    "summary": "Photo upload test. Will be deleted shortly.",
-    "bullets": [],
-    "directions": "",
-    "docs": [],
-    "images": [
-      "/assets/img/properties/zz-upload-test.jpg",
-      "/assets/img/properties/tillman-test-photo.webp",
-      "/assets/img/properties/zz-big-phone-photo.webp"
-    ]
-  },
-  {
     "id": "jabez-poyner-road",
     "title": "Jabez Poyner Road Tract",
     "acres": 73.59,

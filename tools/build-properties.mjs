@@ -16,6 +16,7 @@
  * Run locally with:  node tools/build-properties.mjs
  */
 
+import { existsSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -68,6 +69,24 @@ const asNumber = (value, field, file, problems) => {
   }
   return n;
 };
+/** A photo or document the listing names but the repository does not have
+ *  (an upload that never finished, a file picked from the wrong folder) shows
+ *  on the site as a broken image or a dead link. Local paths that do not
+ *  exist are left off with a warning on the Actions run; links to other
+ *  sites are kept as written. */
+const isLocal = (p) => !/^[a-z][a-z0-9+.-]*:/i.test(String(p));
+const onDisk = (p) => {
+  const rel = String(p).replace(/^\/+/, '').split(/[?#]/)[0];
+  let decoded = rel;
+  try { decoded = decodeURI(rel); } catch { /* keep as typed */ }
+  return existsSync(rel) || existsSync(decoded);
+};
+const present = (p, file, what, warnings) => {
+  if (!isLocal(p) || onDisk(p)) return true;
+  warnings.push(`${file}: ${what} "${p}" is not in the website's files, so it was left off the page. Upload it again in /admin.`);
+  return false;
+};
+
 // A live listing must say where it is. Sold records are archival and the old
 // site often recorded only the county, so town is not demanded of them.
 const REQUIRED_FOR_SALE = ['city'];
@@ -157,8 +176,8 @@ for (const file of files) {
     summary: raw.summary ?? '',
     bullets: raw.bullets ?? [],
     directions: raw.directions ?? '',
-    docs: (raw.docs ?? []).filter((d) => d && d.label && d.url),
-    images: (raw.images ?? []).filter(Boolean)
+    docs: (raw.docs ?? []).filter((d) => d && d.label && d.url && present(d.url, file, 'document', warnings)),
+    images: (raw.images ?? []).filter(Boolean).filter((p) => present(p, file, 'photo', warnings))
   });
 }
 

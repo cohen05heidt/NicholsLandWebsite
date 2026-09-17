@@ -17,6 +17,7 @@ on:
     paths:
       - 'data/properties/**'
       - 'data/commercial/**'
+      - 'assets/img/**'
       - 'tools/build-properties.mjs'
       - 'tools/build-commercial.mjs'
       - 'tools/convert-heic.py'
@@ -39,13 +40,13 @@ jobs:
         with:
           node-version: '20'
 
-      # iPhones save photos as HEIC, which no desktop browser can show and the
-      # admin cannot convert yet. Any that were uploaded become WebP here, and
-      # the listings that name them are repointed, before anything is built.
-      - name: Convert iPhone (HEIC) photos
+      # iPhone HEIC, TIFF and BMP (which a browser cannot show) and any photo
+      # still over 2048px become WebP here, and the listings that name them
+      # are repointed, before anything is built. See tools/convert-heic.py.
+      - name: Convert photos the site cannot show
         run: |
-          if ! ls assets/img/properties | grep -qiE '[.](heic|heif)$'; then
-            echo "No HEIC photos to convert."
+          if ! ls assets/img assets/img/properties | grep -qiE '[.](heic|heif|tiff?|bmp|jpe?g|jfif|png)$'; then
+            echo "No photos to convert."
             exit 0
           fi
           python3 -m pip install --quiet --break-system-packages pillow pillow-heif
@@ -61,7 +62,7 @@ jobs:
 
       - name: Commit anything the build changed
         run: |
-          git add -A data/properties.json data/commercial.json data/properties data/commercial assets/img/properties
+          git add -A data/properties.json data/commercial.json data/properties data/commercial assets/img
           if git diff --cached --quiet; then
             echo "No change to the built listing data."
             exit 0

@@ -1,0 +1,25 @@
+{
+  "title": "ZZ Photo Upload Test (delete me)",
+  "status": "For Sale",
+  "featured": false,
+  "acres": 10,
+  "price": null,
+  "city": "Athens",
+  "county": "Clarke County",
+  "state": "GA",
+  "types": [
+    "Timber"
+  ],
+  "listed": "2026-09-17",
+  "lat": 33.95,
+  "lng": -83.37,
+  "coordsApprox": true,
+  "summary": "Photo upload test. Will be deleted shortly.",
+  "bullets": [],
+  "directions": "",
+  "docs": [],
+  "images": [
+    "/assets/img/properties/zz-upload-test.jpg"
+  ],
+  "photoNote": ""
+}

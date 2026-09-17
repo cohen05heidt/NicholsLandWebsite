@@ -1909,11 +1909,15 @@ const NLI = (() => {
     ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((type) =>
       window.addEventListener(type, cancel, { once: true, passive: true }));
 
-    const started = performance.now();
+    // A timer rather than requestAnimationFrame: a link opened in a
+    // background tab gets no animation frames until it is looked at, and the
+    // scroll has to be right by then.
+    const STEP = 80;
     let settledFor = 0;
-    let lastFrame = started;
-    const aim = (now) => {
-      if (cancelled || now - started > 6000) return;
+    let elapsed = 0;
+    const aim = () => {
+      if (cancelled || elapsed > 8000) return;
+      elapsed += STEP;
       const header = $('.site-header');
       const offset = (header && header.offsetHeight ? header.offsetHeight : 0) + 12;
       const wanted = Math.max(0, Math.round(target.getBoundingClientRect().top + window.scrollY - offset));
@@ -1921,14 +1925,13 @@ const NLI = (() => {
         window.scrollTo({ top: wanted, behavior: 'instant' });
         settledFor = 0;
       } else {
-        settledFor += now - lastFrame;
+        settledFor += STEP;
       }
-      lastFrame = now;
       // Half a second of the target staying put means the page has finished
       // growing underneath it.
-      if (settledFor < 500) requestAnimationFrame(aim);
+      if (settledFor < 500) setTimeout(aim, STEP);
     };
-    requestAnimationFrame(aim);
+    aim();
   }
 
   window.addEventListener('load', honourHash);

@@ -22,6 +22,24 @@ backend:
 media_folder: assets/img/properties
 
 public_folder: assets/img/properties
+
+# What happens to a file on its way in. Phone photos run 3-10 MB, and a file
+# that size makes the whole save fail ("Failed to fetch"). JPEG, PNG and WebP
+# photos are shrunk in the browser to a 2048px WebP before they upload. A
+# browser cannot read iPhone HEIC, so those upload as they are and the build
+# workflow converts them (tools/convert-heic.py). slugify_filename turns
+# "Tillman Creek map.pdf" into "tillman-creek-map.pdf", so no link on the site
+# has a space in it.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
 # Saving writes straight to main, which is what makes a listing go live without
 # anyone having to approve anything.
 publish_mode: simple
@@ -195,7 +213,7 @@ collections:
         summary: '{{fields.label}}'
         fields:
           - { name: label, label: Name, widget: string, hint: 'e.g. Aerial Map, Topo Map, Tract Plat' }
-          - { name: url, label: File, widget: file, hint: Upload a PDF, or paste a link to one. }
+          - { name: url, label: File, widget: file, hint: 'Upload a PDF, or paste a link to one. Keep PDFs under about 8 MB, or the save can fail.' }
 
       - name: images
         label: Photos
@@ -205,7 +223,7 @@ collections:
         # been out to photograph it. The site shows a "photos coming" tile.
         required: false
         field: { name: image, label: Photo, widget: image }
-        hint: The first photo is the one used on cards, the map popup and the listing header. Can be left empty until photos are ready.
+        hint: 'The first photo is used on cards, the map popup and the listing header. Phone photos, iPhone HEIC included, are resized and converted automatically. Can be left empty until photos are ready.'
 
       # Exists because the Jeff Davis photographs are AI-enlarged from the only
       # size land.com publishes, and that fact has to survive someone opening

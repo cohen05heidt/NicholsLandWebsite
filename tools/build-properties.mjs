@@ -81,7 +81,14 @@ const onDisk = (p) => {
   try { decoded = decodeURI(rel); } catch { /* keep as typed */ }
   return existsSync(rel) || existsSync(decoded);
 };
+// What a browser can actually draw. Anything else (a HEIC the build could not
+// convert, a TIFF) would show as a blank square, so it is left off too.
+const SHOWABLE = /\.(jpe?g|png|webp|gif|avif|svg)$/i;
 const present = (p, file, what, warnings) => {
+  if (what === 'photo' && isLocal(p) && !SHOWABLE.test(String(p).split(/[?#]/)[0])) {
+    warnings.push(`${file}: photo "${p}" is not a format browsers can show, so it was left off the page. Upload it again as a JPEG.`);
+    return false;
+  }
   if (!isLocal(p) || onDisk(p)) return true;
   warnings.push(`${file}: ${what} "${p}" is not in the website's files, so it was left off the page. Upload it again in /admin.`);
   return false;

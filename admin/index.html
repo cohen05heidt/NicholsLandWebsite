@@ -12,6 +12,9 @@
      repository directly from the browser, so signing in here is signing in to
      GitHub. Saving a listing writes a file to data/properties/, which triggers
      the Build properties.json workflow, which republishes the site. -->
+<!-- Must load first: lets saves of any size through, and handles photo
+     types a browser cannot show. See the notes at the top of the file. -->
+<script src="upload-helper.js?v=1"></script>
 <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
 </body>
 </html>

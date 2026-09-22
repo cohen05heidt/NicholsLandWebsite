@@ -295,6 +295,20 @@ collections:
           Sold and Leased listings come off the site. Everything else shows on
           the card and the listing page as written.
 
+      - name: placement
+        label: Where should this listing show?
+        widget: select
+        default: both
+        options:
+          - { label: 'Home page and Properties page', value: both }
+          - { label: 'Home page only — under "Commercial assets for sale/lease"', value: home }
+          - { label: 'Properties page only — under the land listings', value: properties }
+        hint: >-
+          The home page shows a short commercial strip and the Properties page
+          lists them under the land. Most buildings belong on both; pick one
+          when a listing should headline the front page without padding the
+          full list, or sit in the full list without taking a front-page slot.
+
       - name: propertyType
         label: Property type
         widget: select

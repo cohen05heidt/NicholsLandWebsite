@@ -1351,7 +1351,23 @@ const NLI = (() => {
     try { commercial = await getCommercial(); } catch (err) {
       console.error('[NLI] Commercial listings could not load:', err);
     }
+    renderCommercialOnPage(commercial);
     initDetailOverlay(props, commercial);
+  }
+
+  /* The commercial strip under the land grid on properties.html. A listing
+     lands here when the admin's "Where should this listing show?" includes
+     the properties page; the home page strip reads the same flag for itself.
+     Nothing set to show here means no empty heading. */
+  function renderCommercialOnPage(commercial) {
+    const section = $('[data-commercial-page]');
+    const grid = $('[data-commercial-page-grid]');
+    if (!section || !grid) return;
+    const show = (commercial || []).filter(c => c.showProperties !== false);
+    if (!show.length) return;
+    grid.innerHTML = show.map(commercialCard).join('\n');
+    section.hidden = false;
+    bindCardActions(grid);
   }
 
   /* --- property detail overlay --------------------------------------------
@@ -1818,6 +1834,7 @@ const NLI = (() => {
       console.error('[NLI] Commercial listings could not load:', err);
       return;
     }
+    live = live.filter(c => c.showHome !== false);
     if (!live.length) return;
 
     grid.innerHTML = live.map(commercialCard).join('\n');

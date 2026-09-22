@@ -100,6 +100,23 @@
     </div>
   </section>
 
+  <!-- Commercial listings, from the same data/commercial.json the home page
+       reads. Which page a building appears on is chosen per listing in the
+       admin ("Where should this listing show?"), because a building can be
+       worth a slot on the front page, worth a line in the full list, or both.
+       The section hides itself when nothing is set to show here. -->
+  <section class="section--tight" data-commercial-page hidden style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 class="h1">Commercial for sale/lease</h2>
+          <p class="lede" style="margin-top:12px">Office, retail and investment buildings.</p>
+        </div>
+      </div>
+      <div class="grid-cards" data-commercial-page-grid></div>
+    </div>
+  </section>
+
   <section class="cta-band" style="margin-top:60px">
     <img src="https://nicholsland.net/wp-content/uploads/2026/04/23-web-or-mls-23-845x684.jpg" alt="" aria-hidden="true" loading="lazy">
     <div class="wrap-narrow">
@@ -257,6 +274,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/app.js?v=0a270a11"></script>
+<script src="assets/js/app.js?v=c85ebac5"></script>
 </body>
 </html>

@@ -2,6 +2,9 @@
   {
     "id": "745-gaines-school-road",
     "title": "Fully Leased Office Building",
+    "placement": "both",
+    "showHome": true,
+    "showProperties": true,
     "status": "For Sale",
     "propertyType": [
       "Office"
@@ -68,6 +71,9 @@
   {
     "id": "710-gaines-school-road",
     "title": "East Side Office/Retail with Great Visibility",
+    "placement": "both",
+    "showHome": true,
+    "showProperties": true,
     "status": "For Sale",
     "propertyType": [
       "Office",

@@ -171,9 +171,17 @@ for (const file of files) {
     ...extra,
   ].filter(Boolean).slice(0, 3);
 
+  // Where the listing shows. "both" is the answer for almost every building;
+  // the choice exists so a quiet listing can stay off the front page, and a
+  // headline one can take a front-page slot without padding the full list.
+  const placement = ['home', 'properties', 'both'].includes(raw.placement) ? raw.placement : 'both';
+
   listings.push({
     id,
     title: raw.title,
+    placement,
+    showHome: placement !== 'properties',
+    showProperties: placement !== 'home',
     status: raw.status,
     propertyType: types,
     price: finite(price) ? price : null,

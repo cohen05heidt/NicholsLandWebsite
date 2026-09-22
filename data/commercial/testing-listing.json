@@ -1,0 +1,10 @@
+{
+  "title": "testing listing",
+  "status": "For Lease",
+  "price": 100000,
+  "address": "260 Springdale St, Athens, Georgia, 30606",
+  "image": "/assets/img/favicon.ico",
+  "alt": "testing",
+  "facts": [],
+  "order": 1
+}

@@ -1556,7 +1556,7 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(20,23,15,.45), rgba(20,23,15,.2) 40%, rgba(20,23,15,.78));
+  background: linear-gradient(180deg, rgba(20,23,15,.22), rgba(20,23,15,.06) 38%, rgba(20,23,15,.72));
 }
 .detail__cap { position: absolute; left: 0; right: 0; bottom: 28px; z-index: 3; color: var(--bone); padding: 0 40px; }
 .detail__cap h2 { font-size: clamp(1.7rem, 3.4vw, 2.8rem); }

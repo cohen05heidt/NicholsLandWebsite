@@ -15,7 +15,7 @@
      CSS and JS. The value is a hash of the file: it changes only when
      the file does. Re-stamp with tools/stamp-assets.py after editing
      either one. -->
-<link rel="stylesheet" href="assets/css/style.css?v=e27fa38e">
+<link rel="stylesheet" href="assets/css/style.css?v=cb5ce892">
 <meta name="theme-color" content="#22362A">
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=yes">
@@ -138,8 +138,14 @@
           <p class="lede" data-summary style="margin-bottom:30px"></p>
 
           <div data-bullets-wrap>
-            <h3 class="h2" style="margin-bottom:18px">Property Overview</h3>
+            <h3 class="h2" style="margin-bottom:18px" data-bullets-title>Property Overview</h3>
             <ul class="bullet-list" data-bullets style="margin-bottom:40px"></ul>
+          </div>
+
+          <!-- Commercial listings only: the building's particulars. -->
+          <div data-specs-wrap style="display:none;margin-bottom:44px">
+            <h3 class="h2" style="margin-bottom:18px">Building Details</h3>
+            <dl class="spec-list" data-specs></dl>
           </div>
 
           <div data-directions-wrap style="margin-bottom:40px">
@@ -148,21 +154,26 @@
           </div>
 
           <div data-docs-wrap style="margin-bottom:44px">
-            <h3 class="h2" style="margin-bottom:18px">Maps, Plats &amp; Resources</h3>
+            <h3 class="h2" style="margin-bottom:18px" data-docs-title>Maps, Plats &amp; Resources</h3>
             <div class="doclist" data-docs></div>
           </div>
 
-          <h3 class="h2" style="margin-bottom:18px">Photo Gallery</h3>
-          <div class="gallery" data-gallery style="margin-bottom:44px"></div>
+          <div data-gallery-wrap>
+            <h3 class="h2" style="margin-bottom:18px">Photo Gallery</h3>
+            <div class="gallery" data-gallery style="margin-bottom:44px"></div>
+          </div>
 
-          <h3 class="h2" style="margin-bottom:18px">Location</h3>
-          <div id="detail-map" style="height:340px;border:1px solid var(--line)"></div>
-          <p class="form-note" style="margin-top:10px">Map pin is approximate. Contact the listing agent for exact boundaries and a plat.</p>
+          <div data-location-wrap>
+            <h3 class="h2" style="margin-bottom:18px">Location</h3>
+            <div id="detail-map" style="height:340px;border:1px solid var(--line)"></div>
+            <p class="form-note" style="margin-top:10px" data-map-note>Map pin is approximate. Contact the listing agent for exact boundaries and a plat.</p>
+            <a class="link-arrow" data-map-address hidden href="#" target="_blank" rel="noopener">Open the address in Google Maps ↗</a>
+          </div>
         </div>
 
         <aside>
           <div class="agent-card office-card">
-            <p class="eyebrow" style="margin-bottom:14px">Ask About This Tract</p>
+            <p class="eyebrow" style="margin-bottom:14px" data-ask-label>Ask About This Tract</p>
             <p style="font-family:var(--display);font-size:1.15rem;margin-bottom:12px">Nichols Land &amp; Investment Co.</p>
             <p style="margin-bottom:18px">
               2500 Daniells Bridge Rd.<br>
@@ -179,9 +190,9 @@
         </aside>
       </div>
 
-      <div style="margin-top:52px;padding-top:36px;border-top:1px solid var(--line)">
+      <div style="margin-top:52px;padding-top:36px;border-top:1px solid var(--line)" data-similar-wrap>
         <p class="eyebrow">You may also like</p>
-        <h3 class="h2" style="margin-bottom:26px">Similar tracts</h3>
+        <h3 class="h2" style="margin-bottom:26px" data-similar-title>Similar tracts</h3>
         <div class="grid-cards" data-similar></div>
       </div>
     </div>
@@ -246,6 +257,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/app.js?v=d2f98d8d"></script>
+<script src="assets/js/app.js?v=0dd7285e"></script>
 </body>
 </html>

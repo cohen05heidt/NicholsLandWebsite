@@ -8,6 +8,7 @@ const NLI = (() => {
 
   const state = {
     properties: [],
+    commercial: null,
     saved: new Set()
   };
 
@@ -32,6 +33,33 @@ const NLI = (() => {
 
   /* The whole site is two files at the root: index.html and properties.html. */
   const ROOT = './';
+
+  /* The commercial book, loaded once and shared by the home page cards and
+     the listing panel on properties.html. Closed deals (Sold, Leased) never
+     leave this function: nothing on the site shows them. */
+  const COMMERCIAL_CLOSED = ['Sold', 'Leased'];
+  async function getCommercial() {
+    if (!state.commercial) {
+      const list = await loadJSON(ROOT + 'data/commercial.json');
+      state.commercial = (Array.isArray(list) ? list : [])
+        .filter(c => !COMMERCIAL_CLOSED.includes(c.status))
+        .map(c => ({
+          ...c,
+          // Records built before the gallery existed carry a single image.
+          images: Array.isArray(c.images) && c.images.length ? c.images : (c.image ? [c.image] : []),
+          propertyType: Array.isArray(c.propertyType) ? c.propertyType : [],
+          highlights: Array.isArray(c.highlights) ? c.highlights : [],
+          details: Array.isArray(c.details) ? c.details : [],
+          docs: Array.isArray(c.docs) ? c.docs : []
+        }));
+    }
+    return state.commercial;
+  }
+
+  /* A commercial listing's page lives on properties.html under its own hash
+     prefix, so a building can never collide with a tract of the same name. */
+  const COMMERCIAL_HASH = 'commercial/';
+  const commercialHref = (c) => `properties.html#${COMMERCIAL_HASH}${encodeURIComponent(c.id)}`;
 
   async function getProperties() {
     if (!state.properties.length) {
@@ -637,6 +665,37 @@ const NLI = (() => {
           </div>
         </div>
       </article>`;
+  }
+
+  function commercialStatusTag(c) {
+    if (c.status === 'Under Contract') return '<span class="tag tag--contract">Under Contract</span>';
+    return `<span class="tag">${esc(c.status)}</span>`;
+  }
+
+  /* The same card as a tract, and just as clickable: the photograph and the
+     headline both open the building's listing page. It used to be a dead end
+     with a "Request details" link, so nobody could see more than one photo. */
+  function commercialCard(c) {
+    const href = commercialHref(c);
+    const facts = (c.facts || []).filter(f => f && f.label && f.value);
+    return `
+        <article class="pcard pcard--commercial reveal">
+          <div class="pcard__media">
+            <a href="${href}" aria-label="${esc(c.title)}">
+              <img src="${esc(photoFor(c))}" alt="${esc(c.alt || c.title)}" loading="lazy" decoding="async">
+            </a>
+            <div class="pcard__tags">${commercialStatusTag(c)}</div>
+            <div class="pcard__price">${esc(c.priceLabel)}</div>
+          </div>
+          <div class="pcard__body">
+            <h3 class="pcard__title"><a href="${href}">${esc(c.title)}</a></h3>
+            <p class="pcard__loc">${esc(c.address)}</p>
+            ${facts.length ? `<div class="pcard__meta">
+              ${facts.map(f => `<span>${esc(f.label)}<b>${esc(f.value)}</b></span>`).join('\n              ')}
+            </div>` : ''}
+            <a class="link-arrow" href="${href}" style="margin-top:18px">View details →</a>
+          </div>
+        </article>`;
   }
 
   function bindCardActions(root = document) {
@@ -1286,7 +1345,13 @@ const NLI = (() => {
 
     /* --- detail overlay, driven by the URL hash --------------------------- */
 
-    initDetailOverlay(props);
+    // The commercial book shares this panel. If it fails to load, tracts
+    // still open; only a building link would come up empty.
+    let commercial = [];
+    try { commercial = await getCommercial(); } catch (err) {
+      console.error('[NLI] Commercial listings could not load:', err);
+    }
+    initDetailOverlay(props, commercial);
   }
 
   /* --- property detail overlay --------------------------------------------
@@ -1294,7 +1359,7 @@ const NLI = (() => {
      URL hash, so a listing is still a shareable link and Back closes it.
      ------------------------------------------------------------------------ */
 
-  function initDetailOverlay(props) {
+  function initDetailOverlay(props, commercial = []) {
     const overlay = $('[data-detail]');
     if (!overlay) return;
 
@@ -1304,22 +1369,26 @@ const NLI = (() => {
 
     const idFromHash = () => decodeURIComponent((window.location.hash || '').replace(/^#/, ''));
 
-    function open(p) {
-      renderDetail(p, () => { detailMap = null; });
+    function open(p, kind = 'land') {
+      if (detailMap) { detailMap.remove(); detailMap = null; }
+      if (kind === 'commercial') renderCommercialDetail(p);
+      else renderDetail(p);
       lastFocused = document.activeElement;
 
       overlay.hidden = false;
       // Next frame so the transition actually runs.
       requestAnimationFrame(() => overlay.classList.add('is-open'));
       document.body.classList.add('has-overlay');
-      document.title = `${p.title} — ${p.acresLabel}, ${p.county} | Nichols Land & Investment Co.`;
+      document.title = kind === 'commercial'
+        ? `${p.title} — ${[p.sqftLabel, p.address].filter(Boolean).join(', ')} | Nichols Land & Investment Co.`
+        : `${p.title} — ${p.acresLabel}, ${p.county} | Nichols Land & Investment Co.`;
 
       overlay.querySelector('.detail__panel').scrollTop = 0;
       $('.detail__close', overlay)?.focus();
 
       // Detail mini-map has to be built after the panel is visible.
       const hasPin = p.lat != null && p.lng != null;
-      if ($('#detail-map') && !hasPin) $('#detail-map').hidden = true;
+      if ($('#detail-map')) $('#detail-map').hidden = !hasPin;
       if (window.L && $('#detail-map') && hasPin) {
         $('#detail-map').innerHTML = '';
         detailMap = L.map('detail-map', { scrollWheelZoom: false, zoomControl: true })
@@ -1343,6 +1412,10 @@ const NLI = (() => {
 
     function sync() {
       const id = idFromHash();
+      if (id && id.startsWith(COMMERCIAL_HASH)) {
+        const c = commercial.find(x => x.id === id.slice(COMMERCIAL_HASH.length));
+        if (c) { open(c, 'commercial'); return; }
+      }
       const p = id && props.find(x => x.id === id);
       if (p) open(p);
       else if (!overlay.hidden) close();
@@ -1376,7 +1449,128 @@ const NLI = (() => {
     sync();
   }
 
+  /* One panel serves tracts and buildings, so the handful of headings that
+     name the kind of property are set on every open rather than hard-coded,
+     and every optional section is explicitly shown or hidden each time: a
+     section hidden for one listing used to stay hidden for the next one
+     opened from the "similar" row. */
+  const DETAIL_WORDING = {
+    land: {
+      ask: 'Ask About This Tract', bullets: 'Property Overview', docs: 'Maps, Plats & Resources',
+      similar: 'Similar tracts', mapNote: 'Map pin is approximate. Contact the listing agent for exact boundaries and a plat.'
+    },
+    commercial: {
+      ask: 'Ask About This Property', bullets: 'Property Highlights', docs: 'Brochures, Floor Plans & Resources',
+      similar: 'More commercial properties', mapNote: 'Map pin is approximate. Contact the listing agent for a site plan and survey.'
+    }
+  };
+  function setWording(kind) {
+    const w = DETAIL_WORDING[kind];
+    setText('[data-ask-label]', w.ask);
+    setText('[data-bullets-title]', w.bullets);
+    setText('[data-docs-title]', w.docs);
+    setText('[data-similar-title]', w.similar);
+    setText('[data-map-note]', w.mapNote);
+  }
+  const showIf = (sel, on) => { const el = $(sel); if (el) el.style.display = on ? '' : 'none'; };
+
+  function renderGallery(p) {
+    const imgs = (p.images || []).filter(Boolean);
+    $('[data-gallery]').innerHTML = imgs.map((src, i) =>
+      `<button type="button" data-lb="${i}"><img src="${esc(src)}" alt="${esc(p.title)} photo ${i + 1}" loading="lazy"></button>`
+    ).join('');
+    showIf('[data-gallery-wrap]', imgs.length > 0);
+    if (imgs.length) initLightbox(imgs);
+  }
+
+  function renderDocs(docs) {
+    const list = (docs || []).filter(d => d && d.label && d.url);
+    $('[data-docs]').innerHTML = list.map(d =>
+      `<a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span>Open ↗</span></a>`).join('');
+    showIf('[data-docs-wrap]', list.length > 0);
+  }
+
+  function renderCommercialDetail(c) {
+    setWording('commercial');
+    $('[data-hero-img]').src = photoFor(c);
+    $('[data-hero-img]').alt = c.alt || c.title;
+    setText('[data-title]', c.title);
+    setText('[data-loc]', c.address);
+    $('[data-tags]').innerHTML = commercialStatusTag(c);
+
+    // Only the figures this listing actually has. A lease rate shows beside a
+    // sale price when a building is offered both ways.
+    const types = (c.propertyType || []).join(' / ');
+    const facts = [
+      ['Price', c.priceLabel],
+      c.leaseLabel && c.leaseLabel !== c.priceLabel && ['Lease Rate', c.leaseLabel],
+      c.sqftLabel && ['Building Size', c.sqftLabel],
+      c.availableLabel && ['Available', c.availableLabel],
+      c.lotLabel && ['Lot Size', c.lotLabel.replace(' Acres', ' AC')],
+      types && ['Property Type', types],
+      ['Status', c.status]
+    ].filter(Boolean);
+    $('[data-facts]').innerHTML = facts.map(([k, v]) =>
+      `<div class="fact"><span>${esc(k)}</span><b${String(v).length > 12 ? ' style="font-size:1rem"' : ''}>${esc(v)}</b></div>`).join('');
+
+    setText('[data-summary]', c.summary || '');
+    showIf('[data-summary]', !!c.summary);
+
+    const highlights = (c.highlights || []).filter(Boolean);
+    $('[data-bullets]').innerHTML = highlights.map(b => `<li>${esc(b)}</li>`).join('');
+    showIf('[data-bullets-wrap]', highlights.length > 0);
+
+    // The building's particulars, as a spec sheet: every field the admin has
+    // a value for, then anything typed into "Other details".
+    const specs = [
+      ['Property Type', types],
+      ['Building Size', c.sqftLabel],
+      ['Space Available', c.availableLabel],
+      ['Lot Size', c.lotLabel],
+      ['Year Built', c.yearBuilt ? String(c.yearBuilt) : ''],
+      ['Zoning', c.zoning],
+      ['Parking', c.parking],
+      ['Occupancy', c.occupancy],
+      ['Units / Suites', c.suites],
+      ['County', c.county],
+      ...(c.details || []).map(d => [d.label, d.value])
+    ].filter(([, v]) => v);
+    $('[data-specs]').innerHTML = specs.map(([k, v]) =>
+      `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+    showIf('[data-specs-wrap]', specs.length > 0);
+
+    showIf('[data-directions-wrap]', false);
+    renderDocs(c.docs);
+    renderGallery(c);
+
+    // No pin: the address is still a location, so offer it to Google Maps
+    // rather than leaving the section empty.
+    const hasPin = c.lat != null && c.lng != null;
+    const addrLink = $('[data-map-address]');
+    if (addrLink) {
+      addrLink.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.address);
+      addrLink.hidden = hasPin;
+    }
+    showIf('[data-map-note]', hasPin);
+    showIf('[data-location-wrap]', true);
+
+    const others = (state.commercial || []).filter(x => x.id !== c.id).slice(0, 3);
+    const simWrap = $('[data-similar]');
+    if (simWrap) {
+      simWrap.innerHTML = others.map(commercialCard).join('');
+      bindCardActions(simWrap);
+    }
+    showIf('[data-similar-wrap]', others.length > 0);
+  }
+
   function renderDetail(p) {
+    setWording('land');
+    showIf('[data-specs-wrap]', false);
+    showIf('[data-summary]', true);
+    showIf('[data-map-note]', true);
+    showIf('[data-location-wrap]', p.lat != null && p.lng != null);
+    const addrLink = $('[data-map-address]');
+    if (addrLink) addrLink.hidden = true;
     $('[data-hero-img]').src = photoFor(p);
     $('[data-hero-img]').alt = `${p.title}, ${p.county}`;
     setText('[data-title]', p.title);
@@ -1400,21 +1594,11 @@ const NLI = (() => {
     $('[data-bullets]').innerHTML = bullets.map(b => `<li>${esc(b)}</li>`).join('');
     if (bulletsWrap) bulletsWrap.style.display = bullets.length ? '' : 'none';
 
-    const dirWrap = $('[data-directions-wrap]');
-    if (p.directions) { $('[data-directions]').textContent = p.directions; }
-    else { dirWrap.style.display = 'none'; }
+    if (p.directions) $('[data-directions]').textContent = p.directions;
+    showIf('[data-directions-wrap]', !!p.directions);
 
-    const docWrap = $('[data-docs-wrap]');
-    if (p.docs.length) {
-      $('[data-docs]').innerHTML = p.docs.map(d =>
-        `<a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span>Open ↗</span></a>`).join('');
-    } else { docWrap.style.display = 'none'; }
-
-    // Gallery
-    $('[data-gallery]').innerHTML = p.images.map((src, i) =>
-      `<button type="button" data-lb="${i}"><img src="${esc(src)}" alt="${esc(p.title)} photo ${i + 1}" loading="lazy"></button>`
-    ).join('');
-    initLightbox(p.images);
+    renderDocs(p.docs);
+    renderGallery(p);
 
     // Similar properties — these link by hash, so they swap the panel in place.
     const similar = state.properties
@@ -1425,35 +1609,48 @@ const NLI = (() => {
       simWrap.innerHTML = similar.map(propertyCard).join('');
       bindCardActions(simWrap);
     }
+    showIf('[data-similar-wrap]', similar.length > 0);
   }
 
   /* --- lightbox ----------------------------------------------------------- */
 
+  /* Bound once. It used to attach a fresh set of click and key handlers every
+     time a listing opened, so after two listings the arrows moved two photos
+     at a time. The position and the photo list now live out here, shared by
+     the one set of handlers; each open just hands over the new list. */
+  const lightbox = { images: [], idx: 0, ready: false };
   function initLightbox(images) {
     const box = $('.lightbox');
     if (!box) return;
-    let idx = 0;
+    lightbox.images = images;
+    lightbox.idx = 0;
     const img = $('.lightbox img', box);
     const count = $('.lightbox__count', box);
 
     const show = (i) => {
-      idx = (i + images.length) % images.length;
-      img.src = images[idx];
-      count.textContent = `${idx + 1} / ${images.length}`;
+      const n = lightbox.images.length;
+      if (!n) return;
+      lightbox.idx = (i + n) % n;
+      img.src = lightbox.images[lightbox.idx];
+      count.textContent = `${lightbox.idx + 1} / ${n}`;
     };
     const open = (i) => { show(i); box.classList.add('is-open'); document.body.style.overflow = 'hidden'; };
     const close = () => { box.classList.remove('is-open'); document.body.style.overflow = ''; };
 
+    // The thumbnails are new on every render, so these are always fresh.
     $$('[data-lb]').forEach(b => b.addEventListener('click', () => open(Number(b.dataset.lb))));
+
+    if (lightbox.ready) return;
+    lightbox.ready = true;
     $('.lightbox__close', box).addEventListener('click', close);
-    $('.lightbox__prev', box).addEventListener('click', () => show(idx - 1));
-    $('.lightbox__next', box).addEventListener('click', () => show(idx + 1));
+    $('.lightbox__prev', box).addEventListener('click', () => show(lightbox.idx - 1));
+    $('.lightbox__next', box).addEventListener('click', () => show(lightbox.idx + 1));
     box.addEventListener('click', (e) => { if (e.target === box) close(); });
     document.addEventListener('keydown', (e) => {
       if (!box.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') show(idx - 1);
-      if (e.key === 'ArrowRight') show(idx + 1);
+      if (e.key === 'ArrowLeft') show(lightbox.idx - 1);
+      if (e.key === 'ArrowRight') show(lightbox.idx + 1);
     });
   }
 
@@ -1607,9 +1804,9 @@ const NLI = (() => {
     const grid = $('[data-commercial-grid]');
     if (!section || !grid) return;
 
-    let list;
+    let live;
     try {
-      list = await loadJSON(ROOT + 'data/commercial.json');
+      live = await getCommercial();
     } catch (err) {
       // A missing or broken commercial file must not take down the rest of
       // the home page, and an empty section is a better failure than a
@@ -1617,27 +1814,9 @@ const NLI = (() => {
       console.error('[NLI] Commercial listings could not load:', err);
       return;
     }
-
-    const live = (Array.isArray(list) ? list : []).filter(c => c.status !== 'Sold');
     if (!live.length) return;
 
-    grid.innerHTML = live.map(c => `
-        <article class="pcard reveal">
-          <div class="pcard__media">
-            <img src="${esc(c.image)}" alt="${esc(c.alt || c.title)}" loading="lazy" decoding="async">
-            <div class="pcard__tags"><span class="tag">${esc(c.status)}</span></div>
-            <div class="pcard__price">${esc(c.priceLabel)}</div>
-          </div>
-          <div class="pcard__body">
-            <h3 class="pcard__title">${esc(c.title)}</h3>
-            <p class="pcard__loc">${esc(c.address)}</p>
-            <div class="pcard__meta">
-              ${(c.facts || []).map(f =>
-                `<span>${esc(f.label)}<b>${esc(f.value)}</b></span>`).join('\n              ')}
-            </div>
-            <a class="link-arrow" href="#contact" style="margin-top:18px">Request details →</a>
-          </div>
-        </article>`).join('\n');
+    grid.innerHTML = live.map(commercialCard).join('\n');
 
     section.hidden = false;
     // The reveal observer in initChrome ran before this data arrived, so these

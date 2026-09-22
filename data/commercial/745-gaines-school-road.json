@@ -1,13 +1,20 @@
 {
   "title": "Fully Leased Office Building",
   "status": "For Sale",
-  "order": 1,
-  "price": 850000,
-  "address": "745 Gaines School Road, Athens, GA 30605",
-  "facts": [
-    { "label": "Type", "value": "Office" },
-    { "label": "Tenancy", "value": "Long-Term Credit Tenant" }
+  "propertyType": [
+    "Office"
   ],
-  "image": "/assets/img/comm-745-gaines.jpg",
-  "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia"
+  "price": 850000,
+  "occupancy": "Long-Term Credit Tenant",
+  "address": "745 Gaines School Road, Athens, GA 30605",
+  "county": "Clarke County",
+  "summary": "",
+  "highlights": [],
+  "images": [
+    "/assets/img/comm-745-gaines.jpg"
+  ],
+  "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia",
+  "docs": [],
+  "facts": [],
+  "order": 1
 }

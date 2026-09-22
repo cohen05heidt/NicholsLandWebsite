@@ -1316,6 +1316,22 @@ textarea:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
 .fact span { display: block; font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.56rem; letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); margin-bottom: 5px; }
 .fact b { font-family: var(--mono); font-size: 0.93rem; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
 
+.spec-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  column-gap: 32px;
+  margin: 0;
+}
+.spec-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px dotted var(--line);
+}
+.spec-list dt { font-family: var(--mono); font-variant-numeric: lining-nums; font-weight: 700; font-size: 0.68rem; letter-spacing: .04em; text-transform: uppercase; color: var(--graphite); }
+.spec-list dd { margin: 0; text-align: right; font-family: var(--mono); font-variant-numeric: lining-nums tabular-nums; font-weight: 700; font-size: 0.84rem; }
+
 .bullet-list li {
   position: relative;
   padding-left: 26px;

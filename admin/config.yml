@@ -248,10 +248,12 @@ collections:
     label: Commercial
     label_singular: Commercial listing
     description: >-
-      Buildings for sale or lease, shown in the Commercial section of the home
-      page. Marking one Sold removes it from the site; delete it and it is gone
-      entirely. If every listing here is sold or deleted, the whole section
-      disappears rather than leaving an empty heading.
+      Buildings and commercial sites for sale or lease. Each one gets a card in
+      the Commercial section of the home page and its own listing page, the
+      same way a tract does. Marking one Sold or Leased takes it off the site;
+      delete it and it is gone entirely. If every listing here is closed or
+      deleted, the whole section disappears rather than leaving an empty
+      heading.
     folder: data/commercial
     # The two original building photos live in assets/img/, not in the
     # properties folder, so the admin could not find them to show a preview.
@@ -265,54 +267,206 @@ collections:
     delete: true
     slug: '{{title}}'
     summary: '{{title}} — {{address}}'
-    sortable_fields: [order, title, price]
+    sortable_fields: [order, title, price, sqft]
     view_filters:
       - { label: For sale, field: status, pattern: For Sale }
-      - { label: For lease, field: status, pattern: For Lease }
-      - { label: Sold, field: status, pattern: Sold }
+      - { label: For lease, field: status, pattern: Lease$ }
+      - { label: Under contract, field: status, pattern: Under Contract }
+      - { label: Sold or leased, field: status, pattern: '^(Sold|Leased)$' }
 
+    # Laid out in the order a broker reads a commercial listing sheet: what it
+    # is and what it costs, how big it is, the building's particulars, where
+    # it is, then the words, the photographs and the paperwork. Square footage
+    # takes the place acreage has on a tract; the lot size is still here for
+    # the sites where the ground matters as much as the building.
     fields:
 
       - name: title
         label: Headline
         widget: string
-        hint: 'What the card is called, e.g. "Fully Leased Office Building".'
+        hint: 'What the listing is called, e.g. "Fully Leased Office Building".'
 
       - name: status
         label: Status
         widget: select
         default: For Sale
-        options: [For Sale, For Lease, For Sale/Lease, Under Contract, Sold]
-        hint: Sold listings come off the site. Everything else shows on the card as written.
+        options: [For Sale, For Lease, For Sale/Lease, Under Contract, Sold, Leased]
+        hint: >-
+          Sold and Leased listings come off the site. Everything else shows on
+          the card and the listing page as written.
+
+      - name: propertyType
+        label: Property type
+        widget: select
+        multiple: true
+        min: 1
+        options: [Office, Retail, Medical Office, Restaurant, Industrial, Warehouse, Flex, Mixed Use, Multifamily, Hospitality, Land, Other]
+        hint: Pick every type that fits, e.g. Office and Retail for a building with both.
 
       - name: price
-        label: Price
+        label: Sale price
         widget: number
         value_type: int
         required: false
         min: 0
-        hint: 'Numbers only, no $ or commas. Leave blank to show "Call for Price".'
+        hint: 'Numbers only, no $ or commas. Leave blank for a lease-only listing or to show "Call for Price".'
+
+      - name: leaseRate
+        label: Lease rate
+        widget: number
+        value_type: float
+        required: false
+        min: 0
+        hint: 'Numbers only, e.g. 18.50. Per square foot per year unless you choose "per month" below. Leave blank if it is not for lease.'
+
+      - name: leaseBasis
+        label: Lease rate is quoted
+        widget: select
+        required: false
+        default: per SF per year
+        options: [per SF per year, per month]
+
+      - name: leaseTerms
+        label: Lease type
+        widget: select
+        required: false
+        options: [NNN, Modified Gross, Full Service, Gross]
+        hint: 'Shown after the rate, e.g. "$18.50/SF/yr NNN". Leave blank if you would rather not say.'
+
+      - name: sqft
+        label: Building size (square feet)
+        widget: number
+        value_type: int
+        required: false
+        min: 0
+        hint: 'Total heated square footage, numbers only, e.g. 1302. The "SF" is added automatically. Leave blank for a site with no building.'
+
+      - name: availableSqft
+        label: Space available (square feet)
+        widget: number
+        value_type: int
+        required: false
+        min: 0
+        hint: For lease listings where only part of the building is available. Leave blank if it is the whole building.
+
+      - name: lotAcres
+        label: Lot size (acres)
+        widget: number
+        value_type: float
+        required: false
+        min: 0
+        hint: 'Just the number, e.g. 0.63. The "± Acres" is added automatically.'
+
+      - name: yearBuilt
+        label: Year built
+        widget: number
+        value_type: int
+        required: false
+        min: 1800
+        max: 2100
+
+      - name: zoning
+        label: Zoning
+        widget: string
+        required: false
+        hint: 'As the county writes it, e.g. C-G or O-I.'
+
+      - name: parking
+        label: Parking
+        widget: string
+        required: false
+        hint: 'e.g. "32 spaces" or "Shared lot, 4.5 per 1,000 SF".'
+
+      - name: occupancy
+        label: Occupancy / tenancy
+        widget: string
+        required: false
+        hint: 'e.g. "Vacant", "100% leased", "Long-term credit tenant".'
+
+      - name: suites
+        label: Units or suites
+        widget: string
+        required: false
+        hint: 'e.g. "4 suites" or "Single tenant".'
 
       - name: address
         label: Address
         widget: string
-        hint: 'Street, city, state and ZIP — shown under the headline.'
+        hint: 'Street, city, state and ZIP — shown under the headline and used for directions.'
 
-      - name: image
-        label: Photo
-        widget: image
-        hint: One photo per listing. Landscape works best.
+      - name: county
+        label: County
+        widget: string
+        required: false
+        hint: 'Include the word County, e.g. "Clarke County".'
+
+      - name: lat
+        label: Latitude
+        widget: number
+        value_type: float
+        required: false
+        hint: 'Optional map pin. Right-click the building in Google Maps and copy the first number, e.g. 33.9519.'
+
+      - name: lng
+        label: Longitude
+        widget: number
+        value_type: float
+        required: false
+        hint: 'The second number from Google Maps, e.g. -83.3576. Keep the minus sign. Without a pin the page links to the address in Google Maps instead.'
+
+      - name: summary
+        label: Summary
+        widget: text
+        required: false
+        hint: One or two sentences. Shown at the top of the listing page.
+
+      - name: highlights
+        label: Property highlights
+        widget: list
+        required: false
+        label_singular: Highlight
+        summary: '{{fields.point}}'
+        field:
+          name: point
+          label: Highlight
+          widget: string
+          hint: 'One short line, e.g. "Signalized corner with 24,000 cars a day".'
+        hint: >-
+          The bullet list under "Property Highlights" on the listing page —
+          location, traffic, recent upgrades, tenants, access. Leave it empty
+          and the section is hidden.
+
+      - name: images
+        label: Photos
+        widget: list
+        required: false
+        label_singular: Photo
+        field: { name: image, label: Photo, widget: image }
+        hint: >-
+          The first photo is the one on the card and at the top of the listing
+          page; the rest make up the gallery. Phone photos, iPhone HEIC
+          included, are resized and converted automatically.
 
       - name: alt
         label: Photo description
         widget: string
         required: false
         hint: >-
-          Describes the photo for anyone using a screen reader, and shows if the
-          image fails to load. Leave blank and the headline is used.
+          Describes the first photo for anyone using a screen reader, and shows
+          if the image fails to load. Leave blank and the headline is used.
+
+      - name: docs
+        label: Brochures, floor plans & documents
+        widget: list
+        required: false
+        label_singular: Document
+        summary: '{{fields.label}}'
+        fields:
+          - { name: label, label: Name, widget: string, hint: 'e.g. Offering Memorandum, Floor Plan, Site Plan, Survey' }
+          - { name: url, label: File, widget: file, hint: 'Upload a PDF, or paste a link to one. Up to about 40 MB.' }
 
       - name: facts
-        label: Details
+        label: Other details
         widget: list
         required: false
         # "Label" and "Value" are what a developer calls these two boxes. The
@@ -321,20 +475,18 @@ collections:
         label_singular: Detail
         summary: '{{fields.label}}: {{fields.value}}'
         hint: >-
-          The small print across the bottom of the card. Two fits best.
-
-
-          On 710 Gaines School Road they read "Type — Office / Retail" and
-          "Size — 1,302 SF".
+          Anything the fields above do not cover — ceiling height, loading
+          docks, drive-thru, sprinklers, signage, traffic count. Shown in the
+          Building Details list on the listing page.
         fields:
           - name: label
             label: Heading
             widget: string
-            hint: 'The short word above, e.g. Type, Size, Tenancy, Zoning.'
+            hint: 'e.g. Ceiling Height, Loading, Signage.'
           - name: value
             label: What it says
             widget: string
-            hint: 'The answer, e.g. Office / Retail, 1,302 SF, Long-Term Credit Tenant.'
+            hint: 'e.g. 18 ft clear, 2 dock-high doors, Pylon on Atlanta Hwy.'
 
       - name: order
         label: Position

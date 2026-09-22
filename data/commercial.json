@@ -21,6 +21,18 @@
     "order": 1
   },
   {
+    "id": "testing-listing",
+    "title": "testing listing",
+    "status": "For Lease",
+    "price": 100000,
+    "priceLabel": "$100,000",
+    "address": "260 Springdale St, Athens, Georgia, 30606",
+    "facts": [],
+    "image": "/assets/img/favicon.ico",
+    "alt": "testing",
+    "order": 1
+  },
+  {
     "id": "710-gaines-school-road",
     "title": "East Side Office/Retail with Great Visibility",
     "status": "For Sale",

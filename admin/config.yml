@@ -337,9 +337,9 @@ collections:
         label: Building size (square feet)
         widget: number
         value_type: int
-        required: false
+        required: true
         min: 0
-        hint: 'Total heated square footage, numbers only, e.g. 1302. The "SF" is added automatically. Leave blank for a site with no building.'
+        hint: 'Total building square footage, numbers only, e.g. 1302. The "SF" is added automatically. Enter 0 for a lot with no building.'
 
       - name: availableSqft
         label: Space available (square feet)

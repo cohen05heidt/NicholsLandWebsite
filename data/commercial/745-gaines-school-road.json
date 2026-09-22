@@ -8,13 +8,33 @@
   "occupancy": "Long-Term Credit Tenant",
   "address": "745 Gaines School Road, Athens, GA 30605",
   "county": "Clarke County",
-  "summary": "",
-  "highlights": [],
+  "summary": "Single-story office building on Gaines School Road between Cedar Shoals Road and Lexington Road (US 78), fully leased to a long-term credit tenant. Two curb cuts give easy access in and out, and Kroger- and Publix-anchored shopping, Highway 78 and Athens Ben Epps Airport are all close by.",
+  "highlights": [
+    "Fully leased to a long-term credit tenant",
+    "5,227 SF on 0.87\u00b1 acres",
+    "Two curb-cut entrances on Gaines School Road",
+    "26 parking spaces",
+    "Under a mile from Kroger- and Publix-anchored retail"
+  ],
   "images": [
-    "/assets/img/comm-745-gaines.jpg"
+    "/assets/img/comm-745-gaines.webp"
   ],
   "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia",
   "docs": [],
-  "facts": [],
-  "order": 1
+  "facts": [
+    {
+      "label": "Renovated",
+      "value": "1998"
+    },
+    {
+      "label": "Floors",
+      "value": "1"
+    }
+  ],
+  "order": 1,
+  "sqft": 5227,
+  "lotAcres": 0.87,
+  "yearBuilt": 1960,
+  "zoning": "C-O",
+  "parking": "26 spaces"
 }

@@ -10,35 +10,54 @@
     "priceLabel": "$850,000",
     "leaseRate": null,
     "leaseLabel": "",
-    "sqft": null,
-    "sqftLabel": "",
+    "sqft": 5227,
+    "sqftLabel": "5,227 SF",
     "availableSqft": null,
     "availableLabel": "",
-    "lotAcres": null,
-    "lotLabel": "",
-    "yearBuilt": null,
-    "zoning": "",
-    "parking": "",
+    "lotAcres": 0.87,
+    "lotLabel": "0.87± Acres",
+    "yearBuilt": 1960,
+    "zoning": "C-O",
+    "parking": "26 spaces",
     "occupancy": "Long-Term Credit Tenant",
     "suites": "",
     "address": "745 Gaines School Road, Athens, GA 30605",
     "county": "Clarke County",
     "lat": null,
     "lng": null,
-    "summary": "",
-    "highlights": [],
-    "details": [],
+    "summary": "Single-story office building on Gaines School Road between Cedar Shoals Road and Lexington Road (US 78), fully leased to a long-term credit tenant. Two curb cuts give easy access in and out, and Kroger- and Publix-anchored shopping, Highway 78 and Athens Ben Epps Airport are all close by.",
+    "highlights": [
+      "Fully leased to a long-term credit tenant",
+      "5,227 SF on 0.87± acres",
+      "Two curb-cut entrances on Gaines School Road",
+      "26 parking spaces",
+      "Under a mile from Kroger- and Publix-anchored retail"
+    ],
+    "details": [
+      {
+        "label": "Renovated",
+        "value": "1998"
+      },
+      {
+        "label": "Floors",
+        "value": "1"
+      }
+    ],
     "docs": [],
     "images": [
-      "/assets/img/comm-745-gaines.jpg"
+      "/assets/img/comm-745-gaines.webp"
     ],
     "alt": "Fully leased office building at 745 Gaines School Road, Athens, Georgia",
     "order": 1,
-    "image": "/assets/img/comm-745-gaines.jpg",
+    "image": "/assets/img/comm-745-gaines.webp",
     "facts": [
       {
         "label": "Type",
         "value": "Office"
+      },
+      {
+        "label": "Size",
+        "value": "5,227 SF"
       },
       {
         "label": "Tenancy",
@@ -62,27 +81,33 @@
     "sqftLabel": "1,302 SF",
     "availableSqft": null,
     "availableLabel": "",
-    "lotAcres": null,
-    "lotLabel": "",
+    "lotAcres": 0.41,
+    "lotLabel": "0.41± Acres",
     "yearBuilt": null,
     "zoning": "",
-    "parking": "",
-    "occupancy": "",
+    "parking": "10 spaces",
+    "occupancy": "Leased through January 31, 2028",
     "suites": "",
     "address": "710 Gaines School Road, Athens, GA 30605",
     "county": "Clarke County",
     "lat": null,
     "lng": null,
-    "summary": "",
-    "highlights": [],
+    "summary": "Newly remodeled office/retail building at a signalized four-way intersection on Athens' east side, with strong visibility and grandfathered monument signage. It is leased through January 31, 2028, so it suits an investor keeping the tenant or an owner-user planning ahead.",
+    "highlights": [
+      "Newly remodeled",
+      "Signalized four-way intersection with high visibility",
+      "Grandfathered monument sign",
+      "Leased through January 31, 2028",
+      "10 parking spaces"
+    ],
     "details": [],
     "docs": [],
     "images": [
-      "/assets/img/comm-710-gaines.jpg"
+      "/assets/img/comm-710-gaines.webp"
     ],
     "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia",
     "order": 2,
-    "image": "/assets/img/comm-710-gaines.jpg",
+    "image": "/assets/img/comm-710-gaines.webp",
     "facts": [
       {
         "label": "Type",
@@ -91,6 +116,10 @@
       {
         "label": "Size",
         "value": "1,302 SF"
+      },
+      {
+        "label": "Tenancy",
+        "value": "Leased through January 31, 2028"
       }
     ]
   }

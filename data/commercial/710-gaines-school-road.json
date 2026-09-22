@@ -9,13 +9,22 @@
   "sqft": 1302,
   "address": "710 Gaines School Road, Athens, GA 30605",
   "county": "Clarke County",
-  "summary": "",
-  "highlights": [],
+  "summary": "Newly remodeled office/retail building at a signalized four-way intersection on Athens' east side, with strong visibility and grandfathered monument signage. It is leased through January 31, 2028, so it suits an investor keeping the tenant or an owner-user planning ahead.",
+  "highlights": [
+    "Newly remodeled",
+    "Signalized four-way intersection with high visibility",
+    "Grandfathered monument sign",
+    "Leased through January 31, 2028",
+    "10 parking spaces"
+  ],
   "images": [
-    "/assets/img/comm-710-gaines.jpg"
+    "/assets/img/comm-710-gaines.webp"
   ],
   "alt": "Office and retail building at 710 Gaines School Road, Athens, Georgia",
   "docs": [],
   "facts": [],
-  "order": 2
+  "order": 2,
+  "lotAcres": 0.41,
+  "parking": "10 spaces",
+  "occupancy": "Leased through January 31, 2028"
 }

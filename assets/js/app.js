@@ -1501,10 +1501,14 @@ const NLI = (() => {
     // Only the figures this listing actually has. A lease rate shows beside a
     // sale price when a building is offered both ways.
     const types = (c.propertyType || []).join(' / ');
+    // Every building shows its size. A listing saved without one says so
+    // rather than leaving the figure out; a bare lot has no building to size.
+    const landOnly = (c.propertyType || []).length > 0 && c.propertyType.every(t => t === 'Land');
+    const size = c.sqftLabel || (landOnly ? '' : 'Call for details');
     const facts = [
       ['Price', c.priceLabel],
       c.leaseLabel && c.leaseLabel !== c.priceLabel && ['Lease Rate', c.leaseLabel],
-      c.sqftLabel && ['Building Size', c.sqftLabel],
+      size && ['Building Size', size],
       c.availableLabel && ['Available', c.availableLabel],
       c.lotLabel && ['Lot Size', c.lotLabel.replace(' Acres', ' AC')],
       types && ['Property Type', types],
@@ -1524,7 +1528,7 @@ const NLI = (() => {
     // a value for, then anything typed into "Other details".
     const specs = [
       ['Property Type', types],
-      ['Building Size', c.sqftLabel],
+      ['Building Size', size],
       ['Space Available', c.availableLabel],
       ['Lot Size', c.lotLabel],
       ['Year Built', c.yearBuilt ? String(c.yearBuilt) : ''],

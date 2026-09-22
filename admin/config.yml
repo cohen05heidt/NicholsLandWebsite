@@ -419,14 +419,22 @@ collections:
         widget: number
         value_type: float
         required: false
-        hint: 'Optional map pin. Right-click the building in Google Maps and copy the first number, e.g. 33.9519.'
+        hint: >-
+          Leave this blank and the address is looked up for you, so the
+          building appears on both maps about a minute after you save. Fill it
+          in only to move a pin: right-click the building in Google Maps and
+          copy the first number, e.g. 33.9519.
 
       - name: lng
         label: Longitude
         widget: number
         value_type: float
         required: false
-        hint: 'The second number from Google Maps, e.g. -83.3576. Keep the minus sign. Without a pin the page links to the address in Google Maps instead.'
+        hint: >-
+          The second number from Google Maps, e.g. -83.3576 — keep the minus
+          sign. Also filled in for you from the address. If an address cannot
+          be found at all, the listing still publishes and its page links to
+          Google Maps instead.
 
       - name: summary
         label: Summary

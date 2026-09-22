@@ -743,8 +743,14 @@ const NLI = (() => {
     const allCount = $('[data-all-count]');
     if (allCount) allCount.textContent = live.length;
 
-    // The land map that replaced the category tiles.
-    initLandMap(props);
+    // The land map that replaced the category tiles. Buildings ride on it
+    // too, behind their own switch — a missing commercial file leaves the
+    // land pins untouched.
+    let commercialForMap = [];
+    try { commercialForMap = await getCommercial(); } catch (err) {
+      console.error('[NLI] Commercial listings could not load for the map:', err);
+    }
+    initLandMap(props, commercialForMap);
 
   }
 
@@ -797,6 +803,30 @@ const NLI = (() => {
   const forSale = (list) => list.filter(p => !isManaged(p));
   const SOLD_COLOR = '#D42A1E';
   const MANAGED_COLOR = '#8A6BAF';
+  // Buildings ride on both maps behind their own switch. A hue of their own,
+  // clear of the land types, the sold red and the management purple, so a
+  // colour still means one thing across both maps.
+  const COMMERCIAL_COLOR = '#2E6F8E';
+
+  /* Buildings with a usable pin, for whichever map is asking. `where` is the
+     page doing the drawing: a listing set to "home page only" in the admin
+     stays off the listings map, and the other way round, so the map agrees
+     with the cards around it. */
+  const commercialPins = (commercial = [], where = 'home') =>
+    commercial.filter(c => c.lat != null && c.lng != null
+      && (where === 'home' ? c.showHome !== false : c.showProperties !== false));
+
+  /* One popup for both maps. */
+  const commercialPopup = (c) => `
+    <div class="map-pop${c.images && c.images[0] ? '' : ' map-pop--plain'}">
+      ${c.images && c.images[0] ? `<img src="${esc(photoFor(c))}" alt="${esc(c.alt || c.title)}">` : ''}
+      <div class="map-pop__body">
+        <h4>${esc(c.title)}</h4>
+        <p>${esc([c.sqftLabel, c.county].filter(Boolean).join(' · ') || c.address)}</p>
+        <p style="font-weight:600;color:${COMMERCIAL_COLOR}">${esc(c.priceLabel)}</p>
+        <a class="btn btn--primary btn--sm" href="properties.html#commercial/${encodeURIComponent(c.id)}">View Details</a>
+      </div>
+    </div>`;
   const MANAGED_LOCATIONS = [
     { label: 'Knoxville, TN',     lat: 35.9606, lng: -83.9207 },
     { label: 'Greenwood, SC',     lat: 34.1954, lng: -82.1618 },
@@ -826,10 +856,11 @@ const NLI = (() => {
      read the current filter but cannot quietly mutate it behind the chips.
      ---------------------------------------------------------------------- */
 
-  function createMapFilters(legend, { typeCounts = {}, soldCount = 0, managedCount = 0, onChange }) {
+  function createMapFilters(legend, { typeCounts = {}, soldCount = 0, managedCount = 0, commercialCount = 0, onChange }) {
     const active = new Set(LAND_TYPES.map(t => t.key));
     let showSold = true;
     let showManaged = true;
+    let showCommercial = true;
 
     legend.innerHTML = LAND_TYPES.map(t => `
       <button class="legend-chip" type="button" data-legend-type="${t.key}" aria-pressed="true">
@@ -837,6 +868,12 @@ const NLI = (() => {
         <span class="legend-chip__label">${t.label}</span>
         <span class="legend-chip__count">${typeCounts[t.key] || 0}</span>
       </button>`).join('') +
+      (commercialCount ? `
+      <button class="legend-chip legend-chip--commercial" type="button" data-legend-commercial aria-pressed="true">
+        <span class="legend-chip__dot" style="background:${COMMERCIAL_COLOR}"></span>
+        <span class="legend-chip__label">Commercial</span>
+        <span class="legend-chip__count">${commercialCount}</span>
+      </button>` : '') +
       (soldCount ? `
       <button class="legend-chip legend-chip--sold" type="button" data-legend-sold aria-pressed="true">
         <span class="legend-chip__dot" style="background:${SOLD_COLOR}"></span>
@@ -853,6 +890,7 @@ const NLI = (() => {
 
     const soldBtn    = $('[data-legend-sold]', legend);
     const managedBtn = $('[data-legend-managed]', legend);
+    const commBtn    = $('[data-legend-commercial]', legend);
 
     // Keep every chip's pressed state in step with the sets that drive draw().
     const syncChips = () => {
@@ -860,6 +898,7 @@ const NLI = (() => {
         b.setAttribute('aria-pressed', String(active.has(b.dataset.legendType))));
       if (soldBtn)    soldBtn.setAttribute('aria-pressed', String(showSold));
       if (managedBtn) managedBtn.setAttribute('aria-pressed', String(showManaged));
+      if (commBtn)    commBtn.setAttribute('aria-pressed', String(showCommercial));
     };
 
     // The map must never end up completely blank. "Blank" means no land types
@@ -868,7 +907,7 @@ const NLI = (() => {
     // "managed only" impossible: switching off the last land type silently
     // turned all four back on, throwing away the filter the reader had just
     // built up chip by chip.
-    const somethingLeft = () => active.size > 0 || showSold || showManaged;
+    const somethingLeft = () => active.size > 0 || showSold || showManaged || showCommercial;
     const restoreAllTypes = () => LAND_TYPES.forEach(t => active.add(t.key));
     const settle = () => {
       if (!somethingLeft()) restoreAllTypes();
@@ -885,14 +924,15 @@ const NLI = (() => {
     });
     if (soldBtn)    soldBtn.addEventListener('click',    () => { showSold = !showSold; settle(); });
     if (managedBtn) managedBtn.addEventListener('click', () => { showManaged = !showManaged; settle(); });
+    if (commBtn)    commBtn.addEventListener('click',    () => { showCommercial = !showCommercial; settle(); });
 
     return {
       note: $('[data-legend-note]', legend),
-      state: () => ({ active, showSold, showManaged })
+      state: () => ({ active, showSold, showManaged, showCommercial })
     };
   }
 
-  function initLandMap(props) {
+  function initLandMap(props, commercial = []) {
     const canvas = $('[data-land-map]');
     const legend = $('[data-map-legend]');
     if (!canvas || !legend) return;
@@ -994,18 +1034,27 @@ const NLI = (() => {
       return { p: loc, m };
     });
 
+    // Buildings the admin has put on the home page, with a pin on them.
+    const commercialList = commercialPins(commercial, 'home');
+    const commercialMarkers = commercialList.map(c => {
+      const m = L.marker([c.lat, c.lng], { icon: pin(COMMERCIAL_COLOR), title: c.title });
+      m.bindPopup(commercialPopup(c));
+      return { p: c, m };
+    });
+
     const managedCount = managedPlaces.length;
     const filters = createMapFilters(legend, {
       typeCounts: Object.fromEntries(LAND_TYPES.map(t =>
         [t.key, listings.filter(p => p.types.includes(t.key)).length])),
       soldCount: soldList.length,
       managedCount,
+      commercialCount: commercialList.length,
       onChange: () => draw()
     });
     const note = filters.note;
 
     function draw() {
-      const { active, showSold, showManaged } = filters.state();
+      const { active, showSold, showManaged, showCommercial } = filters.state();
       const shown = [];
       let forSaleShown = 0;
       markers.forEach(({ p, m }) => {
@@ -1019,6 +1068,10 @@ const NLI = (() => {
       });
       managedMarkers.forEach(({ p, m }) => {
         if (showManaged) { m.addTo(map); shown.push(p); }
+        else { map.removeLayer(m); }
+      });
+      commercialMarkers.forEach(({ p, m }) => {
+        if (showCommercial) { m.addTo(map); shown.push(p); }
         else { map.removeLayer(m); }
       });
       // Framed on the land for sale, not on every pin that happens to be
@@ -1040,6 +1093,7 @@ const NLI = (() => {
           ? `${listings.length} tracts`
           : `${forSaleShown} of ${listings.length} tracts`
       ];
+      if (showCommercial && commercialList.length) parts.push(`${commercialList.length} commercial`);
       if (showSold)    parts.push(`${soldList.length} sold`);
       if (showManaged) parts.push(`${managedCount} managed`);
       note.textContent = parts.join(' · ');
@@ -1054,6 +1108,14 @@ const NLI = (() => {
 
   async function initProperties() {
     const props = await getProperties();
+
+    // The buildings are needed three times on this page — the strip under the
+    // land grid, the map layer, and the detail panel — so they are fetched
+    // once here. A failure leaves all three empty and the tracts untouched.
+    let commercial = [];
+    try { commercial = await getCommercial(); } catch (err) {
+      console.error('[NLI] Commercial listings could not load:', err);
+    }
 
     // The filter controls are gone for now — every active listing shows,
     // newest first. The lookups stay optional-chained so the controls can be
@@ -1186,9 +1248,9 @@ const NLI = (() => {
        rather than from `visible`, exactly as on the home page. */
     function syncMap(list) {
       if (!mapReady) return;
-      const { active, showSold, showManaged } = mapFilters
+      const { active, showSold, showManaged, showCommercial } = mapFilters
         ? mapFilters.state()
-        : { active: new Set(LAND_TYPES.map(t => t.key)), showSold: true, showManaged: true };
+        : { active: new Set(LAND_TYPES.map(t => t.key)), showSold: true, showManaged: true, showCommercial: true };
 
       Object.values(markers).forEach(m => map.removeLayer(m));
       markers = {};
@@ -1214,10 +1276,24 @@ const NLI = (() => {
         markers[p.id] = m;
       });
 
+      // Buildings are inventory too, so unlike sold and managed pins they are
+      // listed beside the tracts and help frame the map. Their keys carry the
+      // "commercial/" prefix the detail panel already uses, which also keeps
+      // them from colliding with a tract id.
+      const shownCommercial = showCommercial ? commercialPins(commercial, 'properties') : [];
+      shownCommercial.forEach(c => {
+        const m = L.marker([c.lat, c.lng], { icon: pin(false, COMMERCIAL_COLOR), title: c.title }).addTo(map);
+        m.bindPopup(commercialPopup(c));
+        markers[COMMERCIAL_HASH + c.id] = m;
+      });
+
       // Kept separate from the sold and managed pins below: those are drawn,
       // but they do not get to decide where the map opens. See the note on
       // MANAGED_LOCATIONS.
-      const forSaleBounds = shown.filter(p => p.lat != null && p.lng != null).map(p => [p.lat, p.lng]);
+      const forSaleBounds = [
+        ...shown.filter(p => p.lat != null && p.lng != null).map(p => [p.lat, p.lng]),
+        ...shownCommercial.map(c => [c.lat, c.lng])
+      ];
       const bounds = [...forSaleBounds];
 
       if (showSold) {
@@ -1259,6 +1335,7 @@ const NLI = (() => {
         const parts = [shown.length === list.length
           ? `${list.length} ${list.length === 1 ? 'tract' : 'tracts'}`
           : `${shown.length} of ${list.length} tracts`];
+        if (shownCommercial.length) parts.push(`${shownCommercial.length} commercial`);
         if (showSold)    parts.push(`${soldList.length} sold`);
         if (showManaged) parts.push(`${MANAGED_PLACES(props).length} managed`);
         mapFilters.note.textContent = parts.join(' · ');
@@ -1266,32 +1343,48 @@ const NLI = (() => {
 
       // The side list follows the pins: showing a card for a tract whose pin
       // has been filtered off would be its own small lie.
-      listEl.innerHTML = shown.length
-        ? shown.map(p => `
-          <button class="mcard" type="button" data-map-card="${esc(p.id)}">
-            <img src="${esc(photoFor(p))}" alt="${esc(p.title)}" loading="lazy">
+      // One list for both kinds, each row carrying the key its pin is stored
+      // under, so hover and click work the same whether it is a tract or a
+      // building.
+      const cards = [
+        ...shown.map(p => ({
+          key: p.id, lat: p.lat, lng: p.lng, photo: photoFor(p), title: p.title,
+          meta: `${acresFmt(p.acres)} acres · ${esc(p.county)}`,
+          price: p.priceLabel, color: () => colorFor(p, active)
+        })),
+        ...shownCommercial.map(c => ({
+          key: COMMERCIAL_HASH + c.id, lat: c.lat, lng: c.lng, photo: photoFor(c), title: c.title,
+          meta: esc([c.sqftLabel, c.county].filter(Boolean).join(' · ') || c.address),
+          price: c.priceLabel, color: () => COMMERCIAL_COLOR
+        }))
+      ];
+
+      listEl.innerHTML = cards.length
+        ? cards.map(c => `
+          <button class="mcard" type="button" data-map-card="${esc(c.key)}">
+            <img src="${esc(c.photo)}" alt="${esc(c.title)}" loading="lazy">
             <div>
-              <h4>${esc(p.title)}</h4>
-              <p>${acresFmt(p.acres)} acres · ${esc(p.county)}</p>
-              <div class="price">${esc(p.priceLabel)}</div>
+              <h4>${esc(c.title)}</h4>
+              <p>${c.meta}</p>
+              <div class="price">${esc(c.price)}</div>
             </div>
           </button>`).join('')
         : `<p class="muted" style="padding:20px">No properties match those filters.</p>`;
 
       $$('[data-map-card]', listEl).forEach(card => {
-        const id = card.dataset.mapCard;
-        const base = () => colorFor(shown.find(x => x.id === id), active);
+        const key = card.dataset.mapCard;
+        const entry = cards.find(c => c.key === key);
+        if (!entry) return;
         card.addEventListener('click', () => {
-          const p = shown.find(x => x.id === id);
-          if (markers[id]) {
-            map.flyTo([p.lat, p.lng], 13, { duration: .8 });
-            markers[id].openPopup();
+          if (markers[key] && entry.lat != null) {
+            map.flyTo([entry.lat, entry.lng], 13, { duration: .8 });
+            markers[key].openPopup();
           }
           $$('.mcard', listEl).forEach(c => c.classList.remove('is-active'));
           card.classList.add('is-active');
         });
-        card.addEventListener('mouseenter', () => markers[id]?.setIcon(pin(true, base())));
-        card.addEventListener('mouseleave', () => markers[id]?.setIcon(pin(false, base())));
+        card.addEventListener('mouseenter', () => markers[key]?.setIcon(pin(true, entry.color())));
+        card.addEventListener('mouseleave', () => markers[key]?.setIcon(pin(false, entry.color())));
       });
     }
 
@@ -1312,6 +1405,7 @@ const NLI = (() => {
               [t.key, visible.filter(p => p.types.includes(t.key)).length])),
             soldCount: soldList.length,
             managedCount: MANAGED_PLACES(props).length,
+            commercialCount: commercialPins(commercial, 'properties').length,
             onChange: () => syncMap(visible)
           });
         }
@@ -1347,10 +1441,6 @@ const NLI = (() => {
 
     // The commercial book shares this panel. If it fails to load, tracts
     // still open; only a building link would come up empty.
-    let commercial = [];
-    try { commercial = await getCommercial(); } catch (err) {
-      console.error('[NLI] Commercial listings could not load:', err);
-    }
     renderCommercialOnPage(commercial);
     initDetailOverlay(props, commercial);
   }

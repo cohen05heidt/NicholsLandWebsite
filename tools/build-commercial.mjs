@@ -91,6 +91,61 @@ const stamp = (p) => {
 
 const REQUIRED = ['title', 'status', 'address'];
 
+/* --- putting a new building on the map by itself --------------------------
+ * A tract is drawn on a plat and whoever lists it has coordinates to hand. A
+ * building has a street address, and asking the office to look up latitude and
+ * longitude before a listing appears on the map is how listings end up not on
+ * the map. So: any listing saved with an address and no pin gets geocoded
+ * here, during the build, and the answer is written back into the listing so
+ * it is visible (and correctable) in /admin and never looked up twice.
+ *
+ * The US Census geocoder is asked first — it is free, needs no key, and is
+ * authoritative for American street addresses — then OpenStreetMap's
+ * Nominatim as a fallback. Both are given a short timeout, and a failure is a
+ * warning, not a broken build: the listing simply publishes without a pin,
+ * exactly as it does today, and the next build tries again.
+ */
+const GEOCODE_TIMEOUT = 8000;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const getJSON = async (url, headers = {}) => {
+  const res = await fetch(url, { headers, signal: AbortSignal.timeout(GEOCODE_TIMEOUT) });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  return res.json();
+};
+
+const fromCensus = async (address) => {
+  const url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress'
+    + `?address=${encodeURIComponent(address)}&benchmark=Public_AR_Current&format=json`;
+  const data = await getJSON(url);
+  const hit = data?.result?.addressMatches?.[0]?.coordinates;
+  return hit ? { lat: Number(hit.y), lng: Number(hit.x), by: 'the US Census geocoder' } : null;
+};
+
+const fromNominatim = async (address) => {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q=${encodeURIComponent(address)}`;
+  const data = await getJSON(url, { 'User-Agent': 'NicholsLandWebsite build (info@nicholsland.net)' });
+  const hit = Array.isArray(data) && data[0];
+  return hit ? { lat: Number(hit.lat), lng: Number(hit.lon), by: 'OpenStreetMap' } : null;
+};
+
+/** In the Southeast, or it is not this listing's address. */
+const plausible = (pt) => pt && Number.isFinite(pt.lat) && Number.isFinite(pt.lng)
+  && pt.lat >= 24 && pt.lat <= 39.5 && pt.lng >= -92 && pt.lng <= -75;
+
+async function geocode(address) {
+  for (const lookup of [fromCensus, fromNominatim]) {
+    try {
+      const pt = await lookup(address);
+      if (plausible(pt)) return pt;
+    } catch (err) {
+      warnings.push(`Address lookup failed for "${address}" (${err.message}).`);
+    }
+    await sleep(1100); // Nominatim asks for no more than one call a second.
+  }
+  return null;
+}
+
 const files = (await readdir(SRC)).filter((f) => f.endsWith('.json')).sort();
 
 const listings = [];
@@ -139,10 +194,27 @@ for (const file of files) {
   }
   if (problems.length > before) continue;
 
+  // Nothing typed into Latitude/Longitude, but there is an address: look it
+  // up once, and write it back into the listing so the map has it from the
+  // next save onwards and the office can correct it in /admin if it lands on
+  // the wrong side of the street.
+  let learnedPin = null;
+  if ((!finite(lat) || !finite(lng)) && raw.address) {
+    learnedPin = await geocode(raw.address);
+    if (learnedPin) {
+      raw.lat = learnedPin.lat;
+      raw.lng = learnedPin.lng;
+      await writeFile(path.join(SRC, file), JSON.stringify(raw, null, 2) + '\n', 'utf8');
+      console.log(`${file}: placed on the map at ${learnedPin.lat}, ${learnedPin.lng} from its address, via ${learnedPin.by}.`);
+    } else {
+      warnings.push(`${file}: could not find "${raw.address}" on the map, so the listing publishes without a pin. Type the latitude and longitude into the listing in /admin to place it by hand.`);
+    }
+  }
+
   // A pin outside the Southeast is almost always a longitude that lost its
   // minus sign. Drop the pin, keep the listing — same rule as the land build.
-  let pinLat = finite(lat) ? lat : null;
-  let pinLng = finite(lng) ? lng : null;
+  let pinLat = finite(lat) ? lat : (learnedPin ? learnedPin.lat : null);
+  let pinLng = finite(lng) ? lng : (learnedPin ? learnedPin.lng : null);
   if (pinLat === null || pinLng === null) {
     pinLat = pinLng = null;
   } else if (pinLat < 24 || pinLat > 39.5 || pinLng < -92 || pinLng > -75) {

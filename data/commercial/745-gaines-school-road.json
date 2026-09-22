@@ -36,5 +36,7 @@
   "lotAcres": 0.87,
   "yearBuilt": 1960,
   "zoning": "C-O",
-  "parking": "26 spaces"
+  "parking": "26 spaces",
+  "lat": 33.931875,
+  "lng": -83.332889
 }

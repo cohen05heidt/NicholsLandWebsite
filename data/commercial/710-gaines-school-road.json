@@ -26,5 +26,7 @@
   "order": 2,
   "lotAcres": 0.41,
   "parking": "10 spaces",
-  "occupancy": "Leased through January 31, 2028"
+  "occupancy": "Leased through January 31, 2028",
+  "lat": 33.932036,
+  "lng": -83.332903
 }

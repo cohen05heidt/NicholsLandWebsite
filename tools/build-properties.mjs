@@ -16,7 +16,8 @@
  * Run locally with:  node tools/build-properties.mjs
  */
 
-import { existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -92,6 +93,22 @@ const present = (p, file, what, warnings) => {
   if (!isLocal(p) || onDisk(p)) return true;
   warnings.push(`${file}: ${what} "${p}" is not in the website's files, so it was left off the page. Upload it again in /admin.`);
   return false;
+};
+
+/** Photos are served with a week-long cache, so replacing one used to leave
+ *  every returning visitor looking at the old picture. The built feed points
+ *  at "photo.webp?v=<hash of the file>", which changes the moment the file
+ *  does and never changes when it does not. */
+const stamp = (p) => {
+  const s = String(p);
+  if (!isLocal(s) || /[?#]/.test(s)) return s;
+  const rel = s.replace(/^\/+/, '');
+  for (const candidate of [rel, (() => { try { return decodeURI(rel); } catch { return rel; } })()]) {
+    if (existsSync(candidate)) {
+      return `${s}?v=${createHash('sha1').update(readFileSync(candidate)).digest('hex').slice(0, 8)}`;
+    }
+  }
+  return s;
 };
 
 // A live listing must say where it is. Sold records are archival and the old
@@ -183,8 +200,9 @@ for (const file of files) {
     summary: raw.summary ?? '',
     bullets: raw.bullets ?? [],
     directions: raw.directions ?? '',
-    docs: (raw.docs ?? []).filter((d) => d && d.label && d.url && present(d.url, file, 'document', warnings)),
-    images: (raw.images ?? []).filter(Boolean).filter((p) => present(p, file, 'photo', warnings))
+    docs: (raw.docs ?? []).filter((d) => d && d.label && d.url && present(d.url, file, 'document', warnings))
+      .map((d) => ({ ...d, url: stamp(d.url) })),
+    images: (raw.images ?? []).filter(Boolean).filter((p) => present(p, file, 'photo', warnings)).map(stamp)
   });
 }
 

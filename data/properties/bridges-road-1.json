@@ -1,6 +1,6 @@
 {
   "title": "Bridges Rd Tract 1",
-  "status": "For Sale",
+  "status": "Sold",
   "featured": false,
   "acres": 60,
   "price": 353000,
@@ -37,5 +37,6 @@
     "assets/img/properties/bridges-rd-tract-1-07.webp",
     "assets/img/properties/bridges-rd-tract-1-08.webp",
     "assets/img/properties/bridges-rd-tract-1-09.webp"
-  ]
+  ],
+  "photoNote": ""
 }

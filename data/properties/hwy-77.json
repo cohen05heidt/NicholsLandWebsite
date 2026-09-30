@@ -1,6 +1,6 @@
 {
   "title": "Hwy 77 Tract",
-  "status": "Under Contract",
+  "status": "Sold",
   "featured": false,
   "acres": 10,
   "price": 125000,
@@ -43,5 +43,6 @@
     "assets/img/properties/hwy-77-tract-03.webp",
     "assets/img/properties/hwy-77-tract-04.webp",
     "assets/img/properties/hwy-77-tract-05.webp"
-  ]
+  ],
+  "photoNote": ""
 }

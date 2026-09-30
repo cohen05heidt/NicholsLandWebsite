@@ -3,7 +3,7 @@
   "status": "For Sale",
   "featured": false,
   "acres": 67.63,
-  "price": null,
+  "price": 845500,
   "city": "Crawford",
   "county": "Oglethorpe County",
   "state": "GA",
@@ -37,5 +37,6 @@
     "assets/img/properties/hwy-77-tract-03.webp",
     "assets/img/properties/hwy-77-tract-04.webp",
     "assets/img/properties/hwy-77-tract-05.webp"
-  ]
+  ],
+  "photoNote": ""
 }

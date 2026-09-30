@@ -1,6 +1,6 @@
 {
   "title": "Lower Harmony Road Tract",
-  "status": "For Sale",
+  "status": "Under Contract",
   "featured": true,
   "acres": 304.39,
   "price": 2130000,
@@ -55,5 +55,6 @@
     "assets/img/properties/lower-harmony-road-tract-06.webp",
     "assets/img/properties/lower-harmony-road-tract-07.webp",
     "assets/img/properties/lower-harmony-road-tract-08.webp"
-  ]
+  ],
+  "photoNote": ""
 }

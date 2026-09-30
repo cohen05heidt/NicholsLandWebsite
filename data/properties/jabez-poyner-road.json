@@ -1,9 +1,9 @@
 {
   "title": "Jabez Poyner Road Tract",
-  "status": "For Sale",
+  "status": "Under Contract",
   "featured": true,
   "acres": 73.59,
-  "price": null,
+  "price": 375000,
   "city": "Crawford",
   "county": "Oglethorpe County",
   "state": "GA",
@@ -52,5 +52,6 @@
     "assets/img/properties/jabez-poyner-road-tract-06.webp",
     "assets/img/properties/jabez-poyner-road-tract-07.webp",
     "assets/img/properties/jabez-poyner-road-tract-08.webp"
-  ]
+  ],
+  "photoNote": ""
 }

@@ -46,12 +46,13 @@
     }
   ],
   "images": [
-    "assets/img/properties/lower-wire-bridge-rd-tract-01.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-02.webp",
+    "assets/img/properties/lower-wire-bridge-rd-tract-01.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-03.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-04.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-05.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-06.webp",
     "assets/img/properties/lower-wire-bridge-rd-tract-07.webp"
-  ]
+  ],
+  "photoNote": ""
 }
